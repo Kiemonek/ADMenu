@@ -92,32 +92,6 @@ class DashboardButton:
     # Returning command class for buttons
     def onPressed(self):
         print ('runas /netonly /user:' + self.domain + "\\" +self.username +' "mmc dsa.msc /server='+ self.domain_controller+'" ')
-        
-# Create a list of 10 buttons
-button_list = []
-for i in range(1, 11):
-    button = DashboardButton(
-        root=None,
-        title=f'My Button {i}',
-        domain=f'Domain {i}',
-        username=f'User {i}',
-        domain_controller=f'Controller {i}'
-    )
-    button_list.append(button)
-
-# Convert the list of buttons to JSON
-jsonStr = DashboardButton.listToJson(button_list)
-
-# Specify the filename where you want to save the JSON data
-filename = 'BD.json'
-
-# Open the file in write mode and save the JSON data
-with open(filename, 'w') as file:
-    # Use indent=4 for pretty formatting (optional)
-    json.dump(json.loads(jsonStr), file, indent=4)
-
-print(f'Saved {len(button_list)} buttons to {filename}')
-# This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
 
 # Create a list of 10 buttons
 button_list = []
@@ -139,8 +113,8 @@ filename = 'BD.json'
 
 # Open the file in write mode and save the JSON data
 with open(filename, 'w') as file:
-    # Use indent=4 for pretty formatting (optional)
+    # Use indent=4 for pretty formatting
     json.dump(json.loads(jsonStr), file, indent=4)
 
-print(f'Saved {len(button_list)} buttons to {filename}')
+print(f'Saved {len(button_list)}th button to {filename}')
 # This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
