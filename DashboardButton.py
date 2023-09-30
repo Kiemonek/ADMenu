@@ -1,14 +1,20 @@
 import json
+import os
 
 
 class DashboardButton:
+    # Button dashboard initializer 
     def __init__(self, root, title, domain, username, domain_controller):
         self.root = root
         self.title = title
         self.domain = domain
         self.username = username
         self.domain_controller = domain_controller
-
+    
+    # Returning command class for buttons
+    def onPressed(self):
+        print ('runas /netonly /user:' + self.domain + "\\" +self.username +' "mmc dsa.msc /server='+ self.domain_controller+'" ')
+        
     @staticmethod
     def listToJson(button_list):
         # Create a list to store the JSON representations of buttons
@@ -68,26 +74,6 @@ class DashboardButton:
             domain_controller=button_dict["domain_controller"]
         )
 
-
-# Usage example
-button1 = DashboardButton(root='', domain='', title='My Button 1',
-                          username='User 1', domain_controller='Controller 1')
-
-button2 = DashboardButton(root='', domain='', title='My Button 2',
-                          username='User 2', domain_controller='Controller 2')
-
-button_list = [button1, button2]
-
-# Convert the list of buttons to JSON
-jsonStr = DashboardButton.listToJson(button_list)
-
-# Create a new list of buttons from JSON
-new_button_list = DashboardButton.listFromJson(jsonStr)
-
-# Access button titles in the new list
-for button in new_button_list:
-    print(button.title)
-
 # Create a list of 10 buttons
 button_list = []
 for i in range(1, 11):
@@ -104,7 +90,7 @@ for i in range(1, 11):
 jsonStr = DashboardButton.listToJson(button_list)
 
 # Specify the filename where you want to save the JSON data
-filename = 'file.json'
+filename = 'BD.json'
 
 # Open the file in write mode and save the JSON data
 with open(filename, 'w') as file:
