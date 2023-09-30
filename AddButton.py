@@ -1,5 +1,3 @@
-from tkinter import *
-from tkinter.ttk import *
 import json
 
 class AddButton:
@@ -11,11 +9,3 @@ class AddButton:
         self.username = username
         self.domain_controller = domain_controller
     
-    def toJson(self):
-    # Create a dictionary with the relevant attributes
-        button_dictionary = {
-        "title": self.title,
-        "domain": self.domain,
-        "username": self.username,
-        "domain_controller": self.domain_controller
-    }

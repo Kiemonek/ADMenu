@@ -10,10 +10,6 @@ class DashboardButton:
         self.domain = domain
         self.username = username
         self.domain_controller = domain_controller
-    
-    # Returning command class for buttons
-    def onPressed(self):
-        print ('runas /netonly /user:' + self.domain + "\\" +self.username +' "mmc dsa.msc /server='+ self.domain_controller+'" ')
         
     @staticmethod
     def listToJson(button_list):
@@ -40,7 +36,7 @@ class DashboardButton:
         button_list = []
         for button_dict in json_button_list:
             button = DashboardButton(
-                root='',  # You can set root to an appropriate value
+                root=None,
                 title=button_dict["title"],
                 domain=button_dict["domain"],
                 username=button_dict["username"],
@@ -67,12 +63,61 @@ class DashboardButton:
         button_dict = json.loads(jsonStr)
         # Create a new DashboardButton instance using the dictionary values
         return cls(
-            root='',  # You can set root to an appropriate value
+            root=None,
             title=button_dict["title"],
             domain=button_dict["domain"],
             username=button_dict["username"],
             domain_controller=button_dict["domain_controller"]
         )
+
+    # Return list of available buttons
+    def getButtonList():
+        filename = "BD.json"
+        database = open(filename, "r")
+        data = json.loads(database.read())
+        
+        button_list=[]
+        for item in data:
+            button = DashboardButton(
+                root=None,
+                title= item['title'],
+                domain= item['domain'],
+                username= item['username'],
+                domain_controller= item['domain_controller']
+            )
+            button_list.append(button)
+        database.close()
+        return button_list
+    
+    # Returning command class for buttons
+    def onPressed(self):
+        print ('runas /netonly /user:' + self.domain + "\\" +self.username +' "mmc dsa.msc /server='+ self.domain_controller+'" ')
+        
+# Create a list of 10 buttons
+button_list = []
+for i in range(1, 11):
+    button = DashboardButton(
+        root=None,
+        title=f'My Button {i}',
+        domain=f'Domain {i}',
+        username=f'User {i}',
+        domain_controller=f'Controller {i}'
+    )
+    button_list.append(button)
+
+# Convert the list of buttons to JSON
+jsonStr = DashboardButton.listToJson(button_list)
+
+# Specify the filename where you want to save the JSON data
+filename = 'BD.json'
+
+# Open the file in write mode and save the JSON data
+with open(filename, 'w') as file:
+    # Use indent=4 for pretty formatting (optional)
+    json.dump(json.loads(jsonStr), file, indent=4)
+
+print(f'Saved {len(button_list)} buttons to {filename}')
+# This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
 
 # Create a list of 10 buttons
 button_list = []
