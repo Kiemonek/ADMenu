@@ -16,7 +16,7 @@ rowHelper = 0
 
 root = Tk()
 root.title("AD Menu")
-root.geometry("640x320")
+root.geometry("640x480")
 
 # Button Generator
 for items in buttonList:
@@ -26,7 +26,10 @@ for items in buttonList:
     # print(0%2)
 
 butt = Button(root, text = "Add New Button", command = add_new_button)
-
+butt.grid()
+butt = Button(root, text = "Modify Buttons" )
+butt.grid()
+butt = Button(root, text = "Remove Button")
 butt.grid()
 
 root.mainloop()
