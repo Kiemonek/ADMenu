@@ -1,22 +1,35 @@
 from tkinter import *
 from tkinter.ttk import *
+from DashboardButton import *
+from AddNewButton import AddNewButton
 import os
+# Implement list from json
+buttonList = DashboardButton.getButtonList()
 
-domain = 'dom.ain\\'
-username = 'uname'
-domainController = '192.168.111.10'
+def add_new_button():
+    newButton = Toplevel(root)
+    app = AddNewButton(newButton)
 
-def connect():
-        
-    command = 'runas /netonly /user:' + domain + username +' "mmc dsa.msc /server='+ domainController +'" '
-    os.system(command)
-        
+# Initialize variable for columns and rows
+colHelper = 0
+rowHelper = 0
+
 root = Tk()
-
-root.geometry("400x200+200+100")
 root.title("AD Menu")
+root.geometry("640x480")
 
-butt1 = Button(root, text="Client", command=connect)
-butt1.pack()
+# Button Generator
+for items in buttonList:
+    button = Button(root, text = items.title, command = items.onPressed)
+    button.grid()
+    # print(buttonList.index(items))
+    # print(0%2)
+
+butt = Button(root, text = "Add New Button", command = add_new_button)
+butt.grid()
+butt = Button(root, text = "Modify Buttons" )
+butt.grid()
+butt = Button(root, text = "Remove Button")
+butt.grid()
 
 root.mainloop()
