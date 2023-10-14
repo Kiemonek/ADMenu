@@ -1,17 +1,21 @@
 from tkinter import *
 from tkinter.ttk import *
 from DashboardButton import *
-from AddNewButton import AddNewButton
+from AddNewButton import *
 import os
 
-def add_new_button():
+def addButton():
     newButton = Toplevel(root)
     app = AddNewButton(newButton)
+
+def refresh():
+    root.update()
+    root.destroy()
 
 # Implement list from json
 buttonList = DashboardButton.getButtonList()
 
-#Customize Window
+# Customize Window
 root = Tk()
 root.title("AD Menu")
 root.geometry("640x480")
@@ -21,12 +25,12 @@ for items in buttonList:
     button = Button(root, text = items.title, command = items.onPressed)
     button.grid()
 
-#Usable Buttons
-butt = Button(root, text = "Add New Button", command = add_new_button)
-butt.grid()
-butt = Button(root, text = "Modify Buttons" )
-butt.grid()
-butt = Button(root, text = "Remove Button")
-butt.grid()
+# Usable Buttons
+add_button = Button(root, text = "Add New Button", command = addButton)
+add_button.grid()
+mod_button = Button(root, text = "Modify Buttons" )
+mod_button.grid()
+rem_button = Button(root, text = "Remove Button")
+rem_button.grid()
 
 root.mainloop()
