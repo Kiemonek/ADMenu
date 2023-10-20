@@ -2,6 +2,7 @@
 from tkinter import *
 from DashboardButton import DashboardButton
 # from Main import refresh
+# import Main
 
 class AddNewButton():
     
@@ -70,6 +71,8 @@ class AddNewButton():
         
     def save(self):
 
+        append_button = DashboardButton.getButtonList()
+        
         new_title = self.entry_name.get()
         new_domain = self.entry_domain.get()
         new_username = self.entry_username.get()
@@ -82,8 +85,6 @@ class AddNewButton():
             username=new_username,
             domain_controller=new_domain_controller
         )
-        
-        append_button = DashboardButton.getButtonList()
         append_button.append(button)    
+        
         DashboardButton.addButtonsToDB(append_button)
-        # refresh()

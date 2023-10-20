@@ -4,13 +4,14 @@ from DashboardButton import *
 from AddNewButton import *
 import os
 
-def addButton():
-    newButton = Toplevel(root)
-    app = AddNewButton(newButton)
-
-def refresh():
-    root.update()
-    root.destroy()
+def addButtonWindow():
+    new_button_window = Toplevel(root)
+    new_window = AddNewButton(new_button_window)
+    # refresh()
+    
+# def refresh():
+#     root.update()
+#     root.quit()
 
 # Implement list from json
 buttonList = DashboardButton.getButtonList()
@@ -26,7 +27,7 @@ for items in buttonList:
     button.grid()
 
 # Usable Buttons
-add_button = Button(root, text = "Add New Button", command = addButton)
+add_button = Button(root, text = "Add New Button", command = lambda: [addButtonWindow()])
 add_button.grid()
 mod_button = Button(root, text = "Modify Buttons" )
 mod_button.grid()
