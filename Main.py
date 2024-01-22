@@ -2,9 +2,11 @@ from tkinter import *
 from tkinter.ttk import *
 from DashboardButton import *
 
+# Implement list from json
+buttonList = DashboardButton.getButtonList()
+
 def mainFrame():
-    # Implement list from json
-    buttonList = DashboardButton.getButtonList()
+    
     # Button Generator
     for items in buttonList:
         button = Button(frame, text = items.title, command = items.onPressed)
@@ -18,12 +20,10 @@ def mainFrame():
     rem_button = Button(frame, text = "Remove Button")
     rem_button.grid()
 
-    
+############### Add Button Window ###############   
 def addNewButton(frame):
     frame = frame
-    # frame.title("Add new button")
-    # frame.geometry("200x500")
-    
+        
     label = Label(frame, text="Insert data")
     label.grid()
     
@@ -102,6 +102,9 @@ def saveAddedButton(entry_name, entry_domain, entry_username, entry_first_octet,
         
         DashboardButton.addButtonsToDB(append_button)
 
+############### Remove Button Window ###############   
+
+############### Clear Frame ###############   
 def clear_frame():
    for widgets in frame.winfo_children():
       widgets.destroy()
@@ -115,12 +118,3 @@ root.title("AD Menu")
 root.geometry("640x480")
 mainFrame()
 frame.mainloop()
-####################################################################################################
-# def addButtonWindow():
-#     new_button_window = Toplevel(frame)
-#     new_window = AddNewButton(new_button_window)
-#     refresh()
-    
-# def refresh():
-#     frame.update()
-#     frame.quit()
