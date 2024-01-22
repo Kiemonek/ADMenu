@@ -10,7 +10,9 @@ class DashboardButton:
         self.domain = domain
         self.username = username
         self.domain_controller = domain_controller
-        
+
+
+
     @staticmethod
     def listToJson(button_list):
         # Create a list to store the JSON representations of buttons
@@ -27,6 +29,22 @@ class DashboardButton:
         # Convert the list of dictionaries to a JSON string
         jsonStr = json.dumps(json_button_list)
         return jsonStr
+
+
+
+    def toJson(self):
+        # Create a dictionary with the relevant attributes
+        button_dict = {
+            "title": self.title,
+            "domain": self.domain,
+            "username": self.username,
+            "domain_controller": self.domain_controller
+        }
+        # Convert the dictionary to a JSON string
+        jsonStr = json.dumps(button_dict)
+        return jsonStr
+
+
 
     @staticmethod
     def listFromJson(jsonStr):
@@ -45,17 +63,7 @@ class DashboardButton:
             button_list.append(button)
         return button_list
 
-    def toJson(self):
-        # Create a dictionary with the relevant attributes
-        button_dict = {
-            "title": self.title,
-            "domain": self.domain,
-            "username": self.username,
-            "domain_controller": self.domain_controller
-        }
-        # Convert the dictionary to a JSON string
-        jsonStr = json.dumps(button_dict)
-        return jsonStr
+
 
     @classmethod
     def fromJson(cls, jsonStr):
@@ -69,6 +77,14 @@ class DashboardButton:
             username=button_dict["username"],
             domain_controller=button_dict["domain_controller"]
         )
+    
+    
+    
+    # Returning command class for buttons
+    def onPressed(self):
+        print ('runas /netonly /user:' + self.domain + "\\" + self.username + ' "mmc dsa.msc /server=' + self.domain_controller + '" ')
+
+
 
     # Return list of available buttons
     def getButtonList():
@@ -88,33 +104,36 @@ class DashboardButton:
             button_list.append(button)
         database.close()
         return button_list
+
+
+
+    def addButtonsToDB(button_list):
     
-    # Returning command class for buttons
-    def onPressed(self):
-        print ('runas /netonly /user:' + self.domain + "\\" +self.username +' "mmc dsa.msc /server='+ self.domain_controller+'" ')
+        # Convert the list of buttons to JSON
+        jsonStr = DashboardButton.listToJson(button_list)
 
-# Create a list of 10 buttons
-button_list = []
-for i in range(1, 11):
-    button = DashboardButton(
-        root='',  # You can set root to an appropriate value
-        title=f'My Button {i}',
-        domain=f'Domain {i}',
-        username=f'User {i}',
-        domain_controller=f'Controller {i}'
-    )
-    button_list.append(button)
+        # Specify the filename where you want to save the JSON data
+        filename = 'BD.json'
 
-# Convert the list of buttons to JSON
-jsonStr = DashboardButton.listToJson(button_list)
+        # Open the file in write mode and save the JSON data
+        with open(filename, 'w') as file:
+            # Use indent=4 for pretty formatting
+            json.dump(json.loads(jsonStr), file, indent=4)
 
-# Specify the filename where you want to save the JSON data
-filename = 'BD.json'
+        print(f'Saved {len(button_list)}th button to {filename}')
 
-# Open the file in write mode and save the JSON data
-with open(filename, 'w') as file:
-    # Use indent=4 for pretty formatting
-    json.dump(json.loads(jsonStr), file, indent=4)
 
-print(f'Saved {len(button_list)}th button to {filename}')
+
 # This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
+# Create a list of 10 buttons
+# button_list = []
+# for i in range(1, 11):
+#     button = DashboardButton(
+#         root='',  # You can set root to an appropriate value
+#         title=f'My Button {i}',
+#         domain=f'Domain {i}',
+#         username=f'User {i}',
+#         domain_controller=f'Controller {i}'
+#     )
+#     print(button.title)
+#     button_list.append(button)
