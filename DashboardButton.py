@@ -3,8 +3,9 @@ import os
 from tkinter import *
 from tkinter.ttk import *
 
+
 class DashboardButton:
-    # Button dashboard initializer 
+    # Button dashboard initializer
     def __init__(self, id, root, title, domain, username, domain_controller):
         self.id = id
         self.root = root
@@ -12,8 +13,6 @@ class DashboardButton:
         self.domain = domain
         self.username = username
         self.domain_controller = domain_controller
-
-
 
     @staticmethod
     def listToJson(button_list):
@@ -33,8 +32,6 @@ class DashboardButton:
         jsonStr = json.dumps(json_button_list)
         return jsonStr
 
-
-
     def toJson(self):
         # Create a dictionary with the relevant attributes
         button_dict = {
@@ -47,8 +44,6 @@ class DashboardButton:
         # Convert the dictionary to a JSON string
         jsonStr = json.dumps(button_dict)
         return jsonStr
-
-
 
     @staticmethod
     def listFromJson(jsonStr):
@@ -63,54 +58,43 @@ class DashboardButton:
                 title=button_dict["title"],
                 domain=button_dict["domain"],
                 username=button_dict["username"],
-                domain_controller=button_dict["domain_controller"]
-            )
+                domain_controller=button_dict["domain_controller"])
             button_list.append(button)
         return button_list
-
-
 
     @classmethod
     def fromJson(cls, jsonStr):
         # Parse the JSON string into a dictionary
         button_dict = json.loads(jsonStr)
         # Create a new DashboardButton instance using the dictionary values
-        return cls(
-            id=button_dict["id"],
-            root=None,
-            title=button_dict["title"],
-            domain=button_dict["domain"],
-            username=button_dict["username"],
-            domain_controller=button_dict["domain_controller"]
-        )
-    
-
-
+        return cls(id=button_dict["id"],
+                   root=None,
+                   title=button_dict["title"],
+                   domain=button_dict["domain"],
+                   username=button_dict["username"],
+                   domain_controller=button_dict["domain_controller"])
 
     # Return list of available buttons
     def getButtonList():
         filename = "BD.json"
         database = open(filename, "r")
         data = json.loads(database.read())
-        
-        button_list=[]
+
+        button_list = []
         for item in data:
             button = DashboardButton(
                 id=item['id'],
                 root=None,
-                title= item['title'],
-                domain= item['domain'],
-                username= item['username'],
-                domain_controller= item['domain_controller']
-            )
+                title=item['title'],
+                domain=item['domain'],
+                username=item['username'],
+                domain_controller=item['domain_controller'])
             button_list.append(button)
         database.close()
         return button_list
 
-
-
     def addButtonsToDB(button_list):
-    
+
         # Convert the list of buttons to JSON
         jsonStr = DashboardButton.listToJson(button_list)
 
@@ -125,9 +109,9 @@ class DashboardButton:
         print(f'Saved {len(button_list)}th button to {filename}')
 
     def removeButtonFromDB(button_id):
-        
-        filename="BD.json"
-        
+
+        filename = "BD.json"
+
         # Load the existing data
         with open(filename, 'r') as f:
             data = json.load(f)
@@ -140,148 +124,207 @@ class DashboardButton:
             json.dump(data, f, indent=4)
 
         print(f'Removed button with id {button_id}')
-            
-    
+
+    def modifyButtonFromDB(button_id):
+
+        filename = "BD.json"
+
+        with open(filename, 'r') as f:
+            data = json.load(f)
+
+        buttonData = [button for button in data if button['id'] == button_id]
+
+        print(buttonData)
+
     # Returning command class for buttons
     def onPressed(self, option):
         if option == "cmd":
-            print('runas /netonly /user:' + self.domain + "\\" + self.username + ' "mmc dsa.msc /server=' + self.domain_controller + '" ')
+            print('runas /netonly /user:' + self.domain + "\\" +
+                  self.username + ' "mmc dsa.msc /server=' +
+                  self.domain_controller + '" ')
         elif option == "rm":
             DashboardButton.removeButtonFromDB(self.id)
+        elif option == "mod":
+            DashboardButton.modifyButtonFromDB(self.id)
         else:
             print("Error: Option not found")
-##############################################################################################################
+
+# NOTE: Main Frame
+
     def mainFrame(frame):
-    
+
         DashboardButton.showButtonList(frame, "cmd")
 
         # Usable Buttons
-        add_button = Button(frame, text = "Add New Button", command = lambda: [DashboardButton.clear_frame(frame), DashboardButton.addNewButton(frame)])
+        add_button = Button(
+            frame,
+            text="Add New Button",
+            command=lambda: [DashboardButton.addNewButton(frame)])
         add_button.grid()
-        mod_button = Button(frame, text = "Modify Buttons" )
+        mod_button = Button(
+            frame,
+            text="Modify Buttons",
+            command=lambda: [DashboardButton.modifyButtons(frame)])
         mod_button.grid()
-        rem_button = Button(frame, text = "Remove Button", command = lambda: [DashboardButton.clear_frame(frame), DashboardButton.removeButton(frame)])
+        rem_button = Button(
+            frame,
+            text="Remove Button",
+            command=lambda: [DashboardButton.removeButton(frame)])
         rem_button.grid()
 
-    ############### Add Button Window ###############   
+# NOTE: Add Button Window
+
     def addNewButton(frame):
-            
+
+        DashboardButton.clear_frame(frame)
+
         label = Label(frame, text="Insert data")
         label.grid()
-        
+
         label_name = Label(frame, text="Name:")
         label_name.grid()
-        
+
         entry_name = Entry(frame)
         entry_name.insert(0, "test name")
         entry_name.grid()
-        
+
         label_domain = Label(frame, text="Domain:")
         label_domain.grid()
-        
+
         entry_domain = Entry(frame)
         entry_domain.insert(0, "test domain")
         entry_domain.grid()
-        
+
         label_username = Label(frame, text="Username:")
         label_username.grid()
-        
+
         entry_username = Entry(frame)
         entry_username.insert(0, "login")
         entry_username.grid()
-        
+
         label_server = Label(frame, text="Server:")
         label_server.grid()
-        
+
         entry_first_octet = Entry(frame)
         entry_first_octet.insert(0, "111")
         entry_first_octet.grid()
-        
+
         label_dot = Label(frame, text=".")
         label_dot.grid()
-        
+
         entry_second_octet = Entry(frame)
         entry_second_octet.insert(0, "222")
         entry_second_octet.grid()
-        
+
         label_dot = Label(frame, text=".")
         label_dot.grid()
-        
+
         entry_third_octet = Entry(frame)
         entry_third_octet.insert(0, "333")
         entry_third_octet.grid()
-        
+
         label_dot = Label(frame, text=".")
         label_dot.grid()
-        
+
         entry_fourth_octet = Entry(frame)
         entry_fourth_octet.insert(0, "444")
         entry_fourth_octet.grid()
-        
-        save_button = Button(frame, text="SAVE", command=lambda: [DashboardButton.saveAddedButton(entry_name, entry_domain, entry_username, entry_first_octet, entry_second_octet, entry_third_octet, entry_fourth_octet), DashboardButton.clear_frame(frame), DashboardButton.mainFrame(frame)])
+
+        save_button = Button(frame,
+                             text="SAVE",
+                             command=lambda: [
+                                 DashboardButton.saveAddedButton(
+                                     entry_name, entry_domain, entry_username,
+                                     entry_first_octet, entry_second_octet,
+                                     entry_third_octet, entry_fourth_octet),
+                                 DashboardButton.mainFrame(frame)
+                             ])
         save_button.grid()
-        
-        exit_button = Button(frame, text="EXIT", command=lambda: [DashboardButton.clear_frame(frame), DashboardButton.mainFrame(frame)])
-        exit_button.grid()
 
-    def saveAddedButton(entry_name, entry_domain, entry_username, entry_first_octet, entry_second_octet, entry_third_octet, entry_fourth_octet):
+        DashboardButton.backButton(frame)
 
-            append_button = DashboardButton.getButtonList()
-            
-            new_title = entry_name.get()
-            new_domain = entry_domain.get()
-            new_username = entry_username.get()
-            new_domain_controller = entry_first_octet.get() + "." + entry_second_octet.get() + "." + entry_third_octet.get() + "." + entry_fourth_octet.get()
+    def saveAddedButton(entry_name, entry_domain, entry_username,
+                        entry_first_octet, entry_second_octet,
+                        entry_third_octet, entry_fourth_octet):
 
-            # Generate a unique id for the button
-            if append_button:
-                max_id = max(button.id for button in append_button)
-                button_id = max_id + 1
-            else:
-                button_id = 0
+        append_button = DashboardButton.getButtonList()
 
-            button = DashboardButton(
-                id=button_id,
-                root='',
-                title=new_title,
-                domain=new_domain,
-                username=new_username,
-                domain_controller=new_domain_controller
-            )
-            append_button.append(button)    
-            
-            DashboardButton.addButtonsToDB(append_button)
+        new_title = entry_name.get()
+        new_domain = entry_domain.get()
+        new_username = entry_username.get()
+        new_domain_controller = entry_first_octet.get(
+        ) + "." + entry_second_octet.get() + "." + entry_third_octet.get(
+        ) + "." + entry_fourth_octet.get()
 
-    # NOTE: Remove Button Window   
+        # Generate a unique id for the button
+        if append_button:
+            max_id = max(button.id for button in append_button)
+            button_id = max_id + 1
+        else:
+            button_id = 0
+
+        button = DashboardButton(id=button_id,
+                                 root='',
+                                 title=new_title,
+                                 domain=new_domain,
+                                 username=new_username,
+                                 domain_controller=new_domain_controller)
+        append_button.append(button)
+
+        DashboardButton.addButtonsToDB(append_button)
+
+# NOTE: Remove Button Window
+
     def removeButton(frame):
-        
-        DashboardButton.clear_frame(frame)
+
         DashboardButton.showButtonList(frame, "rm")
-        # TODO: Add refresh after remove 
-                
-        exit_button = Button(frame, text="EXIT", command=lambda: [DashboardButton.clear_frame(frame), DashboardButton.mainFrame(frame)])
-        exit_button.grid()
 
-    # NOTE: Modify Button Window
+        DashboardButton.backButton(frame)
 
+# NOTE: Modify Button Window
 
-    ############### Utilities ###############
+    def modifyButtons(frame):
+
+        DashboardButton.showButtonList(frame, "mod")
+
+        DashboardButton.backButton(frame)
+
+# NOTE: Utility Functions
+
     def clear_frame(frame):
         for widgets in frame.winfo_children():
             widgets.destroy()
 
     def showButtonList(frame, option):
+        DashboardButton.clear_frame(frame)
         # Implement list from json
         buttonList = DashboardButton.getButtonList()
-        
+
         # Button Generator
         for items in buttonList:
             if option == "rm":
-                button = Button(frame, text = items.title, command = lambda: [items.onPressed(option), DashboardButton.clear_frame(frame), DashboardButton.removeButton(frame)])
+                button = Button(frame,
+                                text=items.title,
+                                command=lambda: [
+                                    items.onPressed(option),
+                                    DashboardButton.removeButton(frame)
+                                ])
                 button.grid()
             else:
-                button = Button(frame, text = items.title, command = lambda: [items.onPressed(option)])
+                button = Button(frame,
+                                text=items.title,
+                                command=lambda: [items.onPressed(option)])
                 button.grid()
+
+    def backButton(frame):
+
+        exit_button = Button(
+            frame,
+            text="FUCK GO BACK",
+            command=lambda: [DashboardButton.mainFrame(frame)])
+        exit_button.grid()
+
+
 # This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
 # Create a list of 10 buttons
 # button_list = []  # Define the button_list variable
