@@ -1,74 +1,72 @@
 [
     {
+        "id": 1,
         "title": "My Button 1",
         "domain": "Domain 1",
         "username": "User 1",
         "domain_controller": "Controller 1"
     },
     {
+        "id": 2,
         "title": "My Button 2",
         "domain": "Domain 2",
         "username": "User 2",
         "domain_controller": "Controller 2"
     },
     {
+        "id": 3,
         "title": "My Button 3",
         "domain": "Domain 3",
         "username": "User 3",
         "domain_controller": "Controller 3"
     },
     {
+        "id": 4,
         "title": "My Button 4",
         "domain": "Domain 4",
         "username": "User 4",
         "domain_controller": "Controller 4"
     },
     {
+        "id": 5,
         "title": "My Button 5",
         "domain": "Domain 5",
         "username": "User 5",
         "domain_controller": "Controller 5"
     },
     {
+        "id": 6,
         "title": "My Button 6",
         "domain": "Domain 6",
         "username": "User 6",
         "domain_controller": "Controller 6"
     },
     {
+        "id": 7,
         "title": "My Button 7",
         "domain": "Domain 7",
         "username": "User 7",
         "domain_controller": "Controller 7"
     },
     {
+        "id": 8,
         "title": "My Button 8",
         "domain": "Domain 8",
         "username": "User 8",
         "domain_controller": "Controller 8"
     },
     {
+        "id": 9,
         "title": "My Button 9",
         "domain": "Domain 9",
         "username": "User 9",
         "domain_controller": "Controller 9"
     },
     {
+        "id": 10,
         "title": "My Button 10",
         "domain": "Domain 10",
         "username": "User 10",
         "domain_controller": "Controller 10"
-    },
-    {
-        "title": "test name",
-        "domain": "test domain",
-        "username": "login",
-        "domain_controller": "111.222.333.444"
-    },
-    {
-        "title": "test name1",
-        "domain": "test 1",
-        "username": "login1",
-        "domain_controller": "111.222.333.444"
     }
 ]
