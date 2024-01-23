@@ -4,7 +4,8 @@ import os
 
 class DashboardButton:
     # Button dashboard initializer 
-    def __init__(self, root, title, domain, username, domain_controller):
+    def __init__(self, id, root, title, domain, username, domain_controller):
+        self.id = id
         self.root = root
         self.title = title
         self.domain = domain
@@ -20,6 +21,7 @@ class DashboardButton:
         for button in button_list:
             # Create a dictionary with the relevant attributes
             button_dict = {
+                "id": button.id,
                 "title": button.title,
                 "domain": button.domain,
                 "username": button.username,
@@ -35,6 +37,7 @@ class DashboardButton:
     def toJson(self):
         # Create a dictionary with the relevant attributes
         button_dict = {
+            "id": self.id,
             "title": self.title,
             "domain": self.domain,
             "username": self.username,
@@ -54,6 +57,7 @@ class DashboardButton:
         button_list = []
         for button_dict in json_button_list:
             button = DashboardButton(
+                id=button_dict["id"],
                 root=None,
                 title=button_dict["title"],
                 domain=button_dict["domain"],
@@ -71,6 +75,7 @@ class DashboardButton:
         button_dict = json.loads(jsonStr)
         # Create a new DashboardButton instance using the dictionary values
         return cls(
+            id=button_dict["id"],
             root=None,
             title=button_dict["title"],
             domain=button_dict["domain"],
@@ -78,11 +83,6 @@ class DashboardButton:
             domain_controller=button_dict["domain_controller"]
         )
     
-    
-    
-    # Returning command class for buttons
-    def onPressed(self):
-        print ('runas /netonly /user:' + self.domain + "\\" + self.username + ' "mmc dsa.msc /server=' + self.domain_controller + '" ')
 
 
 
@@ -95,6 +95,7 @@ class DashboardButton:
         button_list=[]
         for item in data:
             button = DashboardButton(
+                id=item['id'],
                 root=None,
                 title= item['title'],
                 domain= item['domain'],
@@ -122,13 +123,39 @@ class DashboardButton:
 
         print(f'Saved {len(button_list)}th button to {filename}')
 
+    def removeButtonFromDB(button_id):
+        
+        filename="BD.json"
+        
+        # Load the existing data
+        with open(filename, 'r') as f:
+            data = json.load(f)
 
+        # Remove the button with the given id
+        data = [button for button in data if button['id'] != button_id]
 
+        # Write the data back to the file
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
+
+        print(f'Removed button with id {button_id}')
+            
+    
+    # Returning command class for buttons
+    def onPressed(self, option):
+        if option == "cmd":
+            print('runas /netonly /user:' + self.domain + "\\" + self.username + ' "mmc dsa.msc /server=' + self.domain_controller + '" ')
+        elif option == "rm":
+            print("Removed button with id: " + str(self.id))
+            DashboardButton.removeButtonFromDB(self.id)
+        else:
+            print("Error: Option not found")
 # This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
 # Create a list of 10 buttons
-# button_list = []
+# button_list = []  # Define the button_list variable
 # for i in range(1, 11):
 #     button = DashboardButton(
+#         id=i,
 #         root='',  # You can set root to an appropriate value
 #         title=f'My Button {i}',
 #         domain=f'Domain {i}',
@@ -137,3 +164,4 @@ class DashboardButton:
 #     )
 #     print(button.title)
 #     button_list.append(button)
+#     DashboardButton.addButtonsToDB(button_list)

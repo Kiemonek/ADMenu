@@ -2,22 +2,16 @@ from tkinter import *
 from tkinter.ttk import *
 from DashboardButton import *
 
-# Implement list from json
-buttonList = DashboardButton.getButtonList()
-
 def mainFrame():
     
-    # Button Generator
-    for items in buttonList:
-        button = Button(frame, text = items.title, command = items.onPressed)
-        button.grid()
+    showButtonList(frame, "cmd")
 
     # Usable Buttons
     add_button = Button(frame, text = "Add New Button", command = lambda: [clear_frame(), addNewButton(frame)])
     add_button.grid()
     mod_button = Button(frame, text = "Modify Buttons" )
     mod_button.grid()
-    rem_button = Button(frame, text = "Remove Button")
+    rem_button = Button(frame, text = "Remove Button", command = lambda: [clear_frame(), removeButton(frame)])
     rem_button.grid()
 
 ############### Add Button Window ###############   
@@ -91,7 +85,15 @@ def saveAddedButton(entry_name, entry_domain, entry_username, entry_first_octet,
         new_username = entry_username.get()
         new_domain_controller = entry_first_octet.get() + "." + entry_second_octet.get() + "." + entry_third_octet.get() + "." + entry_fourth_octet.get()
 
+        # Generate a unique id for the button
+        if append_button:
+            max_id = max(button.id for button in append_button)
+            button_id = max_id + 1
+        else:
+            button_id = 0
+
         button = DashboardButton(
+            id=button_id,
             root='',
             title=new_title,
             domain=new_domain,
@@ -102,15 +104,34 @@ def saveAddedButton(entry_name, entry_domain, entry_username, entry_first_octet,
         
         DashboardButton.addButtonsToDB(append_button)
 
-############### Remove Button Window ###############   
+# NOTE: Remove Button Window   
+def removeButton(frame):
+    
+    clear_frame()
+    showButtonList(frame, "rm")
+    # TODO: Add refresh after remove 
+            
+    exit_button = Button(frame, text="EXIT", command=lambda: [clear_frame(), mainFrame()])
+    exit_button.grid()
 
-############### Clear Frame ###############   
+# NOTE: Modify Button Window
+
+
+############### Utilities ###############
 def clear_frame():
    for widgets in frame.winfo_children():
       widgets.destroy()
 
+def showButtonList(frame, option):
+    # Implement list from json
+    buttonList = DashboardButton.getButtonList()
+    
+    # Button Generator
+    for items in buttonList:
+            button = Button(frame, text = items.title, command = lambda: [items.onPressed(option)])
+            button.grid()
 
-# Customize Window
+############### Customize Window ###############
 root = Tk()
 frame = Frame(root)
 frame.pack()
