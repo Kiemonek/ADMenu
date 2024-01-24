@@ -111,19 +111,14 @@ class DashboardButton:
     def removeButtonFromDB(button_id):
 
         filename = "BD.json"
-
-        # Load the existing data
         with open(filename, 'r') as f:
             data = json.load(f)
 
-        # Remove the button with the given id
         data = [button for button in data if button['id'] != button_id]
-
         # Write the data back to the file
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
-
-        print(f'Removed button with id {button_id}')
+        # print(f'Removed button with id {button_id}')
 
     def modifyButtonFromDB(button_id):
 
@@ -137,15 +132,15 @@ class DashboardButton:
         print(buttonData)
 
     # Returning command class for buttons
-    def onPressed(self, option):
+    def onPressed(self, option, id):
         if option == "cmd":
             print('runas /netonly /user:' + self.domain + "\\" +
                   self.username + ' "mmc dsa.msc /server=' +
                   self.domain_controller + '" ')
-        elif option == "rm":
-            DashboardButton.removeButtonFromDB(self.id)
         elif option == "mod":
-            DashboardButton.modifyButtonFromDB(self.id)
+            DashboardButton.modifyButtonFromDB(id)
+        elif option == "rm":
+            DashboardButton.removeButtonFromDB(id)
         else:
             print("Error: Option not found")
 
@@ -299,15 +294,26 @@ class DashboardButton:
         DashboardButton.clear_frame(frame)
         # Implement list from json
         buttonList = DashboardButton.getButtonList()
-
-        # Button Generator
+        button_dict = {}
+        id = [button.id for button in buttonList]
+        i = -1
         for items in buttonList:
+            i += 1
             if option == "rm":
                 button = Button(frame,
                                 text=items.title,
                                 command=lambda: [
-                                    items.onPressed(option),
+                                    items.onPressed(option, id[i]),
                                     DashboardButton.removeButton(frame)
+                                ])
+                # print(button_dict[f"button{i}"])
+                button.grid()
+            elif option == "mod":
+                button = Button(frame,
+                                text=items.title,
+                                command=lambda: [
+                                    items.onPressed(option, items.id),
+                                    DashboardButton.modifyButtons(frame)
                                 ])
                 button.grid()
             else:
@@ -315,6 +321,7 @@ class DashboardButton:
                                 text=items.title,
                                 command=lambda: [items.onPressed(option)])
                 button.grid()
+            # print(items.id)
 
     def backButton(frame):
 
@@ -340,3 +347,4 @@ class DashboardButton:
 #     print(button.title)
 #     button_list.append(button)
 #     DashboardButton.addButtonsToDB(button_list)
+# BUG id-ki XD
