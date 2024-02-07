@@ -125,7 +125,7 @@ class Utilities:
         # Usable Buttons
         add_button = Button(frame,
                             text="Add New Button",
-                            command=lambda: [Utilities.addNewButton(frame)])
+                            command=lambda: [Utilities.addButton(frame)])
         add_button.pack()
         mod_button = Button(frame,
                             text="Modify Buttons",
@@ -138,77 +138,61 @@ class Utilities:
 
 # NOTE: Add Button Frame
 
-    def addNewButton(frame):
+    def addButton(frame):
 
         Utilities.clear_frame(frame)
 
-        entry_dict = {
-            "Name", "name", "Domain", "domain", "Username", "username",
-            "Server", "server"
-        }
+        entry_list = [
+            "LabelName",
+            "title",
+            "LabelDomain",
+            "domain",
+            "LabelUsername",
+            "username",
+            "LabelServer",
+            "domain_controller",
+        ]
 
-        for item in entry_dict:
+        entry_dict = {}
 
-            if item[0] == item[0].upper():
-                label = Label(frame, text=item + ":")
-                label.pack()
-            elif item[0] == item[0].lower():
-                entry = Entry(frame)
-                entry.insert(0, "test " + item)
-                entry.pack()
+        for item in entry_list:
 
-        label = Label(frame, text="Insert data")
-        label.pack()
+            def showItems(item):
+                if item[0:5] == "Label":
+                    entry_dict[item] = Label(frame, text=item + ":")
+                else:
+                    entry_dict[item] = Entry(frame)
+                    entry_dict[item].insert(0, "test " + item)
 
-        label_name = Label(frame, text="Name:")
-        label_name.pack()
+                return entry_dict[item].pack()
 
-        entry_name = Entry(frame)
-        entry_name.insert(0, "test name")
-        entry_name.pack()
+            showItems(item)
 
-        label_domain = Label(frame, text="Domain:")
-        label_domain.pack()
-
-        entry_domain = Entry(frame)
-        entry_domain.insert(0, "test domain")
-        entry_domain.pack()
-
-        label_username = Label(frame, text="Username:")
-        label_username.pack()
-
-        entry_username = Entry(frame)
-        entry_username.insert(0, "login")
-        entry_username.pack()
-
-        label_server = Label(frame, text="Server:")
-        label_server.pack()
-
-        entry_server = Entry(frame)
-        entry_server.insert(0, "111.222.333.444")
-        entry_server.pack()
+        def getEntries(entry_list=entry_list, entry_dict=entry_dict):
+            entry_data = {}
+            for item in entry_list:
+                if not item[0:5] == "Label":
+                    entry_data[item] = entry_dict[item].get()
+            return entry_data
 
         save_button = Button(
             frame,
             text="SAVE",
-            command=lambda: [
-                Utilities.saveAddedButton(entry_name, entry_domain,
-                                          entry_username, entry_server),
-                Utilities.mainFrame(frame)
-            ])
+            command=lambda:
+            [Utilities.saveButton(getEntries()),
+             Utilities.mainFrame(frame)])
         save_button.pack()
 
         Utilities.backButton(frame)
 
-    def saveAddedButton(entry_name, entry_domain, entry_username,
-                        entry_server):
+    def saveButton(entry_data):
 
         append_button = Utilities.getButtonList()
 
-        new_title = entry_name.get()
-        new_domain = entry_domain.get()
-        new_username = entry_username.get()
-        new_domain_controller = entry_server.get()
+        new_title = entry_data["title"]
+        new_domain = entry_data["domain"]
+        new_username = entry_data["username"]
+        new_domain_controller = entry_data["domain_controller"]
 
         # Generate a unique id for the button
         if append_button:

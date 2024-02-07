@@ -5,19 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Main File",
-      "type": "python",
+      "name": "Python Debugger: Project",
+      "type": "debugpy",
       "request": "launch",
-      "program": "${Main.py}",
-      "console": "integratedTerminal",
-      "justMyCode": true
-    },
-    {
-      "name": "Python: Main",
-      "type": "python",
-      "request": "launch",
-      "module": "Main.py",
-      "justMyCode": true
+      "program": "${workspaceFolder}/Main.py",
+      "console": "integratedTerminal"
     }
   ]
 }
