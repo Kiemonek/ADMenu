@@ -14,108 +14,6 @@ class Utilities:
         self.username = username
         self.domain_controller = domain_controller
 
-    @staticmethod
-    def listToJson(button_list):
-        # Create a list to store the JSON representations of buttons
-        json_button_list = []
-        for button in button_list:
-            # Create a dictionary with the relevant attributes
-            button_dict = {
-                "id": button.id,
-                "title": button.title,
-                "domain": button.domain,
-                "username": button.username,
-                "domain_controller": button.domain_controller
-            }
-            json_button_list.append(button_dict)
-        # Convert the list of dictionaries to a JSON string
-        jsonStr = json.dumps(json_button_list)
-        return jsonStr
-
-    def toJson(self):
-        # Create a dictionary with the relevant attributes
-        button_dict = {
-            "id": self.id,
-            "title": self.title,
-            "domain": self.domain,
-            "username": self.username,
-            "domain_controller": self.domain_controller
-        }
-        # Convert the dictionary to a JSON string
-        jsonStr = json.dumps(button_dict)
-        return jsonStr
-
-    @staticmethod
-    def listFromJson(jsonStr):
-        # Parse the JSON string into a list of dictionaries
-        json_button_list = json.loads(jsonStr)
-        # Create a list of Utilities instances from the dictionaries
-        button_list = []
-        for button_dict in json_button_list:
-            button = Utilities(
-                id=button_dict["id"],
-                root=None,
-                title=button_dict["title"],
-                domain=button_dict["domain"],
-                username=button_dict["username"],
-                domain_controller=button_dict["domain_controller"])
-            button_list.append(button)
-        return button_list
-
-    @classmethod
-    def fromJson(cls, jsonStr):
-        # Parse the JSON string into a dictionary
-        button_dict = json.loads(jsonStr)
-        # Create a new Utilities instance using the dictionary values
-        return cls(id=button_dict["id"],
-                   root=None,
-                   title=button_dict["title"],
-                   domain=button_dict["domain"],
-                   username=button_dict["username"],
-                   domain_controller=button_dict["domain_controller"])
-
-# NOTE: Database Functions
-
-    def addButtonsToDB(button_list):
-
-        # Convert the list of buttons to JSON
-        jsonStr = Utilities.listToJson(button_list)
-
-        # Specify the filename where you want to save the JSON data
-        filename = 'BD.json'
-
-        # Open the file in write mode and save the JSON data
-        with open(filename, 'w') as file:
-            # Use indent=4 for pretty formatting
-            json.dump(json.loads(jsonStr), file, indent=4)
-
-        print(f'Saved {len(button_list)}th button to {filename}')
-
-    def removeButtonFromDB(frame, button_id):
-        filename = "BD.json"
-        with open(filename, 'r') as f:
-            data = json.load(f)
-
-        data = [button for button in data if button['id'] != button_id]
-        # Write the data back to the file
-        with open(filename, 'w') as f:
-            json.dump(data, f, indent=4)
-
-        Utilities.removeButton(frame)
-
-    def modifyButtonFromDB(frame, button_id):
-
-        filename = "BD.json"
-
-        with open(filename, 'r') as f:
-            data = json.load(f)
-
-        buttonData = [button for button in data if button['id'] == button_id]
-
-        print(buttonData)
-
-        Utilities.modifyButtons(frame)
-
 # NOTE: Main Frame
 
     def mainFrame(frame):
@@ -227,6 +125,188 @@ class Utilities:
 
         Utilities.backButton(frame)
 
+    def buttonDetails(frame, button_id):
+
+        Utilities.clear_frame(frame)
+
+        entry_dict = {
+            "LabelName": Label(frame, text="Name:"),
+            "title": Entry(frame),
+            "LabelDomain": Label(frame, text="Domain:"),
+            "domain": Entry(frame),
+            "LabelUsername": Label(frame, text="Login:"),
+            "username": Entry(frame),
+            "LabelServer": Label(frame, text="Domain Controller:"),
+            "domain_controller": Entry(frame),
+        }
+
+        current_data = Utilities.getButtonList()
+
+        # for item in buttons:
+        #     if item.id == button_id:
+        #         print(item.title)
+
+        for item in current_data:
+
+            def showItems(item):
+                # if not item[0:5] == "Label":
+                for button in current_data:
+                    if button.id == button_id:
+                        entry_dict[item].insert(0, button[str(item)])
+                    # print(button[item])
+                    # entry_dict[item].insert(0, "test " + item)
+
+                return entry_dict[item].pack()
+
+            showItems(item)
+
+        def getEntries(entry_dict=entry_dict):
+            entry_data = {}
+            for item in entry_dict:
+                if not item[0:5] == "Label":
+                    entry_data[item] = entry_dict[item].get()
+            return entry_data
+
+        # save_button = Button(
+        #     frame,
+        #     text="SAVE",
+        #     command=lambda:
+        #     [Utilities.saveButton(getEntries()),
+        #      Utilities.mainFrame(frame)])
+        # save_button.pack()
+
+        Utilities.backButton(frame)
+
+    def saveButton(entry_data):
+
+        append_button = Utilities.getButtonList()
+
+        new_title = entry_data["title"]
+        new_domain = entry_data["domain"]
+        new_username = entry_data["username"]
+        new_domain_controller = entry_data["domain_controller"]
+
+        # Generate a unique id for the button
+        if append_button:
+            max_id = max(button.id for button in append_button)
+            button_id = max_id + 1
+        else:
+            button_id = 0
+
+        button = Utilities(id=button_id,
+                           root='',
+                           title=new_title,
+                           domain=new_domain,
+                           username=new_username,
+                           domain_controller=new_domain_controller)
+        append_button.append(button)
+
+        Utilities.addButtonsToDB(append_button)
+
+#NOTE: JSON Functions
+
+    @staticmethod
+    def listToJson(button_list):
+        # Create a list to store the JSON representations of buttons
+        json_button_list = []
+        for button in button_list:
+            # Create a dictionary with the relevant attributes
+            button_dict = {
+                "id": button.id,
+                "title": button.title,
+                "domain": button.domain,
+                "username": button.username,
+                "domain_controller": button.domain_controller
+            }
+            json_button_list.append(button_dict)
+        # Convert the list of dictionaries to a JSON string
+        jsonStr = json.dumps(json_button_list)
+        return jsonStr
+
+    def toJson(self):
+        # Create a dictionary with the relevant attributes
+        button_dict = {
+            "id": self.id,
+            "title": self.title,
+            "domain": self.domain,
+            "username": self.username,
+            "domain_controller": self.domain_controller
+        }
+        # Convert the dictionary to a JSON string
+        jsonStr = json.dumps(button_dict)
+        return jsonStr
+
+    @staticmethod
+    def listFromJson(jsonStr):
+        # Parse the JSON string into a list of dictionaries
+        json_button_list = json.loads(jsonStr)
+        # Create a list of Utilities instances from the dictionaries
+        button_list = []
+        for button_dict in json_button_list:
+            button = Utilities(
+                id=button_dict["id"],
+                root=None,
+                title=button_dict["title"],
+                domain=button_dict["domain"],
+                username=button_dict["username"],
+                domain_controller=button_dict["domain_controller"])
+            button_list.append(button)
+        return button_list
+
+    @classmethod
+    def fromJson(cls, jsonStr):
+        # Parse the JSON string into a dictionary
+        button_dict = json.loads(jsonStr)
+        # Create a new Utilities instance using the dictionary values
+        return cls(id=button_dict["id"],
+                   root=None,
+                   title=button_dict["title"],
+                   domain=button_dict["domain"],
+                   username=button_dict["username"],
+                   domain_controller=button_dict["domain_controller"])
+
+# NOTE: Database Functions
+
+    def addButtonsToDB(button_list):
+
+        # Convert the list of buttons to JSON
+        jsonStr = Utilities.listToJson(button_list)
+
+        # Specify the filename where you want to save the JSON data
+        filename = 'BD.json'
+
+        # Open the file in write mode and save the JSON data
+        with open(filename, 'w') as file:
+            # Use indent=4 for pretty formatting
+            json.dump(json.loads(jsonStr), file, indent=4)
+
+        print(f'Saved {len(button_list)}th button to {filename}')
+
+    def removeButtonFromDB(frame, button_id):
+        filename = "BD.json"
+        with open(filename, 'r') as f:
+            data = json.load(f)
+
+        data = [button for button in data if button['id'] != button_id]
+        # Write the data back to the file
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
+
+        Utilities.removeButton(frame)
+
+    def modifyButtonFromDB(frame, button_id):
+
+        filename = "BD.json"
+
+        with open(filename, 'r') as f:
+            data = json.load(f)
+
+        buttonData = [button for button in data if button['id'] == button_id]
+
+        print(buttonData)
+
+        Utilities.modifyButtons(frame)
+
 # NOTE: Utility Functions
 
 # Return list of available buttons
@@ -251,15 +331,15 @@ class Utilities:
     def showButtonList(frame, option):
         Utilities.clear_frame(frame)
         # Implement list from json
-        buttonList = Utilities.getButtonList()
+        button_list = Utilities.getButtonList()
 
-        for items in buttonList:
+        for items in button_list:
 
             def onPressed(x=items):
                 if option == "rm":
                     return Utilities.removeButtonFromDB(frame, x.id)
                 elif option == "mod":
-                    return Utilities.modifyButtonFromDB(frame, x.id)
+                    return Utilities.buttonDetails(frame, x.id)
                 elif option == "cmd":
                     print('runas /netonly /user:' + x.domain + "\\" +
                           x.username + ' "mmc dsa.msc /server=' +

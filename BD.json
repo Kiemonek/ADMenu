@@ -14,13 +14,6 @@
         "domain_controller": "Controller 2"
     },
     {
-        "id": 3,
-        "title": "My Button 3",
-        "domain": "Domain 3",
-        "username": "User 3",
-        "domain_controller": "Controller 3"
-    },
-    {
         "id": 4,
         "title": "My Button 4",
         "domain": "Domain 4",
@@ -33,13 +26,6 @@
         "domain": "Domain 5",
         "username": "User 5",
         "domain_controller": "Controller 5"
-    },
-    {
-        "id": 6,
-        "title": "My Button 6",
-        "domain": "Domain 6",
-        "username": "User 6",
-        "domain_controller": "Controller 6"
     },
     {
         "id": 7,
@@ -64,6 +50,13 @@
     },
     {
         "id": 10,
+        "title": "test title",
+        "domain": "test domain",
+        "username": "test username",
+        "domain_controller": "test domain_controller"
+    },
+    {
+        "id": 11,
         "title": "test title",
         "domain": "test domain",
         "username": "test username",
