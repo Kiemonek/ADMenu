@@ -154,15 +154,17 @@ class Utilities:
         data_list = ["title", "domain", "username", "domain_controller"]
         button = [button for button in current_data if button.id == button_id]
 
-        for item in data_list:
+        for items in entry_dict:
+            if not items[0:5] == "Label":
+                for item in data_list:
 
-            def test(item):
-                entry_dict[item].delete(0, END)
-                entry_dict[item].insert(0, button[0].item)
+                    def test(items, item):
+                        entry_dict[items].delete(0, END)
+                        entry_dict[items].insert(0, button.item)
 
-            return entry_dict[item].pack()
+                    return entry_dict[items].pack()
 
-        test(item)
+        test(items, item)
 
         def getEntries(entry_dict=entry_dict):
             entry_data = {}
