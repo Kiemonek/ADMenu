@@ -140,25 +140,29 @@ class Utilities:
             "domain_controller": Entry(frame),
         }
 
-        current_data = Utilities.getButtonList()
-
-        # for item in buttons:
-        #     if item.id == button_id:
-        #         print(item.title)
-
-        for item in current_data:
+        for item in entry_dict:
 
             def showItems(item):
-                # if not item[0:5] == "Label":
-                for button in current_data:
-                    if button.id == button_id:
-                        entry_dict[item].insert(0, button[str(item)])
-                    # print(button[item])
-                    # entry_dict[item].insert(0, "test " + item)
+                if not item[0:5] == "Label":
+                    entry_dict[item].insert(0, "test " + item)
 
                 return entry_dict[item].pack()
 
             showItems(item)
+
+        current_data = Utilities.getButtonList()
+        data_list = ["title", "domain", "username", "domain_controller"]
+        button = [button for button in current_data if button.id == button_id]
+
+        for item in data_list:
+
+            def test(item):
+                entry_dict[item].delete(0, END)
+                entry_dict[item].insert(0, button[0].item)
+
+            return entry_dict[item].pack()
+
+        test(item)
 
         def getEntries(entry_dict=entry_dict):
             entry_data = {}
