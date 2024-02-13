@@ -23,38 +23,18 @@ class Utilities:
         # Usable Buttons
         add_button = Button(frame,
                             text="Add New Button",
-                            command=lambda: [Utilities.addButton(frame)])
+                            command=lambda: [Utilities.buttonDetails(frame)])
         add_button.pack()
-        mod_button = Button(frame,
-                            text="Modify Buttons",
-                            command=lambda: [Utilities.modifyButtons(frame)])
+        mod_button = Button(
+            frame,
+            text="Modify Buttons",
+            command=lambda: [Utilities.showButtonList(frame, "mod")])
         mod_button.pack()
-        rem_button = Button(frame,
-                            text="Remove Button",
-                            command=lambda: [Utilities.removeButton(frame)])
+        rem_button = Button(
+            frame,
+            text="Remove Button",
+            command=lambda: [Utilities.showButtonList(frame, "rm")])
         rem_button.pack()
-
-# NOTE: Add Button Frame
-
-    def addButton(frame):
-
-        Utilities.buttonDetails(frame)
-
-# NOTE: Remove Button Frame
-
-    def removeButton(frame):
-
-        Utilities.showButtonList(frame, "rm")
-
-        Utilities.backButton(frame)
-
-# NOTE: Modify Button Frame
-
-    def modifyButtons(frame):
-
-        Utilities.showButtonList(frame, "mod")
-
-        Utilities.backButton(frame)
 
 #NOTE: JSON Functions
 
@@ -143,7 +123,8 @@ class Utilities:
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
 
-        Utilities.removeButton(frame)
+        Utilities.showButtonList(frame, "rm")
+
 
 # NOTE: Utility Functions
 
@@ -187,6 +168,8 @@ class Utilities:
 
             button = Button(frame, text=items.title, command=onPressed)
             button.pack()
+        if not option == "cmd":
+            Utilities.backButton(frame)
 
     def buttonDetails(frame, button_id=None):
 
@@ -242,7 +225,7 @@ class Utilities:
                                  Utilities.saveButton(
                                      getEntries(), button_id
                                      if button_id is not None else None),
-                                 Utilities.modifyButtons(frame)
+                                 Utilities.mainFrame(frame)
                              ])
         save_button.pack()
 
@@ -292,20 +275,3 @@ class Utilities:
         append_button = sorted(append_button, key=lambda x: x.id)
 
         Utilities.saveChangesToDB(append_button)
-
-
-# This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
-# Create a list of 10 buttons
-# button_list = []  # Define the button_list variable
-# for i in range(1, 11):
-#     button = Utilities(
-#         id=i,
-#         root='',  # You can set root to an appropriate value
-#         title=f'My Button {i}',
-#         domain=f'Domain {i}',
-#         username=f'User {i}',
-#         domain_controller=f'Controller {i}'
-#     )
-#     print(button.title)
-#     button_list.append(button)
-#     Utilities.saveChangesToDB(button_list)
