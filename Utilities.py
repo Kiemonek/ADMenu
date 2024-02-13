@@ -38,76 +38,7 @@ class Utilities:
 
     def addButton(frame):
 
-        Utilities.clear_frame(frame)
-
-        entry_list = [
-            "LabelName",
-            "title",
-            "LabelDomain",
-            "domain",
-            "LabelUsername",
-            "username",
-            "LabelServer",
-            "domain_controller",
-        ]
-
-        entry_dict = {}
-
-        for item in entry_list:
-
-            def showItems(item):
-                if item[0:5] == "Label":
-                    entry_dict[item] = Label(frame, text=item + ":")
-                else:
-                    entry_dict[item] = Entry(frame)
-                    entry_dict[item].insert(0, "test " + item)
-
-                return entry_dict[item].pack()
-
-            showItems(item)
-
-        def getEntries(entry_list=entry_list, entry_dict=entry_dict):
-            entry_data = {}
-            for item in entry_list:
-                if not item[0:5] == "Label":
-                    entry_data[item] = entry_dict[item].get()
-            return entry_data
-
-        save_button = Button(
-            frame,
-            text="SAVE",
-            command=lambda:
-            [Utilities.saveButton(getEntries()),
-             Utilities.mainFrame(frame)])
-        save_button.pack()
-
-        Utilities.backButton(frame)
-
-    def saveButton(entry_data):
-
-        append_button = Utilities.getButtonList()
-
-        new_title = entry_data["title"]
-        new_domain = entry_data["domain"]
-        new_username = entry_data["username"]
-        new_domain_controller = entry_data["domain_controller"]
-
-        # Generate a unique id for the button
-        if append_button:
-            max_id = max(button.id for button in append_button)
-            button_id = max_id + 1
-        else:
-            button_id = 0
-
-        button = Utilities(id=button_id,
-                           root='',
-                           title=new_title,
-                           domain=new_domain,
-                           username=new_username,
-                           domain_controller=new_domain_controller)
-        append_button.append(button)
-
-        Utilities.addButtonsToDB(append_button)
+        Utilities.buttonDetails(frame)
 
 # NOTE: Remove Button Frame
 
@@ -124,90 +55,6 @@ class Utilities:
         Utilities.showButtonList(frame, "mod")
 
         Utilities.backButton(frame)
-
-    def buttonDetails(frame, button_id):
-
-        Utilities.clear_frame(frame)
-
-        entry_dict = {
-            "LabelName": Label(frame, text="Name:"),
-            "title": Entry(frame),
-            "LabelDomain": Label(frame, text="Domain:"),
-            "domain": Entry(frame),
-            "LabelUsername": Label(frame, text="Login:"),
-            "username": Entry(frame),
-            "LabelServer": Label(frame, text="Domain Controller:"),
-            "domain_controller": Entry(frame),
-        }
-
-        for item in entry_dict:
-
-            def showItems(item):
-                if not item[0:5] == "Label":
-                    entry_dict[item].insert(0, "test " + item)
-
-                return entry_dict[item].pack()
-
-            showItems(item)
-
-        current_data = Utilities.getButtonList()
-        data_list = ["title", "domain", "username", "domain_controller"]
-        button = [button for button in current_data if button.id == button_id]
-
-        for items in entry_dict:
-            if not items[0:5] == "Label":
-                for item in data_list:
-
-                    def test(items, item):
-                        entry_dict[items].delete(0, END)
-                        entry_dict[items].insert(0, button.item)
-
-                    return entry_dict[items].pack()
-
-        test(items, item)
-
-        def getEntries(entry_dict=entry_dict):
-            entry_data = {}
-            for item in entry_dict:
-                if not item[0:5] == "Label":
-                    entry_data[item] = entry_dict[item].get()
-            return entry_data
-
-        # save_button = Button(
-        #     frame,
-        #     text="SAVE",
-        #     command=lambda:
-        #     [Utilities.saveButton(getEntries()),
-        #      Utilities.mainFrame(frame)])
-        # save_button.pack()
-
-        Utilities.backButton(frame)
-
-    def saveButton(entry_data):
-
-        append_button = Utilities.getButtonList()
-
-        new_title = entry_data["title"]
-        new_domain = entry_data["domain"]
-        new_username = entry_data["username"]
-        new_domain_controller = entry_data["domain_controller"]
-
-        # Generate a unique id for the button
-        if append_button:
-            max_id = max(button.id for button in append_button)
-            button_id = max_id + 1
-        else:
-            button_id = 0
-
-        button = Utilities(id=button_id,
-                           root='',
-                           title=new_title,
-                           domain=new_domain,
-                           username=new_username,
-                           domain_controller=new_domain_controller)
-        append_button.append(button)
-
-        Utilities.addButtonsToDB(append_button)
 
 #NOTE: JSON Functions
 
@@ -273,7 +120,7 @@ class Utilities:
 
 # NOTE: Database Functions
 
-    def addButtonsToDB(button_list):
+    def saveChangesToDB(button_list):
 
         # Convert the list of buttons to JSON
         jsonStr = Utilities.listToJson(button_list)
@@ -286,8 +133,6 @@ class Utilities:
             # Use indent=4 for pretty formatting
             json.dump(json.loads(jsonStr), file, indent=4)
 
-        print(f'Saved {len(button_list)}th button to {filename}')
-
     def removeButtonFromDB(frame, button_id):
         filename = "BD.json"
         with open(filename, 'r') as f:
@@ -299,19 +144,6 @@ class Utilities:
             json.dump(data, f, indent=4)
 
         Utilities.removeButton(frame)
-
-    def modifyButtonFromDB(frame, button_id):
-
-        filename = "BD.json"
-
-        with open(filename, 'r') as f:
-            data = json.load(f)
-
-        buttonData = [button for button in data if button['id'] == button_id]
-
-        print(buttonData)
-
-        Utilities.modifyButtons(frame)
 
 # NOTE: Utility Functions
 
@@ -356,6 +188,66 @@ class Utilities:
             button = Button(frame, text=items.title, command=onPressed)
             button.pack()
 
+    def buttonDetails(frame, button_id=None):
+
+        Utilities.clear_frame(frame)
+
+        entry_dict = {
+            "LabelName": Label(frame, text="Name:"),
+            "title": Entry(frame),
+            "LabelDomain": Label(frame, text="Domain:"),
+            "domain": Entry(frame),
+            "LabelUsername": Label(frame, text="Login:"),
+            "username": Entry(frame),
+            "LabelServer": Label(frame, text="Domain Controller:"),
+            "domain_controller": Entry(frame),
+        }
+        if button_id is None:
+
+            entry_dict["title"].insert(0, "Company A")
+            entry_dict["domain"].insert(0, "companya.com")
+            entry_dict["username"].insert(0, "user1")
+            entry_dict["domain_controller"].insert(0, "192.168.21.37")
+
+        else:
+            current_data = Utilities.getButtonList()
+            for items in current_data:
+                if items.id == button_id:
+                    button_data = {
+                        "title": items.title,
+                        "domain": items.domain,
+                        "username": items.username,
+                        "domain_controller": items.domain_controller,
+                    }
+
+            entry_dict["title"].insert(0, button_data["title"])
+            entry_dict["domain"].insert(0, button_data["domain"])
+            entry_dict["username"].insert(0, button_data["username"])
+            entry_dict["domain_controller"].insert(
+                0, button_data["domain_controller"])
+
+        for item in entry_dict:
+            entry_dict[item].pack()
+
+        def getEntries(entry_dict=entry_dict):
+            entry_data = {}
+            for item in entry_dict:
+                if not item[0:5] == "Label":
+                    entry_data[item] = entry_dict[item].get()
+            return entry_data
+
+        save_button = Button(frame,
+                             text="SAVE",
+                             command=lambda: [
+                                 Utilities.saveButton(
+                                     getEntries(), button_id
+                                     if button_id is not None else None),
+                                 Utilities.modifyButtons(frame)
+                             ])
+        save_button.pack()
+
+        Utilities.backButton(frame)
+
     def clear_frame(frame):
         for widgets in frame.winfo_children():
             widgets.destroy()
@@ -366,6 +258,40 @@ class Utilities:
                              text="FUCK GO BACK",
                              command=lambda: [Utilities.mainFrame(frame)])
         exit_button.pack()
+
+    def saveButton(entry_data, button_id=None):
+        if button_id is None:
+            append_button = Utilities.getButtonList()
+        else:
+            current_data = Utilities.getButtonList()
+            append_button = [
+                button for button in current_data if not button.id == button_id
+            ]
+
+        new_title = entry_data["title"]
+        new_domain = entry_data["domain"]
+        new_username = entry_data["username"]
+        new_domain_controller = entry_data["domain_controller"]
+
+        # Generate a unique id for the button
+        if button_id is None:
+            max_id = max(button.id for button in append_button)
+            button_id = max_id + 1
+        elif button_id is not None:
+            button_id = button_id
+        else:
+            button_id = 0
+
+        button = Utilities(id=button_id,
+                           root='',
+                           title=new_title,
+                           domain=new_domain,
+                           username=new_username,
+                           domain_controller=new_domain_controller)
+        append_button.append(button)
+        append_button = sorted(append_button, key=lambda x: x.id)
+
+        Utilities.saveChangesToDB(append_button)
 
 
 # This code will create a list of 10 buttons, convert them to JSON, and save them to a file named file.json.
@@ -382,4 +308,4 @@ class Utilities:
 #     )
 #     print(button.title)
 #     button_list.append(button)
-#     Utilities.addButtonsToDB(button_list)
+#     Utilities.saveChangesToDB(button_list)
