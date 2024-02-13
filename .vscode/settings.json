@@ -1,8 +1,12 @@
 {
     "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
+        "editor.formatOnSaveMode": "file",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "eeyore.yapf",
+        "editor.formatOnType": false
     },
-    "python.formatting.provider": "none",
+    "python.languageServer": "Pylance",
+    
     "todo-tree.highlights.defaultHighlight": {
         "icon": "alert",
         "type": "text-and-comment",
@@ -64,4 +68,9 @@
         "[x]"
     ],
     "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*-\\s*)\\s*($TAGS)|($TAGS)",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": null,
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
