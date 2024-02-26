@@ -1,11 +1,12 @@
 import json
 import os
 from tkinter import *
+import tkinter as tk
 from tkinter.ttk import *
 
 
 class Utilities:
-    # Button dashboard initializer
+
     def __init__(self, id, root, title, domain, username, domain_controller):
         self.id = id
         self.root = root
@@ -16,25 +17,35 @@ class Utilities:
 
 # NOTE: Main Frame
 
-    def mainFrame(frame):
+    def mainFrame(frame, bottomBar):
 
         Utilities.showButtonList(frame, "cmd")
 
-        # Usable Buttons
-        add_button = Button(frame,
-                            text="Add New Button",
-                            command=lambda: [Utilities.buttonDetails(frame)])
-        add_button.pack()
+        dsa_button = Button(
+            bottomBar,
+            text="Connect",
+            command=lambda: [Utilities.showButtonList(frame, "cmd")])
+        dsa_button.place(anchor='nw')
+
+        add_button = tk.Button(
+            bottomBar,
+            text="Add",
+            padx=90,
+            pady=20,
+            command=lambda: [Utilities.buttonDetails(frame)])
+        add_button.place(anchor='ne')
+
         mod_button = Button(
-            frame,
-            text="Modify Buttons",
+            bottomBar,
+            text="Modify",
             command=lambda: [Utilities.showButtonList(frame, "mod")])
-        mod_button.pack()
+        mod_button.place(anchor='sw')
+
         rem_button = Button(
-            frame,
-            text="Remove Button",
+            bottomBar,
+            text="Remove",
             command=lambda: [Utilities.showButtonList(frame, "rm")])
-        rem_button.pack()
+        rem_button.place(anchor='se')
 
 #NOTE: JSON Functions
 
@@ -102,15 +113,10 @@ class Utilities:
 
     def saveChangesToDB(button_list):
 
-        # Convert the list of buttons to JSON
         jsonStr = Utilities.listToJson(button_list)
-
-        # Specify the filename where you want to save the JSON data
         filename = 'BD.json'
 
-        # Open the file in write mode and save the JSON data
         with open(filename, 'w') as file:
-            # Use indent=4 for pretty formatting
             json.dump(json.loads(jsonStr), file, indent=4)
 
     def removeButtonFromDB(frame, button_id):
@@ -119,7 +125,7 @@ class Utilities:
             data = json.load(f)
 
         data = [button for button in data if button['id'] != button_id]
-        # Write the data back to the file
+
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
 
@@ -127,8 +133,6 @@ class Utilities:
 
 
 # NOTE: Utility Functions
-
-# Return list of available buttons
 
     def getButtonList():
         filename = "BD.json"
@@ -149,9 +153,18 @@ class Utilities:
 
     def showButtonList(frame, option):
         Utilities.clear_frame(frame)
-        # Implement list from json
-        button_list = Utilities.getButtonList()
 
+        if option == "rm":
+            text = "Choose and press button to remove"
+        elif option == "mod":
+            text = "Choose and press button to modify"
+        elif option == "cmd":
+            text = "Choose and press button to connect dsa"
+
+        label = Label(frame, text=text)
+        label.pack(side=TOP, fill=BOTH, expand=True)
+
+        button_list = Utilities.getButtonList()
         for items in button_list:
 
             def onPressed(x=items):
@@ -168,12 +181,17 @@ class Utilities:
 
             button = Button(frame, text=items.title, command=onPressed)
             button.pack()
-        if not option == "cmd":
-            Utilities.backButton(frame)
 
     def buttonDetails(frame, button_id=None):
 
         Utilities.clear_frame(frame)
+        if button_id is None:
+            text = "Add New Button"
+        else:
+            text = "Modify Button"
+
+        label = Label(frame, text=text)
+        label.pack(anchor=CENTER, fill=BOTH, expand=True)
 
         entry_dict = {
             "LabelName": Label(frame, text="Name:"),
@@ -229,18 +247,9 @@ class Utilities:
                              ])
         save_button.pack()
 
-        Utilities.backButton(frame)
-
     def clear_frame(frame):
         for widgets in frame.winfo_children():
             widgets.destroy()
-
-    def backButton(frame):
-
-        exit_button = Button(frame,
-                             text="FUCK GO BACK",
-                             command=lambda: [Utilities.mainFrame(frame)])
-        exit_button.pack()
 
     def saveButton(entry_data, button_id=None):
         if button_id is None:
