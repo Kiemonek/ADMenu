@@ -21,31 +21,37 @@ class Utilities:
 
         Utilities.showButtonList(frame, "cmd")
 
-        dsa_button = Button(
+        dsa_button = tk.Button(
             bottomBar,
-            text="Connect",
+            text="CONNECT",
+            width=30,
+            height=2,
             command=lambda: [Utilities.showButtonList(frame, "cmd")])
-        dsa_button.place(anchor='nw')
+        dsa_button.place(anchor='se', relx=0.46, rely=0.45)
 
         add_button = tk.Button(
             bottomBar,
-            text="Add",
-            padx=90,
-            pady=20,
+            text="ADD",
+            width=30,
+            height=2,
             command=lambda: [Utilities.buttonDetails(frame)])
-        add_button.place(anchor='ne')
+        add_button.place(anchor='sw', relx=0.54, rely=0.45)
 
-        mod_button = Button(
+        mod_button = tk.Button(
             bottomBar,
-            text="Modify",
+            text="MODIFY",
+            width=30,
+            height=2,
             command=lambda: [Utilities.showButtonList(frame, "mod")])
-        mod_button.place(anchor='sw')
+        mod_button.place(anchor='ne', relx=0.46, rely=0.55)
 
-        rem_button = Button(
+        rem_button = tk.Button(
             bottomBar,
-            text="Remove",
+            text="REMOVE",
+            width=30,
+            height=2,
             command=lambda: [Utilities.showButtonList(frame, "rm")])
-        rem_button.place(anchor='se')
+        rem_button.place(anchor='nw', relx=0.54, rely=0.55)
 
 #NOTE: JSON Functions
 
