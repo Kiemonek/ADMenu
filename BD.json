@@ -42,13 +42,6 @@
         "domain_controller": "Controller 6"
     },
     {
-        "id": 7,
-        "title": "AMy Button 7",
-        "domain": "ADomain 7",
-        "username": "User 7",
-        "domain_controller": "Controller 7"
-    },
-    {
         "id": 9,
         "title": "Company A",
         "domain": "companya.com",

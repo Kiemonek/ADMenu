@@ -24,34 +24,66 @@ class Utilities:
         dsa_button = tk.Button(
             bottomBar,
             text="CONNECT",
-            width=30,
-            height=2,
+            bg='#1E1E1E',
+            fg='#838383',
+            font=("Microsoft YaHei", 12, "bold"),
+            activebackground='#838383',
             command=lambda: [Utilities.showButtonList(frame, "cmd")])
-        dsa_button.place(anchor='se', relx=0.46, rely=0.45)
+        dsa_button.place(relwidth=0.23,
+                         relheight=0.7,
+                         anchor='n',
+                         relx=0.125,
+                         rely=0.15)
 
         add_button = tk.Button(
             bottomBar,
             text="ADD",
-            width=30,
-            height=2,
+            bg='#1E1E1E',
+            fg='#838383',
+            font=("Microsoft YaHei", 12, "bold"),
+            activebackground='#838383',
             command=lambda: [Utilities.buttonDetails(frame)])
-        add_button.place(anchor='sw', relx=0.54, rely=0.45)
+        add_button.place(relwidth=0.23,
+                         relheight=0.7,
+                         anchor='n',
+                         relx=0.375,
+                         rely=0.15)
+
+        # mod_img = PhotoImage(file='assets/xd.png')
+
+        # mod_button = tk.Button(
+        #     bottomBar,
+        #     image=mod_img,
+        #     command=lambda: [Utilities.showButtonList(frame, "mod")])
 
         mod_button = tk.Button(
             bottomBar,
             text="MODIFY",
-            width=30,
-            height=2,
+            bg='#1E1E1E',
+            fg='#838383',
+            font=("Microsoft YaHei", 12, "bold"),
+            activebackground='#838383',
             command=lambda: [Utilities.showButtonList(frame, "mod")])
-        mod_button.place(anchor='ne', relx=0.46, rely=0.55)
+
+        mod_button.place(relwidth=0.23,
+                         relheight=0.7,
+                         anchor='n',
+                         relx=0.625,
+                         rely=0.15)
 
         rem_button = tk.Button(
             bottomBar,
             text="REMOVE",
-            width=30,
-            height=2,
+            bg='#1E1E1E',
+            fg='#838383',
+            font=("Microsoft YaHei", 12, "bold"),
+            activebackground='#838383',
             command=lambda: [Utilities.showButtonList(frame, "rm")])
-        rem_button.place(anchor='nw', relx=0.54, rely=0.55)
+        rem_button.place(relwidth=0.23,
+                         relheight=0.7,
+                         anchor='n',
+                         relx=0.875,
+                         rely=0.15)
 
 #NOTE: JSON Functions
 
@@ -167,8 +199,12 @@ class Utilities:
         elif option == "cmd":
             text = "Choose and press button to connect dsa"
 
-        label = tk.Label(frame, text=text)
-        label.place(relwidth=1, relx=0.5, anchor="n")
+        label = tk.Label(frame,
+                         text=text,
+                         fg='#838383',
+                         bg='#1E1E1E',
+                         font=("Microsoft YaHei", 12, "bold"))
+        label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
         button_list = Utilities.getButtonList()
         for items in button_list:
@@ -190,7 +226,10 @@ class Utilities:
                 text=items.title,
                 command=onPressed,
             )
-            button.place(width=80, height=40, relx=0.5, rely=0.1)
+            button.place(width=80,
+                         height=40,
+                         relx=0.5,
+                         rely=0.1 + (float(items.id) / 10))
 
     def buttonDetails(frame, button_id=None):
 
@@ -200,8 +239,12 @@ class Utilities:
         else:
             text = "Modify Button"
 
-        label = tk.Label(frame, text=text)
-        label.place(relwidth=1, relx=0.5, anchor="n")
+        label = tk.Label(frame,
+                         text=text,
+                         fg='#838383',
+                         bg='#1E1E1E',
+                         font=("Microsoft YaHei", 12, "bold"))
+        label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
         entry_dict = {
             "LabelName": Label(frame, text="Name:"),
@@ -236,7 +279,7 @@ class Utilities:
             entry_dict["username"].insert(0, button_data["username"])
             entry_dict["domain_controller"].insert(
                 0, button_data["domain_controller"])
-        len(entry_dict)
+
         for item in entry_dict:
             entry_dict[item].place()
 
