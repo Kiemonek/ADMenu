@@ -167,8 +167,8 @@ class Utilities:
         elif option == "cmd":
             text = "Choose and press button to connect dsa"
 
-        label = Label(frame, text=text)
-        label.pack(side=TOP, fill=BOTH, expand=True)
+        label = tk.Label(frame, text=text)
+        label.place(relwidth=1, relx=0.5, anchor="n")
 
         button_list = Utilities.getButtonList()
         for items in button_list:
@@ -185,8 +185,12 @@ class Utilities:
                 else:
                     print("Error: Option not found")
 
-            button = Button(frame, text=items.title, command=onPressed)
-            button.pack()
+            button = tk.Button(
+                frame,
+                text=items.title,
+                command=onPressed,
+            )
+            button.place(width=80, height=40, relx=0.5, rely=0.1)
 
     def buttonDetails(frame, button_id=None):
 
@@ -196,8 +200,8 @@ class Utilities:
         else:
             text = "Modify Button"
 
-        label = Label(frame, text=text)
-        label.pack(anchor=CENTER, fill=BOTH, expand=True)
+        label = tk.Label(frame, text=text)
+        label.place(relwidth=1, relx=0.5, anchor="n")
 
         entry_dict = {
             "LabelName": Label(frame, text="Name:"),
@@ -232,9 +236,9 @@ class Utilities:
             entry_dict["username"].insert(0, button_data["username"])
             entry_dict["domain_controller"].insert(
                 0, button_data["domain_controller"])
-
+        len(entry_dict)
         for item in entry_dict:
-            entry_dict[item].pack()
+            entry_dict[item].place()
 
         def getEntries(entry_dict=entry_dict):
             entry_data = {}
@@ -251,7 +255,7 @@ class Utilities:
                                      if button_id is not None else None),
                                  Utilities.mainFrame(frame)
                              ])
-        save_button.pack()
+        save_button.place()
 
     def clear_frame(frame):
         for widgets in frame.winfo_children():
