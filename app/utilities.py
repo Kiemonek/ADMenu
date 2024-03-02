@@ -1,14 +1,15 @@
+"""A module for the utilities of the application."""
 import json
-import os
-from tkinter import *
+# import os
 import tkinter as tk
-from tkinter.ttk import *
 
 
 class Utilities:
+    """A class to represent the utilities of the application."""
 
-    def __init__(self, id, root, title, domain, username, domain_controller):
-        self.id = id
+    def __init__(self, id_button, root, title, domain, username,
+                 domain_controller):
+        self.id_button = id_button
         self.root = root
         self.title = title
         self.domain = domain
@@ -17,18 +18,18 @@ class Utilities:
 
 # NOTE: Main Frame
 
-    def mainFrame(frame, bottomBar):
+    def main_frame(frame, bottom_bar):
 
-        Utilities.showButtonList(frame, "cmd")
+        Utilities.show_button_list(frame, "cmd")
 
         dsa_button = tk.Button(
-            bottomBar,
+            bottom_bar,
             text="CONNECT",
             bg='#1E1E1E',
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [Utilities.showButtonList(frame, "cmd")])
+            command=lambda: [Utilities.show_button_list(frame, "cmd")])
         dsa_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',
@@ -36,7 +37,7 @@ class Utilities:
                          rely=0.15)
 
         add_button = tk.Button(
-            bottomBar,
+            bottom_bar,
             text="ADD",
             bg='#1E1E1E',
             fg='#838383',
@@ -52,18 +53,18 @@ class Utilities:
         # mod_img = PhotoImage(file='assets/xd.png')
 
         # mod_button = tk.Button(
-        #     bottomBar,
+        #     bottom_bar,
         #     image=mod_img,
-        #     command=lambda: [Utilities.showButtonList(frame, "mod")])
+        #     command=lambda: [Utilities.show_button_list(frame, "mod")])
 
         mod_button = tk.Button(
-            bottomBar,
+            bottom_bar,
             text="MODIFY",
             bg='#1E1E1E',
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [Utilities.showButtonList(frame, "mod")])
+            command=lambda: [Utilities.show_button_list(frame, "mod")])
 
         mod_button.place(relwidth=0.23,
                          relheight=0.7,
@@ -72,13 +73,13 @@ class Utilities:
                          rely=0.15)
 
         rem_button = tk.Button(
-            bottomBar,
+            bottom_bar,
             text="REMOVE",
             bg='#1E1E1E',
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [Utilities.showButtonList(frame, "rm")])
+            command=lambda: [Utilities.show_button_list(frame, "rm")])
         rem_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',
@@ -88,13 +89,13 @@ class Utilities:
 #NOTE: JSON Functions
 
     @staticmethod
-    def listToJson(button_list):
+    def list_to_json(button_list):
         # Create a list to store the JSON representations of buttons
         json_button_list = []
         for button in button_list:
             # Create a dictionary with the relevant attributes
             button_dict = {
-                "id": button.id,
+                "id_button": button.id_button,
                 "title": button.title,
                 "domain": button.domain,
                 "username": button.username,
@@ -108,7 +109,7 @@ class Utilities:
     def toJson(self):
         # Create a dictionary with the relevant attributes
         button_dict = {
-            "id": self.id,
+            "id_button": self.id_button,
             "title": self.title,
             "domain": self.domain,
             "username": self.username,
@@ -126,7 +127,7 @@ class Utilities:
         button_list = []
         for button_dict in json_button_list:
             button = Utilities(
-                id=button_dict["id"],
+                id_button=button_dict["id_button"],
                 root=None,
                 title=button_dict["title"],
                 domain=button_dict["domain"],
@@ -140,7 +141,7 @@ class Utilities:
         # Parse the JSON string into a dictionary
         button_dict = json.loads(jsonStr)
         # Create a new Utilities instance using the dictionary values
-        return cls(id=button_dict["id"],
+        return cls(id_button=button_dict["id_button"],
                    root=None,
                    title=button_dict["title"],
                    domain=button_dict["domain"],
@@ -151,7 +152,7 @@ class Utilities:
 
     def saveChangesToDB(button_list):
 
-        jsonStr = Utilities.listToJson(button_list)
+        jsonStr = Utilities.list_to_json(button_list)
         filename = 'BD.json'
 
         with open(filename, 'w') as file:
@@ -162,12 +163,12 @@ class Utilities:
         with open(filename, 'r') as f:
             data = json.load(f)
 
-        data = [button for button in data if button['id'] != button_id]
+        data = [button for button in data if button['id_button'] != button_id]
 
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
 
-        Utilities.showButtonList(frame, "rm")
+        Utilities.show_button_list(frame, "rm")
 
 
 # NOTE: Utility Functions
@@ -179,7 +180,7 @@ class Utilities:
 
         button_list = []
         for item in data:
-            button = Utilities(id=item['id'],
+            button = Utilities(id_button=item['id_button'],
                                root=None,
                                title=item['title'],
                                domain=item['domain'],
@@ -189,7 +190,7 @@ class Utilities:
         database.close()
         return button_list
 
-    def showButtonList(frame, option):
+    def show_button_list(frame, option):
         Utilities.clear_frame(frame)
 
         if option == "rm":
@@ -211,9 +212,9 @@ class Utilities:
 
             def onPressed(x=items):
                 if option == "rm":
-                    return Utilities.removeButtonFromDB(frame, x.id)
+                    return Utilities.removeButtonFromDB(frame, x.id_button)
                 elif option == "mod":
-                    return Utilities.buttonDetails(frame, x.id)
+                    return Utilities.buttonDetails(frame, x.id_button)
                 elif option == "cmd":
                     print('runas /netonly /user:' + x.domain + "\\" +
                           x.username + ' "mmc dsa.msc /server=' +
@@ -229,7 +230,7 @@ class Utilities:
             button.place(width=80,
                          height=40,
                          relx=0.5,
-                         rely=0.1 + (float(items.id) / 10))
+                         rely=0.1 + (float(items.id_button) / 10))
 
     def buttonDetails(frame, button_id=None):
 
@@ -266,7 +267,7 @@ class Utilities:
         else:
             current_data = Utilities.getButtonList()
             for items in current_data:
-                if items.id == button_id:
+                if items.id_button == button_id:
                     button_data = {
                         "title": items.title,
                         "domain": items.domain,
@@ -296,7 +297,7 @@ class Utilities:
                                  Utilities.saveButton(
                                      getEntries(), button_id
                                      if button_id is not None else None),
-                                 Utilities.mainFrame(frame)
+                                 Utilities.main_frame(frame)
                              ])
         save_button.place()
 
@@ -310,7 +311,8 @@ class Utilities:
         else:
             current_data = Utilities.getButtonList()
             append_button = [
-                button for button in current_data if not button.id == button_id
+                button for button in current_data
+                if not button.id_button == button_id
             ]
 
         new_title = entry_data["title"]
@@ -318,22 +320,22 @@ class Utilities:
         new_username = entry_data["username"]
         new_domain_controller = entry_data["domain_controller"]
 
-        # Generate a unique id for the button
+        # Generate a unique id_button for the button
         if button_id is None:
-            max_id = max(button.id for button in append_button)
+            max_id = max(button.id_button for button in append_button)
             button_id = max_id + 1
         elif button_id is not None:
             button_id = button_id
         else:
             button_id = 0
 
-        button = Utilities(id=button_id,
+        button = Utilities(id_button=button_id,
                            root='',
                            title=new_title,
                            domain=new_domain,
                            username=new_username,
                            domain_controller=new_domain_controller)
         append_button.append(button)
-        append_button = sorted(append_button, key=lambda x: x.id)
+        append_button = sorted(append_button, key=lambda x: x.id_button)
 
         Utilities.saveChangesToDB(append_button)
