@@ -1,15 +1,12 @@
 """This module creates the bottom bar of the application with buttons to interact."""
 import tkinter as tk
-
-from app.utilities import util
+from app.utilities import Utilities as util
 
 
 class BottomBar:
     """This class creates the bottom bar of the application with buttons to interact."""
 
     def __init__(self, frame, bottom_bar):
-
-        util.show_button_list(frame, "cmd")
 
         dsa_button = tk.Button(
             bottom_bar,

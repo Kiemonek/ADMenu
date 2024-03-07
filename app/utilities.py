@@ -18,6 +18,9 @@ class Utilities:
 
 # NOTE: Main Frame
 
+    def main_frame(self, frame):
+
+        Utilities.show_button_list(frame, "cmd")
 #NOTE: JSON Functions
 
     @staticmethod
