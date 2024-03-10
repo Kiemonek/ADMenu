@@ -1,7 +1,7 @@
 """This module creates the bottom bar of the application with buttons to interact."""
 import tkinter as tk
-from app.utilities import Utilities as util
-from app.button_details import ButtonDetails as details
+from app.button_details import ButtonDetails as dt
+from app.show_buttons import ShowButtons as shb
 
 
 class BottomBar:
@@ -21,7 +21,7 @@ class BottomBar:
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [util.show_button_list(top_frame, "cmd")])
+            command=lambda: [shb.show_button_list(self, top_frame, "cmd")])
         dsa_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',
@@ -35,7 +35,7 @@ class BottomBar:
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [details.button_details(top_frame, None)])
+            command=lambda: [dt.button_details(self, top_frame, None)])
         add_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',
@@ -49,7 +49,7 @@ class BottomBar:
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [util.show_button_list(top_frame, "mod")])
+            command=lambda: [shb.show_button_list(self, top_frame, "mod")])
 
         mod_button.place(relwidth=0.23,
                          relheight=0.7,
@@ -64,7 +64,7 @@ class BottomBar:
             fg='#838383',
             font=("Microsoft YaHei", 12, "bold"),
             activebackground='#838383',
-            command=lambda: [util.show_button_list(top_frame, "rm")])
+            command=lambda: [shb.show_button_list(self, top_frame, "rm")])
         rem_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',

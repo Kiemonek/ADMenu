@@ -1,26 +1,29 @@
-"""This module creates the button details frame. It is used to add or modify a button."""
+"""This module creates the button details top_frame. It is used to add or modify a button."""
 import tkinter as tk
-from tkinter import Entry, Label
-from app.utilities import Utilities
+from tkinter import Entry, Label, Button
+from app.save_button import SaveButton as svb
+from app.get_buttons import GetButtons as gb
+from app.clear_frame import ClearFrame as cf
 
 
 class ButtonDetails:
-    """This class creates the button details frame. It is used to add or modify a button."""
+    """This class creates the button details top_frame. It is used to add or modify a button."""
 
     def __init__(self, top_frame, button_id=None):
-        self.frame = top_frame
+        self.top_frame = top_frame
         self.button_id = button_id
 
-    def button_details(self, frame, button_id=None):
-        """This method creates the button details frame. It is used to add or modify a button."""
-        Utilities.clear_frame(frame)
+    #FIXME: This is not working
+    def button_details(self, top_frame, button_id=None):
+        """This method creates the buttun top_frame. It is used to add or modify a button."""
+        cf.clear_frame(self, top_frame)
 
         if button_id is None:
             text = "Add New Button"
         else:
             text = "Modify Button"
 
-        label = tk.Label(frame,
+        label = tk.Label(top_frame,
                          text=text,
                          fg='#838383',
                          bg='#1E1E1E',
@@ -28,14 +31,14 @@ class ButtonDetails:
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
         entry_dict = {
-            "LabelName": Label(frame, text="Name:"),
-            "title": Entry(frame),
-            "LabelDomain": Label(frame, text="Domain:"),
-            "domain": Entry(frame),
-            "LabelUsername": Label(frame, text="Login:"),
-            "username": Entry(frame),
-            "LabelServer": Label(frame, text="Domain Controller:"),
-            "domain_controller": Entry(frame),
+            "LabelName": Label(top_frame, text="Name:"),
+            "title": Entry(top_frame),
+            "LabelDomain": Label(top_frame, text="Domain:"),
+            "domain": Entry(top_frame),
+            "LabelUsername": Label(top_frame, text="Login:"),
+            "username": Entry(top_frame),
+            "LabelServer": Label(top_frame, text="Domain Controller:"),
+            "domain_controller": Entry(top_frame),
         }
         if button_id is None:
 
@@ -45,7 +48,7 @@ class ButtonDetails:
             entry_dict["domain_controller"].insert(0, "192.168.21.37")
 
         else:
-            current_data = Utilities.getButtonList()
+            current_data = gb.get_button_list(self)
             for items in current_data:
                 if items.id_button == button_id:
                     button_data = {
@@ -62,4 +65,20 @@ class ButtonDetails:
                 0, button_data["domain_controller"])
 
         for item in entry_dict:
-            entry_dict[item].place()
+            entry_dict[item].place(relwidth=0.5, relheight=0.1, relx=0.25)
+
+        def get_entries(entry_dict):
+            entry_data = {}
+            for item in entry_dict:
+                if not item[0:5] == "Label":
+                    entry_data[item] = entry_dict[item].get()
+            return entry_data
+
+        save_button = Button(
+            top_frame,
+            text="SAVE",
+            command=lambda: [
+                svb.save_button(top_frame, get_entries(entry_dict), button_id
+                                if button_id is not None else None),
+            ])
+        save_button.place()

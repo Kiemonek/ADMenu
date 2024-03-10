@@ -1,3 +1,4 @@
+"""This module contains the JSONHelpers class."""
 import json
 
 
@@ -17,7 +18,7 @@ class JsonHelpers:
 
     @staticmethod
     def list_to_json(button_list):
-        # Create a list to store the JSON representations of buttons
+        """Create a list to store the JSON representations of buttons"""
         json_button_list = []
         for button in button_list:
             # Create a dictionary with the relevant attributes
@@ -30,11 +31,12 @@ class JsonHelpers:
             }
             json_button_list.append(button_dict)
         # Convert the list of dictionaries to a JSON string
-        jsonStr = json.dumps(json_button_list)
-        return jsonStr
+        json_string = json.dumps(json_button_list)
+        return json_string
 
     def to_json(self):
-        # Create a dictionary with the relevant attributes
+        """Create a dictionary with the relevant attributes"""
+
         button_dict = {
             "id_button": self.id_button,
             "title": self.title,
@@ -43,13 +45,13 @@ class JsonHelpers:
             "domain_controller": self.domain_controller
         }
         # Convert the dictionary to a JSON string
-        jsonStr = json.dumps(button_dict)
-        return jsonStr
+        json_string = json.dumps(button_dict)
+        return json_string
 
     @staticmethod
-    def list_from_json(jsonStr):
-        # Parse the JSON string into a list of dictionaries
-        json_button_list = json.loads(jsonStr)
+    def list_from_json(json_string):
+        """Parse the JSON string into a list of dictionaries"""
+        json_button_list = json.loads(json_string)
         # Create a list of Utilities instances from the dictionaries
         button_list = []
         for button_dict in json_button_list:
@@ -64,9 +66,9 @@ class JsonHelpers:
         return button_list
 
     @classmethod
-    def from_json(cls, jsonStr):
-        # Parse the JSON string into a dictionary
-        button_dict = json.loads(jsonStr)
+    def from_json(cls, json_string):
+        """Parse the JSON string into a dictionary"""
+        button_dict = json.loads(json_string)
         # Create a new Utilities instance using the dictionary values
         return cls(id_button=button_dict["id_button"],
                    root=None,
@@ -78,22 +80,21 @@ class JsonHelpers:
 
 # NOTE: Database Functions
 
-    def save_changes_to_db(button_list):
-
-        jsonStr = JsonHelpers.list_to_json(button_list)
+    def save_changes_to_db(self, button_list):
+        """Save the changes to the database"""
+        json_string = JsonHelpers.list_to_json(button_list)
         filename = 'BD.json'
 
-        with open(filename, 'w') as file:
-            json.dump(json.loads(jsonStr), file, indent=4)
+        with open(filename, 'w', encoding='UTF-8') as file:
+            json.dump(json.loads(json_string), file, indent=4)
 
-    def removeButtonFromDB(frame, button_id):
+    def remove_button_from_db(self, button_id):
+        """Remove a button from the database"""
         filename = "BD.json"
-        with open(filename, 'r') as f:
-            data = json.load(f)
+        with open(filename, 'r', encoding='UTF-8') as file:
+            data = json.load(file)
 
-        data = [button for button in data if button['id_button'] != button_id]
+        data = [button for button in data if button['id'] != button_id]
 
-        with open(filename, 'w') as f:
-            json.dump(data, f, indent=4)
-
-        Utilities.show_button_list(frame, "rm")
+        with open(filename, 'w', encoding='UTF-8') as file:
+            json.dump(data, file, indent=4)

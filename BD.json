@@ -21,13 +21,6 @@
         "domain_controller": "Controller 3"
     },
     {
-        "id": 4,
-        "title": "My Button 4",
-        "domain": "Domain 4",
-        "username": "User 4",
-        "domain_controller": "Controller 4"
-    },
-    {
         "id": 5,
         "title": "My Button 5",
         "domain": "Domain 5",
@@ -35,17 +28,17 @@
         "domain_controller": "Controller 5"
     },
     {
-        "id": 6,
-        "title": "My Button 6",
-        "domain": "Domain 6",
-        "username": "User 6",
-        "domain_controller": "Controller 6"
+        "id": 7,
+        "title": "My Button 7",
+        "domain": "Domain 7",
+        "username": "User 7",
+        "domain_controller": "Controller 7"
     },
     {
         "id": 9,
-        "title": "Company A",
-        "domain": "companya.com",
-        "username": "user1",
-        "domain_controller": "192.168.21.37"
+        "title": "My Button 9",
+        "domain": "Domain 9",
+        "username": "User 9",
+        "domain_controller": "Controller 9"
     }
 ]
