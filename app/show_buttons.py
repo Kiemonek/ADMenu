@@ -3,7 +3,7 @@ import tkinter as tk
 from app.button_details import ButtonDetails as dt
 from app.json_helpers import JsonHelpers as jh
 from app.get_buttons import GetButtons as gb
-from app.clear_frame import ClearFrame as cf
+from utilities.clear_frame import ClearFrame as cf
 
 
 class ShowButtons:
