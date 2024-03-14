@@ -13,7 +13,7 @@ class ButtonCreator:
 
     def create_button(self, frame, text, command):
         """This method creates a button."""
-        return tk.Button(frame=frame,
+        return tk.Button(frame,
                          text=text,
                          bg=cnst.BTN_BG_CLR,
                          fg=cnst.BTN_FG_CLR,
