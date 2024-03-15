@@ -1,7 +1,6 @@
 """A module for the utilities of the application."""
 from app.get_buttons import GetButtons as gb
 from database.json_helpers import JsonHelpers as jh
-# from app.show_buttons import ShowButtons as shb
 
 
 class SaveButton:
@@ -23,8 +22,12 @@ class SaveButton:
         else:
             current_data = gb.get_button_list(self)
             append_button = [
-                button for button in current_data if not button.id == button_id
+                button for button in current_data
+                if not button.id_button == button_id
             ]
+
+        for i, button in enumerate(append_button):
+            button.id_button = i
 
         new_title = entry_data["title"]
         new_domain = entry_data["domain"]
@@ -43,7 +46,8 @@ class SaveButton:
                             username=new_username,
                             domain_controller=new_domain_controller)
         append_button.append(button)
-        append_button = sorted(append_button, key=lambda x: x.id_button)
 
+        append_button = sorted(append_button, key=lambda x: x.id_button)
+        #TODO: Add communication with result
         jh.save_changes_to_db(self, button_list=append_button)
         # shb.show_button_list(self, top_frame, "cmd")
