@@ -1,44 +1,51 @@
 [
     {
-        "id": 1,
+        "id_button": 1,
         "title": "My Button 1",
         "domain": "Domain 1",
         "username": "User 1",
         "domain_controller": "Controller 1"
     },
     {
-        "id": 2,
+        "id_button": 2,
         "title": "My Button 2",
         "domain": "Domain 2",
         "username": "User 2",
         "domain_controller": "Controller 2"
     },
     {
-        "id": 3,
+        "id_button": 3,
         "title": "My Button 3",
         "domain": "Domain 3",
         "username": "User 3",
         "domain_controller": "Controller 3"
     },
     {
-        "id": 5,
+        "id_button": 5,
         "title": "My Button 5",
         "domain": "Domain 5",
         "username": "User 5",
         "domain_controller": "Controller 5"
     },
     {
-        "id": 7,
+        "id_button": 7,
         "title": "My Button 7",
         "domain": "Domain 7",
         "username": "User 7",
         "domain_controller": "Controller 7"
     },
     {
-        "id": 9,
+        "id_button": 9,
         "title": "My Button 9",
         "domain": "Domain 9",
         "username": "User 9",
         "domain_controller": "Controller 9"
+    },
+    {
+        "id_button": 10,
+        "title": "Company A",
+        "domain": "companya.com",
+        "username": "user1",
+        "domain_controller": "192.168.21.37"
     }
 ]

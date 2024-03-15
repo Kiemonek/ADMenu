@@ -25,7 +25,7 @@ class GetButtons:
 
         button_list = []
         for item in data:
-            button = GetButtons(id_button=item['id'],
+            button = GetButtons(id_button=item['id_button'],
                                 root=None,
                                 title=item['title'],
                                 domain=item['domain'],

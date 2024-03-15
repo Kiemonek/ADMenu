@@ -4,7 +4,7 @@ from tkinter import Entry, Label
 from app.save_button import SaveButton as svb
 from app.get_buttons import GetButtons as gb
 from utilities.clear_frame import ClearFrame as cf
-from utilities.button_creator import ButtonCreator as bc
+from creators.button_creator import ButtonCreator as bc
 import app.constants as cons
 
 
@@ -15,7 +15,6 @@ class ButtonDetails:
         self.top_frame = top_frame
         self.button_id = button_id
 
-    #FIXME: This is not working
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""
         cf.clear_frame(self, top_frame)
@@ -102,10 +101,10 @@ class ButtonDetails:
 
             return entry_data
 
+        button_id = button_id if button_id is not None else None
         save_button = bc.create_button(
             self, top_frame, "SAVE", lambda: [
-                svb.save_button(top_frame, get_entries(entry_dict), button_id
-                                if button_id is not None else None),
+                svb.save_button(top_frame, get_entries(entry_dict), button_id),
                 ButtonDetails.button_details(self, top_frame)
             ])
         save_button.place(relx=0.5,

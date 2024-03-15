@@ -1,6 +1,6 @@
 """A module for the utilities of the application."""
 from app.get_buttons import GetButtons as gb
-from app.json_helpers import JsonHelpers as jh
+from database.json_helpers import JsonHelpers as jh
 # from app.show_buttons import ShowButtons as shb
 
 
@@ -33,7 +33,7 @@ class SaveButton:
 
         # Generate a unique id_button for the button
         if button_id is None:
-            max_id = max(button.id for button in append_button)
+            max_id = max(button.id_button for button in append_button)
             button_id = max_id + 1
 
         button = SaveButton(id_button=button_id,

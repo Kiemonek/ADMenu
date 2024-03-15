@@ -1,8 +1,8 @@
 """This module is used to show the buttons in the main frame."""
 import tkinter as tk
 from app.button_details import ButtonDetails as dt
-from app.json_helpers import JsonHelpers as jh
 from app.get_buttons import GetButtons as gb
+from database.json_helpers import JsonHelpers as jh
 from utilities.clear_frame import ClearFrame as cf
 
 

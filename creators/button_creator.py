@@ -1,10 +1,10 @@
 """This module contains the ButtonBuilder class, which is responsible for creating buttons."""
 import tkinter as tk
-import utilities.constants as cnst
+import creators.constants as cnst
 
 
 class ButtonCreator:
-    """A class to represent the button builder."""
+    """A class to represent the button creator."""
 
     def __init__(self, frame, text, command):
         self.frame = frame
@@ -18,5 +18,5 @@ class ButtonCreator:
                          bg=cnst.BTN_BG_CLR,
                          fg=cnst.BTN_FG_CLR,
                          font=cnst.FONT_DETAILS,
-                         activebackground=cnst.ACTIVE_BG_CLR,
+                         activebackground=cnst.BTN_ACTIVE_BG_CLR,
                          command=command)
