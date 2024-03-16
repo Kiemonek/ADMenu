@@ -15,7 +15,7 @@ class LabelCreator:
         return tk.Label(
             frame,
             text=text,
-            bg=cnst.BTN_BG_CLR,
+            bg=cnst.LBL_BG_CLR,
             fg=cnst.BTN_FG_CLR,
             font=cnst.FONT_DETAILS,
         )

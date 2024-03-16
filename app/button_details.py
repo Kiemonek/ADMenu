@@ -5,6 +5,7 @@ from app.save_button import SaveButton as svb
 from app.get_buttons import GetButtons as gb
 from utilities.clear_frame import ClearFrame as cf
 from creators.button_creator import ButtonCreator as bc
+from creators.label_creator import LabelCreator
 import app.constants as cons
 
 
@@ -29,40 +30,48 @@ class ButtonDetails:
                          bg=cons.TOP_LBL_BG_CLR,
                          font=cons.FONT_DETAILS)
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
-        entry_dict = {
-            "LabelName":
-            Label(top_frame,
-                  text="Display Name:",
-                  fg=cons.CONTENT_FG_CLR,
-                  bg=cons.CONTENT_BG_CLR,
-                  font=cons.FONT_DETAILS),
-            "title":
-            Entry(top_frame),
-            "LabelDomain":
-            Label(top_frame,
-                  text="Domain:",
-                  fg=cons.CONTENT_FG_CLR,
-                  bg=cons.CONTENT_BG_CLR,
-                  font=cons.FONT_DETAILS),
-            "domain":
-            Entry(top_frame),
-            "LabelUsername":
-            Label(top_frame,
-                  text="Username:",
-                  fg=cons.CONTENT_FG_CLR,
-                  bg=cons.CONTENT_BG_CLR,
-                  font=cons.FONT_DETAILS),
-            "username":
-            Entry(top_frame),
-            "LabelServer":
-            Label(top_frame,
-                  text="Domain Controller:",
-                  fg=cons.CONTENT_FG_CLR,
-                  bg=cons.CONTENT_BG_CLR,
-                  font=cons.FONT_DETAILS),
-            "domain_controller":
-            Entry(top_frame),
-        }
+
+        #FIXME: This is not working
+        label_name = LabelCreator.create_label(self, top_frame, "Name:"),
+        label_domain = LabelCreator.create_label(self, top_frame, "Domain:"),
+        label_username = LabelCreator.create_label(self, top_frame,
+                                                   "Username:"),
+        label_domain_controller = LabelCreator.create_label(
+            self, top_frame, "Controller:"),
+
+        entry_dict = {}
+        entry_dict.update({"LabelName": label_name})
+
+        # entry_dict = {
+        #     "LabelName":
+        #     LabelCreator.create_label(self, top_frame, text="Name:"),
+        #     "title":
+        #     Entry(top_frame),
+        #     "LabelDomain":
+        #     Label(top_frame,
+        #           text="Domain:",
+        #           fg=cons.CONTENT_FG_CLR,
+        #           bg=cons.CONTENT_BG_CLR,
+        #           font=cons.FONT_DETAILS),
+        #     "domain":
+        #     Entry(top_frame),
+        #     "LabelUsername":
+        #     Label(top_frame,
+        #           text="Username:",
+        #           fg=cons.CONTENT_FG_CLR,
+        #           bg=cons.CONTENT_BG_CLR,
+        #           font=cons.FONT_DETAILS),
+        #     "username":
+        #     Entry(top_frame),
+        #     "LabelServer":
+        #     Label(top_frame,
+        #           text="Domain Controller:",
+        #           fg=cons.CONTENT_FG_CLR,
+        #           bg=cons.CONTENT_BG_CLR,
+        #           font=cons.FONT_DETAILS),
+        #     "domain_controller":
+        #     Entry(top_frame),
+        # }
         if button_id is None:
             entry_dict["title"].insert(0, "Company A")
             entry_dict["domain"].insert(0, "companya.com")
@@ -103,12 +112,15 @@ class ButtonDetails:
 
         button_id = button_id if button_id is not None else None
         save_button = bc.create_button(
-            self, top_frame, "SAVE", lambda: [
+            self,
+            top_frame,
+            "SAVE",
+            lambda: [
                 svb.save_button(top_frame, get_entries(entry_dict), button_id),
-                ButtonDetails.button_details(self, top_frame)
+                # ButtonDetails.button_details(self, top_frame)
             ])
-        save_button.place(relx=0.5,
-                          rely=0.85,
-                          relwidth=0.25,
-                          relheight=0.08,
-                          anchor="n")
+        # save_button.place(relx=0.5,
+        #                   rely=0.85,
+        #                   relwidth=0.25,
+        #                   relheight=0.08,
+        #                   anchor="n")

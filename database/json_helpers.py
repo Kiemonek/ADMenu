@@ -21,7 +21,7 @@ class JsonHelpers:
         """Create a list to store the JSON representations of buttons"""
         json_button_list = []
         for button in button_list:
-            # Create a dictionary with the relevant attributes
+
             button_dict = {
                 "id_button": button.id_button,
                 "title": button.title,
@@ -30,7 +30,7 @@ class JsonHelpers:
                 "domain_controller": button.domain_controller
             }
             json_button_list.append(button_dict)
-        # Convert the list of dictionaries to a JSON string
+
         json_string = json.dumps(json_button_list)
         return json_string
 
@@ -44,7 +44,7 @@ class JsonHelpers:
             "username": self.username,
             "domain_controller": self.domain_controller
         }
-        # Convert the dictionary to a JSON string
+
         json_string = json.dumps(button_dict)
         return json_string
 
@@ -52,7 +52,7 @@ class JsonHelpers:
     def list_from_json(json_string):
         """Parse the JSON string into a list of dictionaries"""
         json_button_list = json.loads(json_string)
-        # Create a list of Utilities instances from the dictionaries
+
         button_list = []
         for button_dict in json_button_list:
             button = JsonHelpers(
@@ -69,7 +69,6 @@ class JsonHelpers:
     def from_json(cls, json_string):
         """Parse the JSON string into a dictionary"""
         button_dict = json.loads(json_string)
-        # Create a new Utilities instance using the dictionary values
         return cls(id_button=button_dict["id_button"],
                    root=None,
                    title=button_dict["title"],
@@ -94,7 +93,9 @@ class JsonHelpers:
         with open(filename, 'r', encoding='UTF-8') as file:
             data = json.load(file)
 
-        data = [button for button in data if button['id'] != button_id]
+        data = [button for button in data if button['id_button'] != button_id]
+        for i, button in enumerate(data):
+            button['id_button'] = i
 
         with open(filename, 'w', encoding='UTF-8') as file:
             json.dump(data, file, indent=4)

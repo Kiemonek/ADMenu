@@ -1,7 +1,7 @@
 """This module creates the bottom bar of the application with buttons to interact."""
-import tkinter as tk
 from app.button_details import ButtonDetails as dt
 from app.show_buttons import ShowButtons as shb
+from creators.button_creator import ButtonCreator as bc
 
 
 class BottomBar:
@@ -14,27 +14,20 @@ class BottomBar:
     def bottom_bar(self, top_frame, bottom_frame):
         """This method creates the bottom bar of the application with buttons to interact."""
 
-        dsa_button = tk.Button(
-            bottom_frame,
-            text="CONNECT",
-            bg='#1E1E1E',
-            fg='#838383',
-            font=("Microsoft YaHei", 12, "bold"),
-            activebackground='#838383',
-            command=lambda: [shb.show_button_list(self, top_frame, "cmd")])
+        dsa_button = bc.create_button(
+            self, bottom_frame, "CONNECT",
+            lambda: [shb.show_button_list(self, top_frame, "cmd")])
+
         dsa_button.place(relwidth=0.23,
                          relheight=0.7,
                          anchor='n',
                          relx=0.125,
                          rely=0.15)
 
-        add_button = tk.Button(
+        add_button = bc.create_button(
+            self,
             bottom_frame,
-            text="ADD",
-            bg='#1E1E1E',
-            fg='#838383',
-            font=("Microsoft YaHei", 12, "bold"),
-            activebackground='#838383',
+            "ADD",
             command=lambda: [dt.button_details(self, top_frame, None)])
         add_button.place(relwidth=0.23,
                          relheight=0.7,
@@ -42,13 +35,10 @@ class BottomBar:
                          relx=0.375,
                          rely=0.15)
 
-        mod_button = tk.Button(
+        mod_button = bc.create_button(
+            self,
             bottom_frame,
-            text="MODIFY",
-            bg='#1E1E1E',
-            fg='#838383',
-            font=("Microsoft YaHei", 12, "bold"),
-            activebackground='#838383',
+            "MODIFY",
             command=lambda: [shb.show_button_list(self, top_frame, "mod")])
 
         mod_button.place(relwidth=0.23,
@@ -57,13 +47,10 @@ class BottomBar:
                          relx=0.625,
                          rely=0.15)
 
-        rem_button = tk.Button(
+        rem_button = bc.create_button(
+            self,
             bottom_frame,
-            text="REMOVE",
-            bg='#1E1E1E',
-            fg='#838383',
-            font=("Microsoft YaHei", 12, "bold"),
-            activebackground='#838383',
+            "REMOVE",
             command=lambda: [shb.show_button_list(self, top_frame, "rm")])
         rem_button.place(relwidth=0.23,
                          relheight=0.7,
