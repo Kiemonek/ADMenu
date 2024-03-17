@@ -1,6 +1,6 @@
 """This module contains the ButtonBuilder class, which is responsible for creating buttons."""
 import tkinter as tk
-import creators.constants as cnst
+import utilities.constants as cnst
 
 
 class ButtonCreator:

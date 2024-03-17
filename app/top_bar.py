@@ -1,20 +1,42 @@
-"""This module creates the button details top_frame. It is used to add or modify a button."""
+"""This module is used to show the buttons in the main frame."""
 import tkinter as tk
-from tkinter import Entry, Label
-from app.save_button import SaveButton as svb
-from app.get_buttons import GetButtons as gb
+from buttons.get_buttons import GetButtons as gb
 from utilities.clear_frame import ClearFrame as cf
-from creators.button_creator import ButtonCreator as bc
-from creators.label_creator import LabelCreator
-import app.constants as cons
+from app.on_press import OnPress
 
 
-class ButtonDetails:
-    """This class creates the button details top_frame. It is used to add or modify a button."""
+class TopBar:
+    """This class is used to show the buttons in the main frame."""
 
-    def __init__(self, top_frame, button_id=None):
-        self.top_frame = top_frame
-        self.button_id = button_id
+    def __init__(self, buttons):
+        self.buttons = buttons
+
+    def show_button_list(self, frame, option):
+        """This method creates the button list frame. It is used to remove, modify or connect."""
+        cf.clear_frame(self, frame)
+
+        if option == "rm":
+            text = "Choose and press button to remove"
+        elif option == "mod":
+            text = "Choose and press button to modify"
+        elif option == "cmd":
+            text = "Choose and press button to connect dsa"
+
+        label = tk.Label(frame,
+                         text=text,
+                         fg='#838383',
+                         bg='#1E1E1E',
+                         font=("Microsoft YaHei", 12, "bold"))
+        label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
+
+        button_list = gb.get_button_list(self)
+        for items in button_list:
+
+            button = OnPress.on_pressed(self, frame, option, items)
+            button.place(width=80,
+                         height=40,
+                         relx=0.5,
+                         rely=0.1 + (float(items.id_button) / 10))
 
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""

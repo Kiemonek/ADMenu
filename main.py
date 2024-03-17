@@ -1,6 +1,6 @@
 """Main file of the application. It creates the main window and frames of the application."""
 from tkinter import Tk, Frame
-from app.show_buttons import ShowButtons as sb
+from app.top_bar import ShowButtons as sb
 from app.bottom_bar import BottomBar
 import app.constants as cons
 

@@ -1,5 +1,5 @@
 """A module for the utilities of the application."""
-from app.get_buttons import GetButtons as gb
+from buttons.get_buttons import GetButtons as gb
 from database.json_helpers import JsonHelpers as jh
 
 

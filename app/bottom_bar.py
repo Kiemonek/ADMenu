@@ -1,6 +1,6 @@
 """This module creates the bottom bar of the application with buttons to interact."""
 from app.button_details import ButtonDetails as dt
-from app.show_buttons import ShowButtons as shb
+from app.top_bar import ShowButtons as shb
 from creators.button_creator import ButtonCreator as bc
 
 
