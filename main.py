@@ -1,6 +1,6 @@
 """Main file of the application. It creates the main window and frames of the application."""
 from tkinter import Tk, Frame
-from app.top_bar import ShowButtons as sb
+from app.top_bar import TopBar
 from app.bottom_bar import BottomBar
 import app.constants as cons
 
@@ -17,7 +17,7 @@ bottom_frame.place(relwidth=0.95,
                    rely=0.98,
                    relx=0.5,
                    anchor="s")
-sb.show_button_list(None, top_frame, "cmd")
+TopBar.show_button_list(None, top_frame, "cmd")
 
 BottomBar.bottom_bar(self=root, top_frame=top_frame, bottom_frame=bottom_frame)
 
