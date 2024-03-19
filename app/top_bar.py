@@ -1,8 +1,13 @@
 """This module is used to show the buttons in the main frame."""
 import tkinter as tk
-from buttons.get_buttons import GetButtons as gb
-from utilities.clear_frame import ClearFrame as cf
-from app.on_press import OnPress
+import app.constants as constants
+from buttons.get_buttons import GetButtons
+from buttons.save_button import SaveButton
+from database.json_helpers import JsonHelpers
+from utilities.clear_frame import ClearFrame
+from utilities.label_creator import LabelCreator
+from utilities.button_creator import ButtonCreator
+
 
 
 class TopBar:
@@ -13,7 +18,7 @@ class TopBar:
 
     def show_button_list(self, frame, option):
         """This method creates the button list frame. It is used to remove, modify or connect."""
-        cf.clear_frame(self, frame)
+        ClearFrame.clear_frame(self, frame)
 
         if option == "rm":
             text = "Choose and press button to remove"
@@ -29,10 +34,28 @@ class TopBar:
                          font=("Microsoft YaHei", 12, "bold"))
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
-        button_list = gb.get_button_list(self)
+        button_list = GetButtons.get_button_list(self)
         for items in button_list:
 
-            button = OnPress.on_pressed(self, frame, option, items)
+                def on_pressed(items):
+                    """This method creates buttons with different commands depending on the option selected."""
+                    if option == "rm":
+                        return lambda: [JsonHelpers.remove_button_from_db(self, items.id_button),
+                                TopBar.show_button_list(self, frame, "rm")]
+                    elif option == "mod":
+                        return TopBar.button_details(self, frame, items.id_button)
+
+                    elif option == "cmd":
+                        return print('runas /netonly /user:' + items.domain + "\\" + items
+                                    .username + ' "mmc dsa.msc /server=' + items.
+                                    domain_controller + '" ')
+            
+            
+            button = tk.Button(
+                            frame,
+                            text=items.title,
+                            command=on_pressed(items)
+                        )
             button.place(width=80,
                          height=40,
                          relx=0.5,
@@ -40,7 +63,7 @@ class TopBar:
 
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""
-        cf.clear_frame(self, top_frame)
+        ClearFrame.clear_frame(self, top_frame)
         if button_id is None:
             text = "Add New Button"
         else:
@@ -48,9 +71,9 @@ class TopBar:
 
         label = tk.Label(top_frame,
                          text=text,
-                         fg=cons.TOP_LBL_FG_CLR,
-                         bg=cons.TOP_LBL_BG_CLR,
-                         font=cons.FONT_DETAILS)
+                         fg=constants.TOP_LBL_FG_CLR,
+                         bg=constants.TOP_LBL_BG_CLR,
+                         font=constants.FONT_DETAILS)
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
         #FIXME: This is not working
@@ -100,7 +123,7 @@ class TopBar:
             entry_dict["username"].insert(0, "user1")
             entry_dict["domain_controller"].insert(0, "192.168.21.37")
         else:
-            current_data = gb.get_button_list(self)
+            current_data = GetButtons.get_button_list(self)
             for items in current_data:
                 if items.id_button == button_id:
                     button_data = {
@@ -133,12 +156,12 @@ class TopBar:
             return entry_data
 
         button_id = button_id if button_id is not None else None
-        save_button = bc.create_button(
+        save_button = ButtonCreator.create_button(
             self,
             top_frame,
             "SAVE",
             lambda: [
-                svb.save_button(top_frame, get_entries(entry_dict), button_id),
+                SaveButton.save_button(top_frame, get_entries(entry_dict), button_id),
                 # ButtonDetails.button_details(self, top_frame)
             ])
         # save_button.place(relx=0.5,
