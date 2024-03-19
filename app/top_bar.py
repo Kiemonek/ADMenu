@@ -19,6 +19,7 @@ class TopBar:
     def show_button_list(self, frame, option):
         """This method creates the button list frame. It is used to remove, modify or connect."""
         ClearFrame.clear_frame(self, frame)
+        ClearFrame.clear_frame(self, frame)
 
         if option == "rm":
             text = "Choose and press button to remove"
@@ -34,6 +35,7 @@ class TopBar:
                          font=("Microsoft YaHei", 12, "bold"))
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
+        button_list = GetButtons.get_button_list(self)
         button_list = GetButtons.get_button_list(self)
         for items in button_list:
 
@@ -64,6 +66,7 @@ class TopBar:
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""
         ClearFrame.clear_frame(self, top_frame)
+        ClearFrame.clear_frame(self, top_frame)
         if button_id is None:
             text = "Add New Button"
         else:
@@ -71,6 +74,9 @@ class TopBar:
 
         label = tk.Label(top_frame,
                          text=text,
+                         fg=constants.TOP_LBL_FG_CLR,
+                         bg=constants.TOP_LBL_BG_CLR,
+                         font=constants.FONT_DETAILS)
                          fg=constants.TOP_LBL_FG_CLR,
                          bg=constants.TOP_LBL_BG_CLR,
                          font=constants.FONT_DETAILS)
@@ -124,6 +130,7 @@ class TopBar:
             entry_dict["domain_controller"].insert(0, "192.168.21.37")
         else:
             current_data = GetButtons.get_button_list(self)
+            current_data = GetButtons.get_button_list(self)
             for items in current_data:
                 if items.id_button == button_id:
                     button_data = {
@@ -156,6 +163,7 @@ class TopBar:
             return entry_data
 
         button_id = button_id if button_id is not None else None
+        save_button = ButtonCreator.create_button(
         save_button = ButtonCreator.create_button(
             self,
             top_frame,
