@@ -1,13 +1,12 @@
 """This module is used to show the buttons in the main frame."""
 import tkinter as tk
 import app.constants as constants
-from buttons.get_buttons import GetButtons
-from buttons.save_button import SaveButton
-from database.json_helpers import JsonHelpers
-from utilities.clear_frame import ClearFrame
 from utilities.label_creator import LabelCreator
+from utilities.clear_frame import ClearFrame
 from utilities.button_creator import ButtonCreator
-
+from database.json_helpers import JsonHelpers
+from buttons.save_button import SaveButton
+from buttons.get_buttons import GetButtons
 
 
 class TopBar:
@@ -39,25 +38,26 @@ class TopBar:
         button_list = GetButtons.get_button_list(self)
         for items in button_list:
 
-                def on_pressed(items):
-                    """This method creates buttons with different commands depending on the option selected."""
-                    if option == "rm":
-                        return lambda: [JsonHelpers.remove_button_from_db(self, items.id_button),
-                                TopBar.show_button_list(self, frame, "rm")]
-                    elif option == "mod":
-                        return TopBar.button_details(self, frame, items.id_button)
+            def on_pressed(items):
+                """This method creates buttons with different commands depending on the option selected."""
+                if option == "rm":
+                    return lambda: [
+                        JsonHelpers.remove_button_from_db(
+                            self, items.id_button),
+                        TopBar.show_button_list(self, frame, "rm")
+                    ]
+                elif option == "mod":
+                    return TopBar.button_details(self, frame, items.id_button)
 
-                    elif option == "cmd":
-                        return print('runas /netonly /user:' + items.domain + "\\" + items
-                                    .username + ' "mmc dsa.msc /server=' + items.
-                                    domain_controller + '" ')
-            
-            
-            button = tk.Button(
-                            frame,
-                            text=items.title,
-                            command=on_pressed(items)
-                        )
+                elif option == "cmd":
+                    return print('runas /netonly /user:' + items.domain +
+                                 "\\" + items.username +
+                                 ' "mmc dsa.msc /server=' +
+                                 items.domain_controller + '" ')
+
+            button = tk.Button(frame,
+                               text=items.title,
+                               command=on_pressed(items))
             button.place(width=80,
                          height=40,
                          relx=0.5,
@@ -66,7 +66,6 @@ class TopBar:
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""
         ClearFrame.clear_frame(self, top_frame)
-        ClearFrame.clear_frame(self, top_frame)
         if button_id is None:
             text = "Add New Button"
         else:
@@ -74,9 +73,6 @@ class TopBar:
 
         label = tk.Label(top_frame,
                          text=text,
-                         fg=constants.TOP_LBL_FG_CLR,
-                         bg=constants.TOP_LBL_BG_CLR,
-                         font=constants.FONT_DETAILS)
                          fg=constants.TOP_LBL_FG_CLR,
                          bg=constants.TOP_LBL_BG_CLR,
                          font=constants.FONT_DETAILS)
@@ -164,16 +160,13 @@ class TopBar:
 
         button_id = button_id if button_id is not None else None
         save_button = ButtonCreator.create_button(
-        save_button = ButtonCreator.create_button(
-            self,
-            top_frame,
-            "SAVE",
-            lambda: [
-                SaveButton.save_button(top_frame, get_entries(entry_dict), button_id),
-                # ButtonDetails.button_details(self, top_frame)
+            self, top_frame, "SAVE", lambda: [
+                SaveButton.save_button(top_frame, get_entries(entry_dict),
+                                       button_id),
+                TopBar.button_details(self, top_frame)
             ])
-        # save_button.place(relx=0.5,
-        #                   rely=0.85,
-        #                   relwidth=0.25,
-        #                   relheight=0.08,
-        #                   anchor="n")
+        save_button.place(relx=0.5,
+                          rely=0.85,
+                          relwidth=0.25,
+                          relheight=0.08,
+                          anchor="n")
