@@ -18,7 +18,6 @@ class TopBar:
     def show_button_list(self, frame, option):
         """This method creates the button list frame. It is used to remove, modify or connect."""
         ClearFrame.clear_frame(self, frame)
-        ClearFrame.clear_frame(self, frame)
 
         if option == "rm":
             text = "Choose and press button to remove"
@@ -35,25 +34,23 @@ class TopBar:
         label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
 
         button_list = GetButtons.get_button_list(self)
-        button_list = GetButtons.get_button_list(self)
         for items in button_list:
 
-            def on_pressed(items):
-                """This method creates buttons with different commands depending on the option selected."""
-                if option == "rm":
-                    return lambda: [
-                        JsonHelpers.remove_button_from_db(
-                            self, items.id_button),
-                        TopBar.show_button_list(self, frame, "rm")
-                    ]
-                elif option == "mod":
-                    return TopBar.button_details(self, frame, items.id_button)
+                def on_pressed(items):
+                    if option == "rm":
+                        return lambda: [
+                            JsonHelpers.remove_button_from_db(
+                                self, items.id_button),
+                            TopBar.show_button_list(self, frame, "rm")
+                        ]
+                    elif option == "mod":
+                        return TopBar.button_details(self, frame, items.id_button)
 
-                elif option == "cmd":
-                    return print('runas /netonly /user:' + items.domain +
-                                 "\\" + items.username +
-                                 ' "mmc dsa.msc /server=' +
-                                 items.domain_controller + '" ')
+                    elif option == "cmd":
+                        return print('runas /netonly /user:' + items.domain +
+                                    "\\" + items.username +
+                                    ' "mmc dsa.msc /server=' +
+                                    items.domain_controller + '" ')
 
             button = tk.Button(frame,
                                text=items.title,
