@@ -2,6 +2,7 @@
 import tkinter as tk
 import app.constants as constants
 from utilities.label_creator import LabelCreator
+from utilities.button_placer import ButtonPlacer
 from utilities.clear_frame import ClearFrame
 from utilities.button_creator import ButtonCreator
 from database.json_helpers import JsonHelpers
@@ -36,29 +37,34 @@ class TopBar:
         button_list = GetButtons.get_button_list(self)
         for items in button_list:
 
-                def on_pressed(items):
-                    if option == "rm":
-                        return lambda: [
-                            JsonHelpers.remove_button_from_db(
-                                self, items.id_button),
-                            TopBar.show_button_list(self, frame, "rm")
-                        ]
-                    elif option == "mod":
-                        return TopBar.button_details(self, frame, items.id_button)
+            def on_pressed(x=items):
+                if option == "rm":
+                    return JsonHelpers.remove_button_from_db(
+                        self, x.id_button), TopBar.show_button_list(
+                            self, frame, "rm")
 
-                    elif option == "cmd":
-                        return print('runas /netonly /user:' + items.domain +
-                                    "\\" + items.username +
-                                    ' "mmc dsa.msc /server=' +
-                                    items.domain_controller + '" ')
+                elif option == "mod":
+                    return TopBar.button_details(self, frame, x.id_button)
 
-            button = tk.Button(frame,
-                               text=items.title,
-                               command=on_pressed(items))
-            button.place(width=80,
+                elif option == "cmd":
+                    return print('runas /netonly /user:' + x.domain + "\\" +
+                                 x.username + ' "mmc dsa.msc /server=' +
+                                 x.domain_controller + '" ')
+
+            button = ButtonCreator.create_button(self,
+                                                 frame,
+                                                 items.title,
+                                                 command=on_pressed)
+            rel_x = (items.id_button % 5) + 1
+            button.place(relwidth=0.15,
                          height=40,
-                         relx=0.5,
+                         anchor="n",
+                         relx=rel_x * 0.15,
                          rely=0.1 + (float(items.id_button) / 10))
+            # button.place(width=80,
+            #              height=40,
+            #              relx=0.5,
+            #              rely=0.1 + (float(items.id_button) / 10))
 
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""
