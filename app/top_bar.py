@@ -55,12 +55,12 @@ class TopBar:
                                                  frame,
                                                  items.title,
                                                  command=on_pressed)
-            rel_x = (items.id_button % 5) + 1
-            button.place(relwidth=0.15,
+            rel_x = (items.id_button % 6) + 1
+            button.place(relwidth=0.18,
                          height=40,
                          anchor="n",
-                         relx=rel_x * 0.15,
-                         rely=0.1 + (float(items.id_button) / 10))
+                         relx=(rel_x * 0.19) - 0.25,
+                         rely=0.05 + (float(items.id_button) / 10))
             # button.place(width=80,
             #              height=40,
             #              relx=0.5,
