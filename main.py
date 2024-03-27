@@ -10,9 +10,9 @@ root.title("AD Menu")
 root.resizable(width=False, height=False)
 root.configure(background="#1E1E1E")
 top_frame = Frame(root, background="#838383")
-top_frame.place(relwidth=0.95, relheight=0.84, rely=0.02, relx=0.5, anchor="n")
+top_frame.place(relwidth=0.97, relheight=0.84, rely=0.02, relx=0.5, anchor="n")
 bottom_frame = Frame(root, background="#838383")
-bottom_frame.place(relwidth=0.95,
+bottom_frame.place(relwidth=0.97,
                    relheight=0.10,
                    rely=0.98,
                    relx=0.5,

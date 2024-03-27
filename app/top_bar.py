@@ -2,7 +2,7 @@
 import tkinter as tk
 import app.constants as constants
 from utilities.label_creator import LabelCreator
-from utilities.button_placer import ButtonPlacer
+from utilities.calculate_position import CalculatePosition
 from utilities.clear_frame import ClearFrame
 from utilities.button_creator import ButtonCreator
 from database.json_helpers import JsonHelpers
@@ -32,7 +32,7 @@ class TopBar:
                          fg='#838383',
                          bg='#1E1E1E',
                          font=("Microsoft YaHei", 12, "bold"))
-        label.place(relwidth=1, relheight=0.1, relx=0.5, anchor="n")
+        label.place(relwidth=1.01, relheight=0.1, relx=0.5, anchor="n")
 
         button_list = GetButtons.get_button_list(self)
         for items in button_list:
@@ -55,16 +55,15 @@ class TopBar:
                                                  frame,
                                                  items.title,
                                                  command=on_pressed)
-            rel_x = (items.id_button % 6) + 1
-            button.place(relwidth=0.18,
+
+            rel_x = CalculatePosition.calculate_rel_x(self, items.id_button)
+            rel_y = CalculatePosition.calculate_rel_y(self, items.id_button)
+
+            button.place(relwidth=0.16,
                          height=40,
-                         anchor="n",
-                         relx=(rel_x * 0.19) - 0.25,
-                         rely=0.05 + (float(items.id_button) / 10))
-            # button.place(width=80,
-            #              height=40,
-            #              relx=0.5,
-            #              rely=0.1 + (float(items.id_button) / 10))
+                         anchor="nw",
+                         relx=rel_x,
+                         rely=rel_y)
 
     def button_details(self, top_frame, button_id=None):
         """This method creates the buttun top_frame. It is used to add or modify a button."""

@@ -1,6 +1,6 @@
 """This module contains the ButtonBuilder class, which is responsible for creating buttons."""
 import tkinter as tk
-import utilities.constants as cnst
+from utilities import constants
 
 
 class ButtonCreator:
@@ -13,17 +13,11 @@ class ButtonCreator:
 
     def create_button(self, frame, text, command):
         """This method creates a button."""
-        # button = tk.Button(frame,
-        #                    text=text,
-        #                    bg=cnst.BTN_BG_CLR,
-        #                    fg=cnst.BTN_FG_CLR,
-        #                    font=cnst.FONT_DETAILS,
-        #                    activebackground=cnst.BTN_ACTIVE_BG_CLR,
-        #                    command=command)
+
         return tk.Button(frame,
                          text=text,
-                         bg=cnst.BTN_BG_CLR,
-                         fg=cnst.BTN_FG_CLR,
-                         font=cnst.FONT_DETAILS,
-                         activebackground=cnst.BTN_ACTIVE_BG_CLR,
+                         bg=constants.BTN_BG_CLR,
+                         fg=constants.BTN_FG_CLR,
+                         font=constants.FONT_DETAILS,
+                         activebackground=constants.BTN_ACTIVE_BG_CLR,
                          command=command)

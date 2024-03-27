@@ -1,6 +1,6 @@
 """This module contains the label creator class."""
 import tkinter as tk
-from utilities import constants as cnst
+from utilities import constants
 
 
 class LabelCreator:
@@ -15,7 +15,7 @@ class LabelCreator:
         return tk.Label(
             frame,
             text=text,
-            bg=cnst.LBL_BG_CLR,
-            fg=cnst.BTN_FG_CLR,
-            font=cnst.FONT_DETAILS,
+            bg=constants.LBL_BG_CLR,
+            fg=constants.BTN_FG_CLR,
+            font=constants.FONT_DETAILS,
         )

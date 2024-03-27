@@ -1,6 +1,6 @@
 """A module for the utilities of the application."""
-from buttons.get_buttons import GetButtons as gb
-from database.json_helpers import JsonHelpers as jh
+from buttons.get_buttons import GetButtons
+from database.json_helpers import JsonHelpers
 
 
 class SaveButton:
@@ -18,9 +18,9 @@ class SaveButton:
     def save_button(self, entry_data, button_id=None):
         """This method saves the button to the database."""
         if button_id is None:
-            append_button = gb.get_button_list(self)
+            append_button = GetButtons.get_button_list(self)
         else:
-            current_data = gb.get_button_list(self)
+            current_data = GetButtons.get_button_list(self)
             append_button = [
                 button for button in current_data
                 if not button.id_button == button_id
@@ -49,5 +49,5 @@ class SaveButton:
 
         append_button = sorted(append_button, key=lambda x: x.id_button)
         #TODO: Add communication with result
-        jh.save_changes_to_db(self, button_list=append_button)
+        JsonHelpers.save_changes_to_db(self, button_list=append_button)
         # shb.show_button_list(self, top_frame, "cmd")

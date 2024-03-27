@@ -1,5 +1,5 @@
 """Description: Constants for the frame and widgets in the application."""
-WINDOW_WIDTH = 520
+WINDOW_WIDTH = 860
 WINDOW_HEIGHT = 480
 
 FONT_DETAILS = ("Microsoft YaHei", 12, "bold")
