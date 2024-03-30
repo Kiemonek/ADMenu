@@ -19,6 +19,6 @@ bottom_frame.place(relwidth=0.97,
                    anchor="s")
 TopBar.show_button_list(None, top_frame, "cmd")
 
-BottomBar.bottom_bar(self=root, top_frame=top_frame, bottom_frame=bottom_frame)
+BottomBar.bottom_bar(None, top_frame, bottom_frame)
 
 root.mainloop()

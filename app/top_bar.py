@@ -1,13 +1,12 @@
 """This module is used to show the buttons in the main frame."""
-import tkinter as tk
-import app.constants as constants
 from utilities.create_label import LabelCreator
 from utilities.clear_frame import ClearFrame
 from database.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton
 from buttons.get_buttons import GetButtons
 from buttons.create_button import ButtonCreator
-from utilities.create_entry import EntryCreator
+from entry.fill_entry import EntryFiller
+from entry.create_entry import EntryCreator
 
 
 class TopBar:
@@ -31,13 +30,21 @@ class TopBar:
         LabelCreator.create_top_label(self, frame, text)
 
         button_list = GetButtons.get_button_list(self)
+
+        if len(button_list) == 0:
+            LabelCreator.create_label(self, frame, "No buttons added yet", 0.5,
+                                      0.4)
+            ButtonCreator.create_utility_button(
+                self, frame, "Add New Button",
+                lambda: [TopBar.button_details(self, frame)], 0.5, 0.6)
+
         for items in button_list:
 
             def on_pressed(x=items):
                 if option == "rm":
                     return JsonHelpers.remove_button_from_db(
-                        self, x.id_button), TopBar.show_button_list(
-                            self, frame, "rm")
+                        self,
+                        x.id_button), TopBar.process_status(self, frame, "rm")
 
                 elif option == "mod":
                     return TopBar.button_details(self, frame, x.id_button)
@@ -62,78 +69,65 @@ class TopBar:
             text = "Add New Button"
         else:
             text = "Modify Button"
-        #TODO: add next button
 
         LabelCreator.create_top_label(self, top_frame, text)
 
         label_dict = {}
         entry_dict = {}
+        button_details = [
+            ("LabelName", "title", "Insert Button Name:", 0.2),
+            ("LabelDomain", "domain", "Insert Domain Name:", 0.35),
+            ("LabelUsername", "username", "Insert Username:", 0.5),
+            ("LabelController", "domain_controller",
+             "Insert Domain Controller:", 0.65),
+        ]
 
-        button_details = [("LabelName", "title", "Insert Button Name:"),
-                          ("LabelDomain", "domain", "Insert Domain Name:"),
-                          ("LabelUsername", "username", "Insert Username:"),
-                          ("LabelController", "domain_controller",
-                           "Insert Domain Controller:")]
-
-        for label, entry, text in button_details:
+        for label, entry, text, rel_y in button_details:
             label_dict[label] = LabelCreator.create_label(
-                self, top_frame, text)
-            entry_dict[entry] = EntryCreator.create_entry(self, top_frame)
+                self, top_frame, text, None, rel_y)
 
-            # if button_id is None:
-            #     entry.insert(0, "Company A")
-            #     entry.insert(0, "companya.com")
-            #     entry.insert(0, "user1")
-            #     entry.insert(0, "
+            entry_dict[entry] = EntryCreator.create_entry(
+                self, top_frame, rel_y)
 
-        if button_id is None:
-            entry_dict["title"].insert(0, "Company A")
-            entry_dict["domain"].insert(0, "companya.com")
-            entry_dict["username"].insert(0, "user1")
-            entry_dict["domain_controller"].insert(0, "192.168.21.37")
-        else:
-            current_data = GetButtons.get_button_list(self)
-            current_data = GetButtons.get_button_list(self)
-            for items in current_data:
-                if items.id_button == button_id:
-                    button_data = {
-                        "title": items.title,
-                        "domain": items.domain,
-                        "username": items.username,
-                        "domain_controller": items.domain_controller,
-                    }
-                    entry_dict["title"].insert(0, button_data["title"])
-                    entry_dict["domain"].insert(0, button_data["domain"])
-                    entry_dict["username"].insert(0, button_data["username"])
-                    entry_dict["domain_controller"].insert(
-                        0, button_data["domain_controller"])
-
-        entry_dict["LabelName"].place(relx=0.1, rely=0.2)
-        entry_dict["title"].place(relx=0.5, rely=0.2)
-        entry_dict["LabelDomain"].place(relx=0.1, rely=0.35)
-        entry_dict["domain"].place(relx=0.5, rely=0.35)
-        entry_dict["LabelUsername"].place(relx=0.1, rely=0.5)
-        entry_dict["username"].place(relx=0.5, rely=0.5)
-        entry_dict["LabelServer"].place(relx=0.1, rely=0.65)
-        entry_dict["domain_controller"].place(relx=0.5, rely=0.65)
+        EntryFiller.fill_entry(self, entry_dict, button_id)
 
         def get_entries(entry_dict):
             entry_data = {}
-            for item in entry_dict:
-                if not item[0:5] == "Label":
-                    entry_data[item] = entry_dict[item].get()
+            for key in entry_dict.keys():
+                entry_data[key] = entry_dict[key].get()
 
             return entry_data
 
         button_id = button_id if button_id is not None else None
-        # save_button = ButtonCreator.create_button(
-        #     self, top_frame, "SAVE", lambda: [
-        #         SaveButton.save_button(top_frame, get_entries(entry_dict),
-        #                                button_id),
-        #         TopBar.button_details(self, top_frame)
-        #     ])
-        # save_button.place(relx=0.5,
-        #                   rely=0.85,
-        #                   relwidth=0.25,
-        #                   relheight=0.08,
-        #                   anchor="n")
+        ButtonCreator.create_utility_button(
+            self, top_frame, "SAVE", lambda: [
+                SaveButton.save_button(self, get_entries(entry_dict), button_id
+                                       ),
+                TopBar.process_status(self, top_frame, button_id)
+            ], 0.5, 0.85)
+
+    def process_status(self, top_frame, option):
+        """This method creates the shows after save."""
+        ClearFrame.clear_frame(self, top_frame)
+
+        LabelCreator.create_top_label(self, top_frame, "Success!")
+
+        if option == "rm":
+            text = "Button removed successfully!"
+            ButtonCreator.create_utility_button(
+                self, top_frame, "OK",
+                lambda: [TopBar.show_button_list(self, top_frame, "rm")], 0.5,
+                0.6)
+        elif option is None:
+            text = "Button added successfully!"
+            ButtonCreator.create_utility_button(
+                self, top_frame, "OK",
+                lambda: [TopBar.show_button_list(self, top_frame, "mod")], 0.5,
+                0.6)
+        else:
+            text = "Button modified successfully!"
+            ButtonCreator.create_utility_button(
+                self, top_frame, "OK",
+                lambda: [TopBar.button_details(self, top_frame)], 0.5, 0.6)
+
+        LabelCreator.create_label(self, top_frame, text, 0.5, 0.4)

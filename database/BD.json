@@ -1,0 +1,9 @@
+[
+    {
+        "id_button": 0,
+        "title": "Company A",
+        "domain": "companya.com",
+        "username": "user1",
+        "domain_controller": "192.168.21.37"
+    }
+]

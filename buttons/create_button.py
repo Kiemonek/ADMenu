@@ -26,11 +26,11 @@ class ButtonCreator:
         rel_x = CalculatePosition.calculate_rel_x(self, id_button)
         rel_y = CalculatePosition.calculate_rel_y(self, id_button)
 
-        return button.place(relwidth=0.16,
-                            height=40,
-                            anchor="nw",
-                            relx=rel_x,
-                            rely=rel_y)
+        button.place(relwidth=0.16,
+                     height=40,
+                     anchor="nw",
+                     relx=rel_x,
+                     rely=rel_y)
 
     def create_bottom_button(self, frame, text, command, rel_x):
         """This method creates a bottom bar button."""
@@ -42,8 +42,24 @@ class ButtonCreator:
                            activebackground=constants.BTN_ACTIVE_BG_CLR,
                            command=command)
 
-        return button.place(relwidth=0.23,
-                            relheight=0.7,
-                            anchor='n',
-                            relx=rel_x,
-                            rely=0.15)
+        button.place(relwidth=0.23,
+                     relheight=0.7,
+                     anchor='n',
+                     relx=rel_x,
+                     rely=0.15)
+
+    def create_utility_button(self, frame, text, command, rel_x, rel_y):
+        """This method creates a utility button."""
+        button = tk.Button(frame,
+                           text=text,
+                           bg=constants.BTN_BG_CLR,
+                           fg=constants.BTN_FG_CLR,
+                           font=constants.FONT_DETAILS,
+                           activebackground=constants.BTN_ACTIVE_BG_CLR,
+                           command=command)
+
+        button.place(relwidth=0.25,
+                     relheight=0.08,
+                     anchor="n",
+                     relx=rel_x,
+                     rely=rel_y)

@@ -17,27 +17,35 @@ class SaveButton:
 
     def save_button(self, entry_data, button_id=None):
         """This method saves the button to the database."""
-        if button_id is None:
-            append_button = GetButtons.get_button_list(self)
+
+        current_data = GetButtons.get_button_list(self)
+
+        if not current_data:
+
+            append_button = []
+            button_id = 0
+
+        elif button_id is None:
+
+            append_button = current_data
+
         else:
-            current_data = GetButtons.get_button_list(self)
             append_button = [
                 button for button in current_data
                 if not button.id_button == button_id
             ]
 
-        for i, button in enumerate(append_button):
-            button.id_button = i
+            for i, button in enumerate(append_button):
+                button.id_button = i
+
+            if button_id is None:
+                max_id = max(button.id_button for button in append_button)
+                button_id = max_id + 1
 
         new_title = entry_data["title"]
         new_domain = entry_data["domain"]
         new_username = entry_data["username"]
         new_domain_controller = entry_data["domain_controller"]
-
-        # Generate a unique id_button for the button
-        if button_id is None:
-            max_id = max(button.id_button for button in append_button)
-            button_id = max_id + 1
 
         button = SaveButton(id_button=button_id,
                             root='',

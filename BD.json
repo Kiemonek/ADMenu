@@ -313,26 +313,5 @@
         "domain": "Domain 44",
         "username": "User 44",
         "domain_controller": "Controller 44"
-    },
-    {
-        "id_button": 45,
-        "title": "My Button 45",
-        "domain": "Domain 45",
-        "username": "User 45",
-        "domain_controller": "Controller 45"
-    },
-    {
-        "id_button": 46,
-        "title": "My Button 46",
-        "domain": "Domain 46",
-        "username": "User 46",
-        "domain_controller": "Controller 46"
-    },
-    {
-        "id_button": 47,
-        "title": "My Button 47",
-        "domain": "Domain 47",
-        "username": "User 47",
-        "domain_controller": "Controller 47"
     }
 ]
