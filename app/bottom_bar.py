@@ -1,5 +1,5 @@
 """This module creates the bottom bar of the application with buttons to interact."""
-from utilities.button_creator import ButtonCreator
+from buttons.create_button import ButtonCreator
 from app.top_bar import TopBar
 
 
@@ -13,46 +13,20 @@ class BottomBar:
     def bottom_bar(self, top_frame, bottom_frame):
         """This method creates the bottom bar of the application with buttons to interact."""
 
-        dsa_button = ButtonCreator.create_button(
-            self, bottom_frame, "CONNECT",
-            lambda: [TopBar.show_button_list(self, top_frame, "cmd")])
+        button_bar_data = [
+            ("CONNECT",
+             lambda: TopBar.show_button_list(self, top_frame, "cmd"), 0.125),
+            ("ADD", lambda: TopBar.button_details(self, top_frame, None),
+             0.375),
+            ("MODIFY", lambda: TopBar.show_button_list(self, top_frame, "mod"),
+             0.625),
+            ("REMOVE", lambda: TopBar.show_button_list(self, top_frame, "rm"),
+             0.875)
+        ]
 
-        dsa_button.place(relwidth=0.23,
-                         relheight=0.7,
-                         anchor='n',
-                         relx=0.125,
-                         rely=0.15)
-
-        add_button = ButtonCreator.create_button(
-            self,
-            bottom_frame,
-            "ADD",
-            command=lambda: [TopBar.button_details(self, top_frame, None)])
-        add_button.place(relwidth=0.23,
-                         relheight=0.7,
-                         anchor='n',
-                         relx=0.375,
-                         rely=0.15)
-
-        mod_button = ButtonCreator.create_button(
-            self,
-            bottom_frame,
-            "MODIFY",
-            command=lambda: [TopBar.show_button_list(self, top_frame, "mod")])
-
-        mod_button.place(relwidth=0.23,
-                         relheight=0.7,
-                         anchor='n',
-                         relx=0.625,
-                         rely=0.15)
-
-        rem_button = ButtonCreator.create_button(
-            self,
-            bottom_frame,
-            "REMOVE",
-            command=lambda: [TopBar.show_button_list(self, top_frame, "rm")])
-        rem_button.place(relwidth=0.23,
-                         relheight=0.7,
-                         anchor='n',
-                         relx=0.875,
-                         rely=0.15)
+        for text, command, rel_x in button_bar_data:
+            ButtonCreator.create_bottom_button(self,
+                                               bottom_frame,
+                                               text,
+                                               command,
+                                               rel_x=rel_x)

@@ -10,9 +10,9 @@ class CalculatePosition:
     def calculate_rel_x(self, id_button):
         """This method calculates the relative x position of the button."""
         if id_button % 6 == 0:
-            rel_x = 0.005
+            rel_x = 0.007
         else:
-            rel_x = 0.005 + 0.165 * (id_button % 6)
+            rel_x = 0.007 + 0.165 * (id_button % 6)
 
         return rel_x
 

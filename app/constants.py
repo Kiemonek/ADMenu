@@ -3,10 +3,9 @@ WINDOW_WIDTH = 860
 WINDOW_HEIGHT = 480
 
 FONT_DETAILS = ("Microsoft YaHei", 12, "bold")
-TOP_LBL_FG_CLR = '#838383'
-TOP_LBL_BG_CLR = '#1E1E1E'
-CONTENT_FG_CLR = '#1E1E1E'
-CONTENT_BG_CLR = '#838383'
+
+#detail label
+LBL_FONT_DETAILS = ("Microsoft YaHei", 15, "bold")
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

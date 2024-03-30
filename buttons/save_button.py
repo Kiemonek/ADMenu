@@ -48,6 +48,4 @@ class SaveButton:
         append_button.append(button)
 
         append_button = sorted(append_button, key=lambda x: x.id_button)
-        #TODO: Add communication with result
         JsonHelpers.save_changes_to_db(self, button_list=append_button)
-        # shb.show_button_list(self, top_frame, "cmd")
