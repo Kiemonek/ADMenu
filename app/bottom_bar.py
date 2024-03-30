@@ -25,8 +25,8 @@ class BottomBar:
         ]
 
         for text, command, rel_x in button_bar_data:
-            ButtonCreator.create_bottom_button(self,
-                                               bottom_frame,
-                                               text,
-                                               command,
-                                               rel_x=rel_x)
+            ButtonCreator.create_button(self,
+                                        bottom_frame,
+                                        text,
+                                        command,
+                                        rel_x=rel_x)

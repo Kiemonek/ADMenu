@@ -38,9 +38,11 @@ class SaveButton:
             for i, button in enumerate(append_button):
                 button.id_button = i
 
-            if button_id is None:
-                max_id = max(button.id_button for button in append_button)
-                button_id = max_id + 1
+        if button_id is None:
+            max_id = max(button.id_button for button in append_button)
+            button_id = max_id + 1
+        else:
+            pass
 
         new_title = entry_data["title"]
         new_domain = entry_data["domain"]

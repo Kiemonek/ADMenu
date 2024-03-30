@@ -18,5 +18,9 @@ class EntryCreator:
                          justify="center",
                          borderwidth=0)
 
-        entry.place(relwidth=0.4, relx=0.55, rely=rel_y)
+        entry.place(relwidth=0.4,
+                    relheight=0.1,
+                    relx=0.8,
+                    rely=rel_y,
+                    anchor="n")
         return entry
