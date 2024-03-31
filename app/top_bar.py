@@ -32,11 +32,18 @@ class TopBar:
         button_list = GetButtons.get_button_list(self)
 
         if len(button_list) == 0:
-            LabelCreator.create_label(self, frame, "No buttons added yet", 0.5,
-                                      0.4)
+            LabelCreator.create_label(self,
+                                      frame,
+                                      "No buttons added yet",
+                                      rel_x=0.5,
+                                      rel_y=0.4)
             ButtonCreator.create_button(
-                self, frame, "Add New Button",
-                lambda: [TopBar.button_details(self, frame)], 0.5, 0.6)
+                self,
+                frame,
+                "Add New Button",
+                lambda: [TopBar.button_details(self, frame)],
+                rel_x=0.5,
+                rel_y=0.6)
 
         for items in button_list:
 
@@ -77,21 +84,23 @@ class TopBar:
         label_dict = {}
         entry_dict = {}
         button_details = [
-            ("LabelName", "title", "Insert Button Name:", 0.2),
-            ("LabelDomain", "domain", "Insert Domain Name:", 0.35),
-            ("LabelUsername", "username", "Insert Username:", 0.5),
+            ("LabelName", "title", "Insert Button Name:", 0.2, True),
+            ("LabelDomain", "domain", "Insert Domain Name:", 0.35, None),
+            ("LabelUsername", "username", "Insert Username:", 0.5, None),
             ("LabelController", "domain_controller",
-             "Insert Domain Controller:", 0.65),
+             "Insert Domain Controller:", 0.65, None),
         ]
 
-        for label, entry, text, rel_y in button_details:
+        for label, entry, text, rel_y, valid in button_details:
             label_dict[label] = LabelCreator.create_label(self,
                                                           top_frame,
                                                           text,
                                                           rel_y=rel_y)
 
-            entry_dict[entry] = EntryCreator.create_entry(
-                self, top_frame, rel_y)
+            entry_dict[entry] = EntryCreator.create_entry(self,
+                                                          top_frame,
+                                                          rel_y,
+                                                          validation=valid)
 
         EntryFiller.fill_entry(self, entry_dict, button_id)
 
@@ -115,21 +124,28 @@ class TopBar:
             rel_x=0.5,
             rel_y=0.85)
 
+        tester = GetButtons.get_button_list(self)
+        if len(tester) >= 48 and button_id is None:
+
+            TopBar.process_status(self, top_frame, "limit")
+
     def process_status(self, top_frame, option):
         """This method creates the shows after save."""
         ClearFrame.clear_frame(self, top_frame)
 
-        LabelCreator.create_label(self, top_frame, "Success!")
+        label = "Success!"
 
         if option == "rm":
             text = "Button removed successfully!"
-
         elif option is None:
             text = "Button added successfully!"
-
+        elif option == "limit":
+            text = "List reached a limit of 48 buttons, remove one to add a new one."
+            label = "Limit reached!"
         else:
             text = "Button modified successfully!"
 
+        LabelCreator.create_label(self, top_frame, label, "top")
         ButtonCreator.create_button(
             self,
             top_frame,
@@ -137,4 +153,4 @@ class TopBar:
             lambda: [TopBar.show_button_list(self, top_frame, "cmd")],
             rel_x=0.5,
             rel_y=0.6)
-        LabelCreator.create_label(self, top_frame, text, 0.5, 0.4)
+        LabelCreator.create_label(self, top_frame, text, rel_x=0.5, rel_y=0.4)

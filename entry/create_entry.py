@@ -9,8 +9,16 @@ class EntryCreator:
     def __init__(self, frame):
         self.frame = frame
 
-    def create_entry(self, frame, rel_y):
+    def create_entry(self, frame, rel_y, validation=None):
         """This method creates an entry."""
+
+        def validate_entry(P):
+            """This method validates the entry."""
+            if len(P) > 12:
+                return False
+            else:
+                return True
+
         entry = tk.Entry(frame,
                          font=constants.FONT_DETAILS,
                          bg=constants.LBL_BG_CLR,
@@ -18,9 +26,21 @@ class EntryCreator:
                          justify="center",
                          borderwidth=0)
 
-        entry.place(relwidth=0.4,
+        if validation is not None:
+            vcmd = (frame.register(validate_entry), '%P')
+            entry.config(validate="key", validatecommand=vcmd)
+
+        entry.place(relwidth=0.35,
                     relheight=0.1,
-                    relx=0.8,
+                    relx=0.75,
+                    rely=rel_y,
+                    anchor="n")
+
+        rel_y += 0.08
+        label = tk.Label(frame, background="black")
+        label.place(relwidth=0.35,
+                    relheight=0.001,
+                    relx=0.75,
                     rely=rel_y,
                     anchor="n")
         return entry

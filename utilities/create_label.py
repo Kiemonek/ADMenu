@@ -14,6 +14,7 @@ class LabelCreator:
         """This method creates a label."""
         font = constants.FONT_DETAILS
         bg_color = constants.TOP_LBL_BG_CLR
+        fg_color = constants.TOP_LBL_FG_CLR
 
         if option == "rm":
             fg_color = constants.REM_LBL_FG_CLR
@@ -23,6 +24,8 @@ class LabelCreator:
             fg_color = constants.ADD_LBL_FG_CLR
         elif option == "cmd":
             fg_color = constants.CONNECT_LBL_FG_CLR
+        elif option == "top":
+            pass
         else:
             bg_color = constants.LBL_BG_CLR
             fg_color = constants.LBL_FG_CLR
