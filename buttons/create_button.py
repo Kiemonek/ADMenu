@@ -24,7 +24,7 @@ class ButtonCreator:
         if id_button is not None and rel_x is None and rel_y is None:
 
             rel_width = 0.16
-            rel_height = 0.08
+            rel_height = 0.095
             rel_x = CalculatePosition.calculate_rel_x(self, id_button)
             rel_y = CalculatePosition.calculate_rel_y(self, id_button)
 

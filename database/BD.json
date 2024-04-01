@@ -330,9 +330,9 @@
     },
     {
         "id_button": 47,
-        "title": "Company A",
-        "domain": "companya.com",
-        "username": "user1",
-        "domain_controller": "192.168.21.37"
+        "title": "My Button 47",
+        "domain": "Domain 47",
+        "username": "User 47",
+        "domain_controller": "Controller 47"
     }
 ]
