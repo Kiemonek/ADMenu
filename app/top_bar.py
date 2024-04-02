@@ -7,6 +7,7 @@ from buttons.get_buttons import GetButtons
 from buttons.create_button import ButtonCreator
 from entry.fill_entry import EntryFiller
 from entry.create_entry import EntryCreator
+from app import constants
 
 
 class TopBar:
@@ -21,11 +22,11 @@ class TopBar:
         ClearFrame.clear_frame(self, frame)
 
         if option == "rm":
-            text = "Choose and press button to remove"
+            text = constants.LBL_TOP_RM_TXT
         elif option == "mod":
-            text = "Choose and press button to modify"
+            text = constants.LBL_TOP_MOD_TXT
         elif option == "cmd":
-            text = "Choose and press button to connect dsa"
+            text = constants.LBL_TOP_CMD_TXT
 
         LabelCreator.create_label(self, frame, text, option)
 
@@ -34,13 +35,13 @@ class TopBar:
         if len(button_list) == 0:
             LabelCreator.create_label(self,
                                       frame,
-                                      "No buttons added yet",
+                                      constants.LBL_NO_BTN_TXT,
                                       rel_x=0.5,
                                       rel_y=0.4)
             ButtonCreator.create_button(
                 self,
                 frame,
-                "Add New Button",
+                constants.BTN_ADD_NEW_TXT,
                 lambda: [TopBar.button_details(self, frame)],
                 rel_x=0.5,
                 rel_y=0.6)
@@ -73,11 +74,11 @@ class TopBar:
         ClearFrame.clear_frame(self, top_frame)
 
         if button_id is None:
-            text = "Add New Button"
             option = "add"
+            text = constants.LBL_ADD_BTN_TXT
         else:
             option = "mod"
-            text = "Modify Button"
+            text = constants.LBL_MOD_BTN_TXT
 
         LabelCreator.create_label(self, top_frame, text, option)
 
@@ -115,7 +116,7 @@ class TopBar:
         ButtonCreator.create_button(
             self,
             top_frame,
-            "SAVE",
+            constants.BTN_SAVE_TXT,
             lambda: [
                 SaveButton.save_button(self, get_entries(entry_dict), button_id
                                        ),
@@ -133,7 +134,7 @@ class TopBar:
         """This method creates the shows after save."""
         ClearFrame.clear_frame(self, top_frame)
 
-        label = "Success!"
+        label = constants.LBL_TOP_SUCCESS_TXT
 
         if option == "rm":
             text = "Button removed successfully!"

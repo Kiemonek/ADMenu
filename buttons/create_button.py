@@ -1,6 +1,6 @@
 """This module contains the ButtonBuilder class, which is responsible for creating buttons."""
 import tkinter as tk
-from buttons import constants
+from app import constants
 from utilities.calculate_position import CalculatePosition
 
 
@@ -41,7 +41,7 @@ class ButtonCreator:
                            text=text,
                            bg=constants.BTN_BG_CLR,
                            fg=constants.BTN_FG_CLR,
-                           font=constants.FONT_DETAILS,
+                           font=constants.BTN_FONT_DETAILS,
                            activebackground=constants.BTN_ACTIVE_BG_CLR,
                            command=command)
 

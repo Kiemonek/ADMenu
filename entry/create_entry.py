@@ -1,6 +1,6 @@
 """This module creates an entry."""
 import tkinter as tk
-from entry import constants
+from app import constants
 
 
 class EntryCreator:
@@ -20,7 +20,7 @@ class EntryCreator:
                 return True
 
         entry = tk.Entry(frame,
-                         font=constants.FONT_DETAILS,
+                         font=constants.LBL_FONT_DETAILS,
                          bg=constants.LBL_BG_CLR,
                          fg=constants.LBL_FG_CLR,
                          justify="center",

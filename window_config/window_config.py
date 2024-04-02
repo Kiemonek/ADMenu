@@ -10,20 +10,20 @@ class WinConfig:
         self.top_frame = top_frame
         self.bottom_frame = bottom_frame
 
-        self.root.title("AD Menu")
+        self.root.title(constants.WINDOW_TITLE)
         self.root.geometry(
             f"{constants.WINDOW_WIDTH}x{constants.WINDOW_HEIGHT}")
-        self.root.configure(background="#1E1E1E")
-        self.root.resizable(False, False)
+        self.root.configure(background=constants.WINDOW_BG_CLR)
+        self.root.resizable(constants.WINDOW_HEIGHT, constants.WIDTH_RESIZABLE)
 
-        self.top_frame.config(background="#838383")
+        self.top_frame.config(background=constants.BAR_BG_CLR)
         self.top_frame.place(relwidth=0.97,
                              relheight=0.84,
                              rely=0.02,
                              relx=0.5,
                              anchor="n")
 
-        self.bottom_frame.config(background="#838383")
+        self.bottom_frame.config(background=constants.BAR_BG_CLR)
         self.bottom_frame.place(relwidth=0.97,
                                 relheight=0.10,
                                 rely=0.98,

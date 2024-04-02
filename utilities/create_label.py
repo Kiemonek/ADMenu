@@ -1,6 +1,6 @@
 """This module contains the label creator class."""
 import tkinter as tk
-from utilities import constants
+from app import constants
 
 
 class LabelCreator:
@@ -12,18 +12,18 @@ class LabelCreator:
 
     def create_label(self, frame, text, option=None, rel_x=None, rel_y=None):
         """This method creates a label."""
-        font = constants.FONT_DETAILS
-        bg_color = constants.TOP_LBL_BG_CLR
-        fg_color = constants.TOP_LBL_FG_CLR
+        font = constants.LBL_FONT_DETAILS
+        bg_color = constants.LBL_TOP_BG_CLR
+        fg_color = constants.LBL_TOP_FG_CLR
 
         if option == "rm":
-            fg_color = constants.REM_LBL_FG_CLR
+            fg_color = constants.LBL_REM_FG_CLR
         elif option == "mod":
-            fg_color = constants.MOD_LBL_FG_CLR
+            fg_color = constants.LBL_MOD_FG_CLR
         elif option == "add":
-            fg_color = constants.ADD_LBL_FG_CLR
+            fg_color = constants.LBL_ADD_FG_CLR
         elif option == "cmd":
-            fg_color = constants.CONNECT_LBL_FG_CLR
+            fg_color = constants.LBL_CONNECT_FG_CLR
         elif option == "top":
             pass
         else:
