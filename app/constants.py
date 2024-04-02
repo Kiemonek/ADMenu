@@ -43,6 +43,8 @@ LBL_TOP_RM_TXT = "Press button to remove"
 LBL_TOP_SUCCESS_TXT = "Success!"
 
 #TODO: Rename constants, continue in topbar.py
+#option_cmd
+#lbl_insert_domain
 
 #Details exmaples
 EXMPL_TITLE = "Company A"
