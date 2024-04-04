@@ -1,5 +1,6 @@
 """This module is used to show the buttons in the main frame."""
 from utilities.create_label import LabelCreator
+from utilities.cmd import CMD
 from utilities.clear_frame import ClearFrame
 from database.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton
@@ -58,9 +59,7 @@ class TopBar:
                     return TopBar.button_details(self, frame, x.id_button)
 
                 elif option == constants.OPTION_CMD:
-                    return print('runas /netonly /user:' + x.domain + "\\" +
-                                 x.username + ' "mmc dsa.msc /server=' +
-                                 x.domain_controller + '" ')
+                    return CMD.connect_dsa(self, x)
 
             ButtonCreator.create_button(self,
                                         frame,
