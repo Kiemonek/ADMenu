@@ -16,15 +16,15 @@ class LabelCreator:
         bg_color = constants.LBL_TOP_BG_CLR
         fg_color = constants.LBL_TOP_FG_CLR
 
-        if option == "rm":
+        if option == constants.OPTION_RM:
             fg_color = constants.LBL_REM_FG_CLR
-        elif option == "mod":
+        elif option == constants.OPTION_MOD:
             fg_color = constants.LBL_MOD_FG_CLR
-        elif option == "add":
+        elif option == constants.OPTION_ADD:
             fg_color = constants.LBL_ADD_FG_CLR
-        elif option == "cmd":
+        elif option == constants.OPTION_CMD:
             fg_color = constants.LBL_CONNECT_FG_CLR
-        elif option == "top":
+        elif option == constants.OPTION_TOP:
             pass
         else:
             bg_color = constants.LBL_BG_CLR

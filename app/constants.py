@@ -10,15 +10,22 @@ WINDOW_BG_CLR = "#1E1E1E"
 BAR_BG_CLR = "#838383"
 
 #Database constants
-FILENAME = "database/BD.json"
+FILENAME = "database/btn_database.json"
 
 #Buttons constants
 BTN_FONT_DETAILS = ("Microsoft YaHei", 12, "bold")
 BTN_FG_CLR = '#838383'
 BTN_BG_CLR = '#1E1E1E'
 BTN_ACTIVE_BG_CLR = '#838383'
-BTN_ADD_NEW_TXT = "Add New Button"
-BTN_SAVE_TXT = "Save"
+#Button status texts
+BTN_ADD_NEW = "Add New Button"
+BTN_SAVE = "Save"
+BTN_OK = "OK"
+#Bottom banner button texts
+BTN_CONNECT = "Connect"
+BTN_ADD = "Add"
+BTN_MODIFY = "Modify"
+BTN_REMOVE = "Remove"
 
 #Label constants
 LBL_FONT_DETAILS = ("Microsoft YaHei", 19, "bold")
@@ -31,20 +38,34 @@ LBL_MOD_FG_CLR = '#D98307'
 LBL_REM_FG_CLR = '#DF1A1A'
 LBL_TOP_FG_CLR = '#838383'
 LBL_TOP_BG_CLR = '#1E1E1E'
-#Label texts
-LBL_ADD_BTN_TXT = "Add New Button"
-LBL_MOD_BTN_TXT = "Modify Button"
-LBL_NO_BTN_TXT = "No buttons added yet"
-#Label texts for top bar
-LBL_TOP_ADD_TXT = "Press button to add"
-LBL_TOP_CMD_TXT = "Press button to connect"
-LBL_TOP_MOD_TXT = "Press button to modify"
-LBL_TOP_RM_TXT = "Press button to remove"
-LBL_TOP_SUCCESS_TXT = "Success!"
+UNDERLINE_CLR = '#1E1E1E'
+#Label texts for banner
+TOP_CMD = "Press button to connect"
+TOP_MOD = "Press button to modify"
+TOP_RM = "Press button to remove"
+TOP_ADD_BTN = "Add New Button"
+TOP_MOD_BTN = "Modify Button"
+TOP_SUCCESS = "Success!"
+TOP_LIMIT = "Limit reached!"
+#Process status messages
+STATUS_ADD = "Button added successfully!"
+STATUS_MOD = "Button modified successfully!"
+STATUS_RM = "Button removed successfully!"
+STATUS_NO_BTN = "No buttons added yet"
+STATUS_LIMIT = "List reached a limit of 48 buttons, remove one to add a new one."
+#Label texts for button details
+INSERT_TITLE = "Insert Button Name:"
+INSERT_DOMAIN = "Insert Domain Name:"
+INSERT_USERNAME = "Insert Username:"
+INSERT_CONTROLLER = "Insert Domain Controller:"
 
-#TODO: Rename constants, continue in topbar.py
-#option_cmd
-#lbl_insert_domain
+#Options
+OPTION_ADD = "add"
+OPTION_RM = "rm"
+OPTION_MOD = "mod"
+OPTION_CMD = "cmd"
+OPTION_LIMIT = "limit"
+OPTION_TOP = "top"
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

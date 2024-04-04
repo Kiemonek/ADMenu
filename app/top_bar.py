@@ -21,12 +21,12 @@ class TopBar:
 
         ClearFrame.clear_frame(self, frame)
 
-        if option == "rm":
-            text = constants.LBL_TOP_RM_TXT
-        elif option == "mod":
-            text = constants.LBL_TOP_MOD_TXT
-        elif option == "cmd":
-            text = constants.LBL_TOP_CMD_TXT
+        if option == constants.OPTION_RM:
+            text = constants.TOP_RM
+        elif option == constants.OPTION_MOD:
+            text = constants.TOP_MOD
+        elif option == constants.OPTION_CMD:
+            text = constants.TOP_CMD
 
         LabelCreator.create_label(self, frame, text, option)
 
@@ -35,13 +35,13 @@ class TopBar:
         if len(button_list) == 0:
             LabelCreator.create_label(self,
                                       frame,
-                                      constants.LBL_NO_BTN_TXT,
+                                      constants.STATUS_NO_BTN,
                                       rel_x=0.5,
                                       rel_y=0.4)
             ButtonCreator.create_button(
                 self,
                 frame,
-                constants.BTN_ADD_NEW_TXT,
+                constants.BTN_ADD_NEW,
                 lambda: [TopBar.button_details(self, frame)],
                 rel_x=0.5,
                 rel_y=0.6)
@@ -49,15 +49,15 @@ class TopBar:
         for items in button_list:
 
             def on_pressed(x=items):
-                if option == "rm":
+                if option == constants.OPTION_RM:
                     return JsonHelpers.remove_button_from_db(
-                        self,
-                        x.id_button), TopBar.process_status(self, frame, "rm")
+                        self, x.id_button), TopBar.process_status(
+                            self, frame, constants.OPTION_RM)
 
-                elif option == "mod":
+                elif option == constants.OPTION_MOD:
                     return TopBar.button_details(self, frame, x.id_button)
 
-                elif option == "cmd":
+                elif option == constants.OPTION_CMD:
                     return print('runas /netonly /user:' + x.domain + "\\" +
                                  x.username + ' "mmc dsa.msc /server=' +
                                  x.domain_controller + '" ')
@@ -74,22 +74,23 @@ class TopBar:
         ClearFrame.clear_frame(self, top_frame)
 
         if button_id is None:
-            option = "add"
-            text = constants.LBL_ADD_BTN_TXT
+            option = constants.OPTION_ADD
+            text = constants.TOP_ADD_BTN
         else:
-            option = "mod"
-            text = constants.LBL_MOD_BTN_TXT
+            option = constants.OPTION_MOD
+            text = constants.TOP_MOD_BTN
 
         LabelCreator.create_label(self, top_frame, text, option)
 
         label_dict = {}
         entry_dict = {}
         button_details = [
-            ("LabelName", "title", "Insert Button Name:", 0.2, True),
-            ("LabelDomain", "domain", "Insert Domain Name:", 0.35, None),
-            ("LabelUsername", "username", "Insert Username:", 0.5, None),
+            ("LabelName", "title", constants.INSERT_TITLE, 0.2, True),
+            ("LabelDomain", "domain", constants.INSERT_DOMAIN, 0.35, None),
+            ("LabelUsername", "username", constants.INSERT_USERNAME, 0.5,
+             None),
             ("LabelController", "domain_controller",
-             "Insert Domain Controller:", 0.65, None),
+             constants.INSERT_CONTROLLER, 0.65, None),
         ]
 
         for label, entry, text, rel_y, valid in button_details:
@@ -116,7 +117,7 @@ class TopBar:
         ButtonCreator.create_button(
             self,
             top_frame,
-            constants.BTN_SAVE_TXT,
+            constants.BTN_SAVE,
             lambda: [
                 SaveButton.save_button(self, get_entries(entry_dict), button_id
                                        ),
@@ -128,30 +129,31 @@ class TopBar:
         tester = GetButtons.get_button_list(self)
         if len(tester) >= 48 and button_id is None:
 
-            TopBar.process_status(self, top_frame, "limit")
+            TopBar.process_status(self, top_frame, constants.OPTION_LIMIT)
 
     def process_status(self, top_frame, option):
         """This method creates the shows after save."""
         ClearFrame.clear_frame(self, top_frame)
 
-        label = constants.LBL_TOP_SUCCESS_TXT
+        label = constants.TOP_SUCCESS
 
-        if option == "rm":
-            text = "Button removed successfully!"
+        if option == constants.OPTION_RM:
+            text = constants.STATUS_RM
         elif option is None:
-            text = "Button added successfully!"
-        elif option == "limit":
-            text = "List reached a limit of 48 buttons, remove one to add a new one."
-            label = "Limit reached!"
+            text = constants.STATUS_ADD
+        elif option == constants.OPTION_LIMIT:
+            text = constants.STATUS_LIMIT
+            label = constants.TOP_LIMIT
         else:
-            text = "Button modified successfully!"
+            text = constants.STATUS_MOD
 
-        LabelCreator.create_label(self, top_frame, label, "top")
+        LabelCreator.create_label(self, top_frame, label, constants.OPTION_TOP)
         ButtonCreator.create_button(
             self,
             top_frame,
-            "OK",
-            lambda: [TopBar.show_button_list(self, top_frame, "cmd")],
+            constants.BTN_OK,
+            lambda:
+            [TopBar.show_button_list(self, top_frame, constants.OPTION_CMD)],
             rel_x=0.5,
             rel_y=0.6)
         LabelCreator.create_label(self, top_frame, text, rel_x=0.5, rel_y=0.4)

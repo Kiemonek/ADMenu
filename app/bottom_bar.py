@@ -1,6 +1,7 @@
 """This module creates the bottom bar of the application with buttons to interact."""
 from buttons.create_button import ButtonCreator
 from app.top_bar import TopBar
+from app import constants
 
 
 class BottomBar:
@@ -14,14 +15,14 @@ class BottomBar:
         """This method creates the bottom bar of the application with buttons to interact."""
 
         button_bar_data = [
-            ("CONNECT",
-             lambda: TopBar.show_button_list(self, top_frame, "cmd"), 0.125),
-            ("ADD", lambda: TopBar.button_details(self, top_frame, None),
-             0.375),
-            ("MODIFY", lambda: TopBar.show_button_list(self, top_frame, "mod"),
-             0.625),
-            ("REMOVE", lambda: TopBar.show_button_list(self, top_frame, "rm"),
-             0.875)
+            (constants.BTN_CONNECT, lambda: TopBar.show_button_list(
+                self, top_frame, constants.OPTION_CMD), 0.125),
+            (constants.BTN_ADD,
+             lambda: TopBar.button_details(self, top_frame, None), 0.375),
+            (constants.BTN_MODIFY, lambda: TopBar.show_button_list(
+                self, top_frame, constants.OPTION_MOD), 0.625),
+            (constants.BTN_REMOVE, lambda: TopBar.show_button_list(
+                self, top_frame, constants.OPTION_RM), 0.875)
         ]
 
         for text, command, rel_x in button_bar_data:

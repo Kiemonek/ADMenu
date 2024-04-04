@@ -12,9 +12,9 @@ class EntryCreator:
     def create_entry(self, frame, rel_y, validation=None):
         """This method creates an entry."""
 
-        def validate_entry(P):
+        def validate_entry(validate):
             """This method validates the entry."""
-            if len(P) > 12:
+            if len(validate) > 12:
                 return False
             else:
                 return True
@@ -37,7 +37,7 @@ class EntryCreator:
                     anchor="n")
 
         rel_y += 0.08
-        label = tk.Label(frame, background="black")
+        label = tk.Label(frame, background=constants.UNDERLINE_CLR)
         label.place(relwidth=0.35,
                     relheight=0.001,
                     relx=0.75,

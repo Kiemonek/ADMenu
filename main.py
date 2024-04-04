@@ -2,6 +2,7 @@
 from tkinter import Tk, Frame
 from app.top_bar import TopBar
 from app.bottom_bar import BottomBar
+from app import constants
 from window_config.window_config import WinConfig
 
 
@@ -13,7 +14,7 @@ def main():
 
     WinConfig(root, top_frame, bottom_frame)
 
-    TopBar.show_button_list(None, top_frame, "cmd")
+    TopBar.show_button_list(None, top_frame, constants.OPTION_CMD)
     BottomBar.bottom_bar(None, top_frame, bottom_frame)
 
     root.mainloop()
