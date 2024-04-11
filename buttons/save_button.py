@@ -17,7 +17,7 @@ class SaveButton:
 
     def save_button(self, entry_data, button_id=None):
         """This method saves the button to the database."""
-
+        #FIXME: This method is not working as expected.
         current_data = GetButtons.get_button_list(self)
 
         if not current_data:
