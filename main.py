@@ -1,9 +1,9 @@
 """Main file of the application. It creates the main window and frames of the application."""
-from tkinter import Tk, Frame
+from tkinter import Tk, Frame, messagebox
 from app.top_bar import TopBar
 from app.bottom_bar import BottomBar
-from database import constants
 from window_config.window_config import WinConfig
+import utilities.constants as constants
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
 
     TopBar.show_button_list(None, top_frame, constants.OPTION_CMD)
     BottomBar.bottom_bar(None, top_frame, bottom_frame)
-
+    
     root.mainloop()
 
 

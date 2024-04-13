@@ -10,7 +10,8 @@ WINDOW_BG_CLR = "#1E1E1E"
 BAR_BG_CLR = "#838383"
 
 #Database constants
-FILENAME = "database/btn_database.json"
+FILENAME = "AD Menu\\data\\btn_database.json"
+FILEPATH = "AD Menu\\data"
 
 #Buttons constants
 BTN_FONT_DETAILS = ("Microsoft YaHei", 12, "bold")

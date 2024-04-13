@@ -1,7 +1,8 @@
 """This module gets the buttons from the database."""
 import json
 import os
-from database import constants
+import utilities.constants as constants
+from utilities.resource_path import ResourcePath
 
 
 class GetButtons:
@@ -18,8 +19,7 @@ class GetButtons:
 
     def get_button_list(self):
         """This method gets the button list from the database."""
-
-        filename = constants.FILENAME
+        filename = ResourcePath.get_resource_path(self, constants.FILENAME)
         button_list = []
 
         if not os.path.exists(filename):
