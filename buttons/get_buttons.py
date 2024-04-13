@@ -1,6 +1,7 @@
 """This module gets the buttons from the database."""
 import json
 import os
+from database import constants
 
 
 class GetButtons:
@@ -15,15 +16,12 @@ class GetButtons:
         self.username = username
         self.domain_controller = domain_controller
 
-
-# NOTE: Utility Functions
-
     def get_button_list(self):
         """This method gets the button list from the database."""
 
-        filename = "database/BD.json"
+        filename = constants.FILENAME
         button_list = []
-        # try:
+
         if not os.path.exists(filename):
             database = open(filename, "a", encoding="utf-8")
             database.close()

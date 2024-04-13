@@ -2,4 +2,6 @@ __pycache__/
 *.py[cod]
 BD copy.json
 BD_old.json
+BD.json
 todo.py
+database/btn_database.json

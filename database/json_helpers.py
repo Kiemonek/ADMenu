@@ -1,5 +1,6 @@
 """This module contains the JSONHelpers class."""
 import json
+from database import constants
 
 
 class JsonHelpers:
@@ -82,14 +83,14 @@ class JsonHelpers:
     def save_changes_to_db(self, button_list):
         """Save the changes to the database"""
         json_string = JsonHelpers.list_to_json(button_list)
-        filename = 'database/BD.json'
+        filename = constants.FILENAME
 
         with open(filename, 'w', encoding='UTF-8') as file:
             json.dump(json.loads(json_string), file, indent=4)
 
     def remove_button_from_db(self, button_id):
         """Remove a button from the database"""
-        filename = "database/BD.json"
+        filename = constants.FILENAME
         with open(filename, 'r', encoding='UTF-8') as file:
             data = json.load(file)
 

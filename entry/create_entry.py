@@ -1,6 +1,6 @@
 """This module creates an entry."""
 import tkinter as tk
-from entry import constants
+from database import constants
 
 
 class EntryCreator:
@@ -9,14 +9,38 @@ class EntryCreator:
     def __init__(self, frame):
         self.frame = frame
 
-    def create_entry(self, frame, rel_y):
+    def create_entry(self, frame, rel_y, validation=None):
         """This method creates an entry."""
+
+        def validate_entry(validate):
+            """This method validates the entry."""
+            if len(validate) > 12:
+                return False
+            else:
+                return True
+
         entry = tk.Entry(frame,
-                         font=constants.FONT_DETAILS,
+                         font=constants.LBL_FONT_DETAILS,
                          bg=constants.LBL_BG_CLR,
                          fg=constants.LBL_FG_CLR,
                          justify="center",
                          borderwidth=0)
 
-        entry.place(relwidth=0.4, relx=0.55, rely=rel_y)
+        if validation is not None:
+            vcmd = (frame.register(validate_entry), '%P')
+            entry.config(validate="key", validatecommand=vcmd)
+
+        entry.place(relwidth=0.35,
+                    relheight=0.1,
+                    relx=0.75,
+                    rely=rel_y,
+                    anchor="n")
+
+        rel_y += 0.08
+        label = tk.Label(frame, background=constants.UNDERLINE_CLR)
+        label.place(relwidth=0.35,
+                    relheight=0.001,
+                    relx=0.75,
+                    rely=rel_y,
+                    anchor="n")
         return entry
