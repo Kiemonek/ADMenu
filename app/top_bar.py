@@ -8,7 +8,7 @@ from buttons.get_buttons import GetButtons
 from buttons.create_button import ButtonCreator
 from entry.fill_entry import EntryFiller
 from entry.create_entry import EntryCreator
-from app import constants
+from database import constants
 
 
 class TopBar:

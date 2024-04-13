@@ -1,5 +1,5 @@
 """This module contains the class to configure the main window of the application."""
-from app import constants
+from database import constants
 
 
 class WinConfig:

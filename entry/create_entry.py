@@ -1,6 +1,6 @@
 """This module creates an entry."""
 import tkinter as tk
-from app import constants
+from database import constants
 
 
 class EntryCreator:

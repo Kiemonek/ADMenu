@@ -2,7 +2,7 @@
 from tkinter import Tk, Frame
 from app.top_bar import TopBar
 from app.bottom_bar import BottomBar
-from app import constants
+from database import constants
 from window_config.window_config import WinConfig
 
 

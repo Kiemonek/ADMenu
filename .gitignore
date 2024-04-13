@@ -4,4 +4,4 @@ BD copy.json
 BD_old.json
 BD.json
 todo.py
-.env
+database/btn_database.json

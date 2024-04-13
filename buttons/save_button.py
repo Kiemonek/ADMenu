@@ -17,45 +17,33 @@ class SaveButton:
 
     def save_button(self, entry_data, button_id=None):
         """This method saves the button to the database."""
-        #FIXME: This method is not working as expected.
         current_data = GetButtons.get_button_list(self)
 
+        new_button = SaveButton(
+            id_button=0,
+            root='',
+            title=entry_data["title"],
+            domain=entry_data["domain"],
+            username=entry_data["username"],
+            domain_controller=entry_data["domain_controller"])
+
         if not current_data:
-
-            append_button = []
-            button_id = 0
-
+            append_button = [new_button]
         elif button_id is None:
-
             append_button = current_data
-
+            max_id = max(button.id_button for button in append_button)
+            new_button.id_button = max_id + 1
+            append_button.append(new_button)
         else:
+            new_button.id_button = button_id
             append_button = [
-                button for button in current_data
-                if not button.id_button == button_id
+                button if not button.id_button == button_id else new_button
+                for button in current_data
             ]
 
-            for i, button in enumerate(append_button):
-                button.id_button = i
-
-        if button_id is None:
-            max_id = max(button.id_button for button in append_button)
-            button_id = max_id + 1
-        else:
-            pass
-
-        new_title = entry_data["title"]
-        new_domain = entry_data["domain"]
-        new_username = entry_data["username"]
-        new_domain_controller = entry_data["domain_controller"]
-
-        button = SaveButton(id_button=button_id,
-                            root='',
-                            title=new_title,
-                            domain=new_domain,
-                            username=new_username,
-                            domain_controller=new_domain_controller)
-        append_button.append(button)
-
         append_button = sorted(append_button, key=lambda x: x.id_button)
+
+        for i, button in enumerate(append_button):
+            button.id_button = i
+
         JsonHelpers.save_changes_to_db(self, button_list=append_button)

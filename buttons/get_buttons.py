@@ -1,7 +1,7 @@
 """This module gets the buttons from the database."""
 import json
 import os
-from app import constants
+from database import constants
 
 
 class GetButtons:

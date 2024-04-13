@@ -1,6 +1,6 @@
 """This module contains the label creator class."""
 import tkinter as tk
-from app import constants
+from database import constants
 
 
 class LabelCreator:

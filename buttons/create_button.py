@@ -1,6 +1,6 @@
 """This module contains the ButtonBuilder class, which is responsible for creating buttons."""
 import tkinter as tk
-from app import constants
+from database import constants
 from utilities.calculate_position import CalculatePosition
 
 

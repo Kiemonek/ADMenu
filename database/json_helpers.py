@@ -1,6 +1,6 @@
 """This module contains the JSONHelpers class."""
 import json
-from app import constants
+from database import constants
 
 
 class JsonHelpers:
