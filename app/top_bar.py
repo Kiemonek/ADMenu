@@ -1,14 +1,14 @@
 """This module is used to show the buttons in the main frame."""
 from utilities.create_label import LabelCreator
-from utilities.cmd import CMD
+from utilities.dsa_connect import DSAConnect
 from utilities.clear_frame import ClearFrame
-from database.json_helpers import JsonHelpers
+from utilities.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton
 from buttons.get_buttons import GetButtons
 from buttons.create_button import ButtonCreator
 from entry.fill_entry import EntryFiller
 from entry.create_entry import EntryCreator
-from database import constants
+import utilities.constants as constants
 
 
 class TopBar:
@@ -59,7 +59,7 @@ class TopBar:
                     return TopBar.button_details(self, frame, x.id_button)
 
                 elif option == constants.OPTION_CMD:
-                    return CMD.connect_dsa(self, x)
+                    return DSAConnect.connect_dsa(self, x)
 
             ButtonCreator.create_button(self,
                                         frame,

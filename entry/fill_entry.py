@@ -1,5 +1,5 @@
 """This module provides a class that fills an entry with a value."""
-from database import constants
+import utilities.constants as constants
 from buttons.get_buttons import GetButtons
 
 

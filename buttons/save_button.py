@@ -1,6 +1,6 @@
 """A module for the utilities of the application."""
 from buttons.get_buttons import GetButtons
-from database.json_helpers import JsonHelpers
+from utilities.json_helpers import JsonHelpers
 
 
 class SaveButton:

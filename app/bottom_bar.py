@@ -1,7 +1,7 @@
 """This module creates the bottom bar of the application with buttons to interact."""
 from buttons.create_button import ButtonCreator
 from app.top_bar import TopBar
-from database import constants
+import utilities.constants as constants
 
 
 class BottomBar:
