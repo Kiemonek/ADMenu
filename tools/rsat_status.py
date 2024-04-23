@@ -1,7 +1,7 @@
 """This module is used to get the status of the RSAT feature."""
 import ctypes
 import os
-from buttons.create_button import ButtonCreator
+import tkinter as tk
 from utilities import constants
 from utilities.resource_path import ResourcePath
 
@@ -25,13 +25,19 @@ class RsatStatus:
         else:
             text += constants.RSAT_IDK
 
-        ButtonCreator.create_button(
-            self,
-            frame,
-            text,
-            command=lambda: RsatStatus.update_status(self),
-            rel_x=rel_x,
-            rel_y=rel_y)
+        button = tk.Button(frame,
+                           text=text,
+                           bg=constants.BTN_BG_CLR,
+                           fg=constants.BTN_FG_CLR,
+                           font=constants.BTN_FONT_DETAILS,
+                           activebackground=constants.BTN_ACTIVE_BG_CLR,
+                           command=lambda: RsatStatus.update_status(self))
+
+        button.place(relwidth=0.25,
+                     relheight=0.08,
+                     anchor="n",
+                     relx=rel_x,
+                     rely=rel_y)
 
     def get_status(self):
         """This method gets the status of the RSAT feature."""
@@ -41,10 +47,7 @@ class RsatStatus:
             constants.RSAT_NOT_INSTALLED
         ]
         if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            database = open(filename, "a", encoding="utf-8")
-            database.write(constants.RSAT_IDK)
-            database.close()
-            status = constants.RSAT_IDK
+            RsatStatus.update_status(self)
 
         else:
             database = open(filename, "r", encoding="utf-8")
@@ -62,7 +65,7 @@ class RsatStatus:
 
         cmd_command = 'powershell -Command'
         ps_command = 'Get-WindowsCapability -Name RSAT* -Online'
-        format_command = 'Format-List -Property State'  #DisplayName, State'
+        format_command = 'Format-List -Property State'
         command_output = f"Out-File -FilePath '{filename}' -Encoding utf8"
 
         full_command = f'{cmd_command} "{ps_command} | {format_command} | {command_output}"'
@@ -70,7 +73,7 @@ class RsatStatus:
         print(full_command)
 
         ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
-                                            f'/C {full_command}', None, 1)
+                                            f'/C {full_command}', None, 0)
 
         return True
 
