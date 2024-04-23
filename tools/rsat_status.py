@@ -31,6 +31,7 @@ class RsatStatus:
                            fg=constants.BTN_FG_CLR,
                            font=constants.BTN_FONT_DETAILS,
                            activebackground=constants.BTN_ACTIVE_BG_CLR,
+                           borderwidth=0,
                            command=lambda: RsatStatus.update_status(self))
 
         button.place(relwidth=0.25,
