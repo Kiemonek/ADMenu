@@ -1,7 +1,6 @@
 """This module contains the CMDHandler class."""
-import os
-import sys
 import ctypes
+
 
 class DSAConnect:
     """This class is used to run commands in the command prompt."""
@@ -15,6 +14,5 @@ class DSAConnect:
         mmc_command = f'mmc dsa.msc /server={button.domain_controller}'
         full_command = f'cmd.exe /C runas /netonly /user:{domain_user} "{mmc_command}"'
 
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe", f'/C {full_command}', None, 1)
-
-            
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
+                                            f'/C {full_command}', None, 1)

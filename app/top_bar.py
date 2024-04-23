@@ -1,6 +1,7 @@
 """This module is used to show the buttons in the main frame."""
-from utilities.create_label import LabelCreator
-from utilities.dsa_connect import DSAConnect
+from tools.rsat_status import RsatStatus
+from label.create_label import LabelCreator
+from tools.dsa_connect import DSAConnect
 from utilities.clear_frame import ClearFrame
 from utilities.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton
@@ -30,6 +31,7 @@ class TopBar:
             text = constants.TOP_CMD
 
         LabelCreator.create_label(self, frame, text, option)
+        RsatStatus.display_status(self, frame)
 
         button_list = GetButtons.get_button_list(self)
 
@@ -80,6 +82,7 @@ class TopBar:
             text = constants.TOP_MOD_BTN
 
         LabelCreator.create_label(self, top_frame, text, option)
+        RsatStatus.display_status(self, top_frame)
 
         label_dict = {}
         entry_dict = {}
@@ -147,6 +150,7 @@ class TopBar:
             text = constants.STATUS_MOD
 
         LabelCreator.create_label(self, top_frame, label, constants.OPTION_TOP)
+        RsatStatus.display_status(self, top_frame)
         ButtonCreator.create_button(
             self,
             top_frame,

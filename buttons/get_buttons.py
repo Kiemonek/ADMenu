@@ -19,7 +19,7 @@ class GetButtons:
 
     def get_button_list(self):
         """This method gets the button list from the database."""
-        filename = ResourcePath.get_resource_path(self, constants.FILENAME)
+        filename = ResourcePath.get_resource_path(self, constants.DBFILENAME)
         button_list = []
 
         if not os.path.exists(filename):
