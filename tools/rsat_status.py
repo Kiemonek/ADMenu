@@ -66,6 +66,7 @@ class RsatStatus:
             if constants.RSAT_INSTALLED in line:
                 status_list.append(constants.RSAT_INSTALLED)
             elif len(line) < 3 or line == "\n":
+                #TODO: change it go not contain "State :"
                 pass
             else:
                 status_list.append(constants.RSAT_NOT_INSTALLED)
