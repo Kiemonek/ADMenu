@@ -1,7 +1,7 @@
 """This module is used to show the buttons in the main frame."""
 from tools.rsat_status import RsatStatus
-from label.create_label import LabelCreator
 from tools.dsa_connect import DSAConnect
+from label.create_label import LabelCreator
 from utilities.clear_frame import ClearFrame
 from utilities.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton

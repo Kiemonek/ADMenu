@@ -71,9 +71,10 @@ OPTION_TOP = "top"
 
 #RSAT Status
 RSAT_STATUS = "RSAT Status: "
-RSAT_INSTALLED = "OK"
+RSAT_INSTALLED = "Installed"
 RSAT_NOT_INSTALLED = "Not Installed"
-RSAT_IDK = "?"
+RSAT_IDK = "Unknown"
+RSAT_CHECK = "Checking RSAT status..."
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

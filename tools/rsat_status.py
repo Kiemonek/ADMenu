@@ -1,6 +1,7 @@
 """This module is used to get the status of the RSAT feature."""
 import ctypes
 import os
+import time
 import tkinter as tk
 from utilities import constants
 from utilities.resource_path import ResourcePath
@@ -32,7 +33,7 @@ class RsatStatus:
                            font=constants.BTN_FONT_DETAILS,
                            activebackground=constants.BTN_ACTIVE_BG_CLR,
                            borderwidth=0,
-                           command=lambda: RsatStatus.update_status(self))
+                           command=lambda: RsatStatus.get_status(self, frame))
 
         button.place(relwidth=0.25,
                      relheight=0.08,
@@ -40,25 +41,40 @@ class RsatStatus:
                      relx=rel_x,
                      rely=rel_y)
 
-    def get_status(self):
+    def get_status(self, frame):
         """This method gets the status of the RSAT feature."""
         filename = ResourcePath.get_resource_path(self, constants.RSATFILENAME)
-        valid_statuses = [
-            constants.RSAT_IDK, constants.RSAT_INSTALLED,
-            constants.RSAT_NOT_INSTALLED
-        ]
+
         if not os.path.exists(filename) or os.path.getsize(filename) == 0:
             RsatStatus.update_status(self)
 
+            buffer = 0
+            while not os.path.exists(filename) or os.path.getsize(
+                    filename) == 0:
+                time.sleep(0.5)
+                buffer += 0.5
+                if buffer == 10:
+                    print("Error: File not found or empty.")
+                    break
+
+        database = open(filename, "r", encoding="utf-8")
+        data = database.readlines()
+        database.close()
+
+        status_list = []
+        for line in data:
+            if constants.RSAT_INSTALLED in line:
+                status_list.append(constants.RSAT_INSTALLED)
+            elif len(line) < 3 or line == "\n":
+                pass
+            else:
+                status_list.append(constants.RSAT_NOT_INSTALLED)
+
+        if constants.RSAT_NOT_INSTALLED in status_list:
+            RsatStatus.display_status(self, frame,
+                                      constants.RSAT_NOT_INSTALLED)
         else:
-            database = open(filename, "r", encoding="utf-8")
-            status = database.read()
-            database.close()
-
-        if status not in valid_statuses:
-            status = constants.RSAT_IDK
-
-        return status
+            RsatStatus.display_status(self, frame, constants.RSAT_INSTALLED)
 
     def update_status(self):
         """This method updates the status of the RSAT feature."""
@@ -71,12 +87,22 @@ class RsatStatus:
 
         full_command = f'{cmd_command} "{ps_command} | {format_command} | {command_output}"'
 
-        print(full_command)
-
         ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
                                             f'/C {full_command}', None, 0)
 
-        return True
-
     def install_rsat(self):
-        return True
+        """This method installs the RSAT feature."""
+        cmd_command = 'powershell -Command'
+        ps_command = 'Get-WindowsCapability -Name RSAT* -Online'
+        install_command = 'Add-WindowsCapability -Online -Name'
+
+        full_command = f'{cmd_command} "{ps_command} | {install_command}"'
+
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
+                                            f'/C {full_command}', None, 0)
+        rem_command = f'del "{ResourcePath.get_resource_path(self, constants.RSATFILENAME)}"'
+
+        #TODO: Test output on a VM
+
+
+#TODO: RSAT Status based on other file
