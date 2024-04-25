@@ -12,6 +12,7 @@ BAR_BG_CLR = "#838383"
 #Database constants
 DBFILENAME = "AD Menu\\data\\btn_database.json"
 RSATFILENAME = "AD Menu\\data\\rsat_status.txt"
+RSATSTATUSFILENAME = "AD Menu\\data\\status.txt"
 FILEPATH = "AD Menu\\data"
 
 #Buttons constants
@@ -73,8 +74,9 @@ OPTION_TOP = "top"
 RSAT_STATUS = "RSAT Status: "
 RSAT_INSTALLED = "Installed"
 RSAT_NOT_INSTALLED = "Not Installed"
-RSAT_IDK = "Unknown"
+RSAT_UNKNOWN = "Unknown"
 RSAT_CHECK = "Checking RSAT status..."
+RSAT_INSTALLATION = "Installing RSAT..."
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

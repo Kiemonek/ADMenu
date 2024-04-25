@@ -15,33 +15,62 @@ class RsatStatus:
 
     def display_status(self, frame, status=None):
         """This method displays the status of the RSAT feature."""
-        text = constants.RSAT_STATUS
-        rel_x = 0.85
-        rel_y = 0.0
-
-        if status == constants.RSAT_INSTALLED:
-            text += constants.RSAT_INSTALLED
-        elif status == constants.RSAT_NOT_INSTALLED:
-            text += constants.RSAT_NOT_INSTALLED
+        if status is None:
+            RsatStatus.get_status(self, frame)
         else:
-            text += constants.RSAT_IDK
+            text = constants.RSAT_STATUS + status
 
-        button = tk.Button(frame,
-                           text=text,
-                           bg=constants.BTN_BG_CLR,
-                           fg=constants.BTN_FG_CLR,
-                           font=constants.BTN_FONT_DETAILS,
-                           activebackground=constants.BTN_ACTIVE_BG_CLR,
-                           borderwidth=0,
-                           command=lambda: RsatStatus.get_status(self, frame))
+        #TODO: if statements
+        # if status == constants.RSAT_INSTALLED:
+        #     text += constants.RSAT_INSTALLED
+        # elif status == constants.RSAT_NOT_INSTALLED:
+        #     text += constants.RSAT_NOT_INSTALLED
+        # else:
+        #     text += constants.RSAT_IDK
 
-        button.place(relwidth=0.25,
-                     relheight=0.08,
-                     anchor="n",
-                     relx=rel_x,
-                     rely=rel_y)
+        # button = tk.Button(frame,
+        #                    text=text,
+        #                    bg=constants.BTN_BG_CLR,
+        #                    fg=constants.BTN_FG_CLR,
+        #                    font=constants.BTN_FONT_DETAILS,
+        #                    activebackground=constants.BTN_ACTIVE_BG_CLR,
+        #                    borderwidth=0,
+        #                    command=lambda: )
+
+        # button.place(relwidth=0.25,
+        #              relheight=0.08,
+        #              anchor="n",
+        #              relx=0.85,
+        #              rely=0.0)
 
     def get_status(self, frame):
+        """This method gets the status of the RSAT feature."""
+        filename = ResourcePath.get_resource_path(self,
+                                                  constants.RSATSTATUSFILENAME)
+
+        if not os.path.exists(filename) or os.path.getsize(filename) == 0:
+            status_data = open(filename, "a", encoding="utf-8")
+            status_data.write(constants.RSAT_UNKNOWN)
+            status_data.close()
+
+        status_data = open(filename, "r", encoding="utf-8")
+        data = status_data.readlines()
+        status_data.close()
+
+        if constants.RSAT_NOT_INSTALLED in data:
+            status = constants.RSAT_NOT_INSTALLED
+        elif constants.RSAT_INSTALLED in data:
+            status = constants.RSAT_INSTALLED
+        elif constants.RSAT_CHECK in data:
+            status = constants.RSAT_CHECK
+        elif constants.RSAT_INSTALLATION in data:
+            status = constants.RSAT_INSTALLATION
+        else:
+            status = constants.RSAT_UNKNOWN
+
+        RsatStatus.display_status(self, frame, status)
+
+    def get_status1(self, frame):
         """This method gets the status of the RSAT feature."""
         filename = ResourcePath.get_resource_path(self, constants.RSATFILENAME)
 
@@ -66,7 +95,6 @@ class RsatStatus:
             if constants.RSAT_INSTALLED in line:
                 status_list.append(constants.RSAT_INSTALLED)
             elif len(line) < 3 or line == "\n":
-                #TODO: change it go not contain "State :"
                 pass
             else:
                 status_list.append(constants.RSAT_NOT_INSTALLED)
@@ -104,6 +132,3 @@ class RsatStatus:
         rem_command = f'del "{ResourcePath.get_resource_path(self, constants.RSATFILENAME)}"'
 
         #TODO: Test output on a VM
-
-
-#TODO: RSAT Status based on other file
