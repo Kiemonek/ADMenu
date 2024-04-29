@@ -75,8 +75,7 @@ RSAT_STATUS = "RSAT Status: "
 RSAT_INSTALLED = "Installed"
 RSAT_NOT_INSTALLED = "Not Installed"
 RSAT_UNKNOWN = "Unknown"
-RSAT_CHECK = "Checking RSAT status..."
-RSAT_INSTALLATION = "Installing RSAT..."
+RSAT_INSTALLATION = "Installing, click to update"
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

@@ -3,6 +3,7 @@ import ctypes
 import os
 import time
 import tkinter as tk
+from tkinter import messagebox
 from utilities import constants
 from utilities.resource_path import ResourcePath
 
@@ -15,35 +16,37 @@ class RsatStatus:
 
     def display_status(self, frame, status=None):
         """This method displays the status of the RSAT feature."""
-        if status is None:
-            RsatStatus.get_status(self, frame)
+        status = RsatStatus.get_status(self)
+        if status == constants.RSAT_INSTALLATION:
+            text = constants.RSAT_INSTALLATION
         else:
             text = constants.RSAT_STATUS + status
 
-        #TODO: if statements
-        # if status == constants.RSAT_INSTALLED:
-        #     text += constants.RSAT_INSTALLED
-        # elif status == constants.RSAT_NOT_INSTALLED:
-        #     text += constants.RSAT_NOT_INSTALLED
-        # else:
-        #     text += constants.RSAT_IDK
+        button = tk.Button(
+            frame,
+            text=text,
+            bg=constants.BTN_BG_CLR,
+            fg=constants.BTN_FG_CLR,
+            font=constants.BTN_FONT_DETAILS,
+            activebackground=constants.BTN_ACTIVE_BG_CLR,
+            borderwidth=0,
+        )
 
-        # button = tk.Button(frame,
-        #                    text=text,
-        #                    bg=constants.BTN_BG_CLR,
-        #                    fg=constants.BTN_FG_CLR,
-        #                    font=constants.BTN_FONT_DETAILS,
-        #                    activebackground=constants.BTN_ACTIVE_BG_CLR,
-        #                    borderwidth=0,
-        #                    command=lambda: )
+        button.place(relwidth=0.35,
+                     relheight=0.08,
+                     anchor="n",
+                     relx=0.85,
+                     rely=0.0)
 
-        # button.place(relwidth=0.25,
-        #              relheight=0.08,
-        #              anchor="n",
-        #              relx=0.85,
-        #              rely=0.0)
+        if status == constants.RSAT_NOT_INSTALLED:
+            button.config(command=lambda: RsatStatus.install_rsat(self))
+        elif status == constants.RSAT_INSTALLED:
+            button.config(state="disabled")
+        else:
+            button.config(
+                command=lambda: RsatStatus.update_status(self, frame))
 
-    def get_status(self, frame):
+    def get_status(self):
         """This method gets the status of the RSAT feature."""
         filename = ResourcePath.get_resource_path(self,
                                                   constants.RSATSTATUSFILENAME)
@@ -61,21 +64,35 @@ class RsatStatus:
             status = constants.RSAT_NOT_INSTALLED
         elif constants.RSAT_INSTALLED in data:
             status = constants.RSAT_INSTALLED
-        elif constants.RSAT_CHECK in data:
-            status = constants.RSAT_CHECK
         elif constants.RSAT_INSTALLATION in data:
             status = constants.RSAT_INSTALLATION
         else:
             status = constants.RSAT_UNKNOWN
 
-        RsatStatus.display_status(self, frame, status)
+        return status
 
-    def get_status1(self, frame):
+    def update_status(self, frame):
+        """This method updates the status of the RSAT feature."""
+        filename = ResourcePath.get_resource_path(self, constants.RSATFILENAME)
+
+        cmd_command = 'powershell -Command'
+        ps_command = 'Get-WindowsCapability -Name RSAT* -Online'
+        format_command = 'Format-List -Property State'
+        command_output = f"Out-File -FilePath '{filename}' -Encoding utf8"
+
+        full_command = f'{cmd_command} "{ps_command} | {format_command} | {command_output}"'
+
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
+                                            f'/C {full_command}', None, 0)
+
+        RsatStatus.status_updater(self, frame)
+
+    def status_updater(self, frame):
         """This method gets the status of the RSAT feature."""
         filename = ResourcePath.get_resource_path(self, constants.RSATFILENAME)
 
         if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            RsatStatus.update_status(self)
+            RsatStatus.update_status(self, frame)
 
             buffer = 0
             while not os.path.exists(filename) or os.path.getsize(
@@ -83,7 +100,9 @@ class RsatStatus:
                 time.sleep(0.5)
                 buffer += 0.5
                 if buffer == 10:
-                    print("Error: File not found or empty.")
+                    messagebox.showerror(
+                        title="Error",
+                        message="An error occurred while updating the status.")
                     break
 
         database = open(filename, "r", encoding="utf-8")
@@ -99,36 +118,49 @@ class RsatStatus:
             else:
                 status_list.append(constants.RSAT_NOT_INSTALLED)
 
-        if constants.RSAT_NOT_INSTALLED in status_list:
-            RsatStatus.display_status(self, frame,
-                                      constants.RSAT_NOT_INSTALLED)
+        if constants.RSAT_NOT_INSTALLED in status_list and RsatStatus.get_status(
+                self) == constants.RSAT_INSTALLATION:
+            RsatStatus.write_status(self, constants.RSAT_INSTALLATION)
+        elif constants.RSAT_NOT_INSTALLED in status_list:
+            RsatStatus.write_status(self, constants.RSAT_NOT_INSTALLED)
         else:
-            RsatStatus.display_status(self, frame, constants.RSAT_INSTALLED)
+            RsatStatus.write_status(self, constants.RSAT_INSTALLED)
 
-    def update_status(self):
-        """This method updates the status of the RSAT feature."""
-        filename = ResourcePath.get_resource_path(self, constants.RSATFILENAME)
+        counter = status_list.count(constants.RSAT_INSTALLED)
+        modules = len(status_list)
 
-        cmd_command = 'powershell -Command'
-        ps_command = 'Get-WindowsCapability -Name RSAT* -Online'
-        format_command = 'Format-List -Property State'
-        command_output = f"Out-File -FilePath '{filename}' -Encoding utf8"
+        messagebox.showinfo(
+            title="RSAT Modules",
+            message=f"RSAT modules installed: {counter}/{modules}")
 
-        full_command = f'{cmd_command} "{ps_command} | {format_command} | {command_output}"'
-
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
-                                            f'/C {full_command}', None, 0)
+        RsatStatus.display_status(self, frame)
 
     def install_rsat(self):
         """This method installs the RSAT feature."""
         cmd_command = 'powershell -Command'
         ps_command = 'Get-WindowsCapability -Name RSAT* -Online'
-        install_command = 'Add-WindowsCapability -Online -Name'
+        install_command = 'Add-WindowsCapability -Online'
 
         full_command = f'{cmd_command} "{ps_command} | {install_command}"'
 
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
-                                            f'/C {full_command}', None, 0)
-        rem_command = f'del "{ResourcePath.get_resource_path(self, constants.RSATFILENAME)}"'
+        def question(self):
+            confirm = messagebox.askyesno(
+                title="Install RSAT", message="Do you want to install RSAT?")
 
-        #TODO: Test output on a VM
+            if confirm:
+                print(full_command)
+                # ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
+                #                                     f'/C {full_command}', None, 0)
+
+                RsatStatus.write_status(self, constants.RSAT_INSTALLATION)
+
+        question(self)
+
+    def write_status(self, text):
+        """This method writes the status of the RSAT feature."""
+        filename = ResourcePath.get_resource_path(self,
+                                                  constants.RSATSTATUSFILENAME)
+
+        status = open(filename, "w", encoding="utf-8")
+        status.write(text)
+        status.close()
