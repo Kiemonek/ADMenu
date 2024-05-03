@@ -15,6 +15,7 @@ class WinConfig:
             f"{constants.WINDOW_WIDTH}x{constants.WINDOW_HEIGHT}")
         self.root.configure(background=constants.WINDOW_BG_CLR)
         self.root.resizable(constants.WINDOW_HEIGHT, constants.WIDTH_RESIZABLE)
+        self.root.iconbitmap(constants.ASSET_ICON)
 
         self.top_frame.config(background=constants.BAR_BG_CLR)
         self.top_frame.place(relwidth=0.97,
