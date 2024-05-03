@@ -1,7 +1,6 @@
 """This module is used to get the status of the RSAT modules."""
 import ctypes
 import os
-import time
 import tkinter as tk
 from tkinter import messagebox
 from utilities import constants
@@ -153,4 +152,4 @@ class RsatStatus:
         status.close()
 
 
-#TODO: update requirements, make readme, make installer with icon
+#TODO: make readme, make installer with icon
