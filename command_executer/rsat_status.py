@@ -96,7 +96,7 @@ class RsatStatus:
                 message=f"{constants.RSAT_INFO_MESSAGE}{counter}/{modules}")
 
         elif constants.RSAT_NOT_INSTALLED in status_list:
-            RsatStatus.write_status(self, constants.RSAT_NOT_INSTALLED)
+            WriteStatus.write_status(self, constants.RSAT_NOT_INSTALLED)
         else:
             WriteStatus.write_status(self, constants.RSAT_INSTALLED)
 
