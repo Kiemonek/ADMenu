@@ -83,7 +83,7 @@ RSAT_ASK_TITLE = "Install RSAT"
 RSAT_ASK_MESSAGE = "Do you want to install RSAT modules?"
 #Buffer
 BUFFER_START = 0
-BUFFER_FINISH = 10
+BUFFER_FINISH = 30
 BUFFER_SLEEP = 0.5
 BUFFER_MESSAGE = "An error occurred while updating the status."
 BUFFER_TITLE = "Error"
@@ -96,8 +96,9 @@ OUTPUT_COMMAND = 'Out-File -FilePath'
 ENCODING_COMMAND = '-Encoding utf8'
 
 #Assets
-ASSET_PATH = "assets"
-ASSET_ICON = "..\\assets\\icon.ico"
+MAIN_PATH = "ADMenu"
+PARENT_PATH = "..\\"
+ASSET_ICON = "assets\\icon.ico"
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

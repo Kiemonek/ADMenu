@@ -1,4 +1,6 @@
 """This module contains the class to configure the main window of the application."""
+# import os
+# import sys
 import utilities.constants as constants
 from utilities.resource_path import ResourcePath
 
@@ -16,8 +18,8 @@ class WinConfig:
             f"{constants.WINDOW_WIDTH}x{constants.WINDOW_HEIGHT}")
         self.root.configure(background=constants.WINDOW_BG_CLR)
         self.root.resizable(constants.WINDOW_HEIGHT, constants.WIDTH_RESIZABLE)
-        self.root.iconbitmap(
-            ResourcePath.resource_path(self, constants.ASSET_ICON))
+        icon=ResourcePath.resource_path(self, constants.ASSET_ICON)
+        self.root.iconbitmap(icon)
 
         self.top_frame.config(background=constants.BAR_BG_CLR)
         self.top_frame.place(relwidth=0.97,
@@ -32,3 +34,19 @@ class WinConfig:
                                 rely=0.98,
                                 relx=0.5,
                                 anchor="s")
+
+    # def resource_path(self, relative_path):
+    #     """ Get absolute path to resource, works for dev and for PyInstaller """
+    #     try:
+    #         base_path = getattr(sys, '_MEIPASS2',
+    #                             os.path.dirname(os.path.abspath(__file__)))
+
+    #         # if not "MEI" in base_path:
+    #         #     base_path = os.path.join(base_path, constants.PARENT_PATH)
+    #         # else:
+    #         #     base_path = os.path.join(base_path, "AD Menu\\")
+
+    #     except Exception:
+    #         base_path = os.path.abspath(".")
+
+    #     return os.path.join(base_path, relative_path)

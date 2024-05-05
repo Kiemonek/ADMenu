@@ -101,6 +101,3 @@ class RsatStatus:
             WriteStatus.write_status(self, constants.RSAT_INSTALLED)
 
         RsatStatus.display_status(self, frame)
-
-
-#TODO: make readme, make installer with icon
