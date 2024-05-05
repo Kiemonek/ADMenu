@@ -34,19 +34,3 @@ class WinConfig:
                                 rely=0.98,
                                 relx=0.5,
                                 anchor="s")
-
-    # def resource_path(self, relative_path):
-    #     """ Get absolute path to resource, works for dev and for PyInstaller """
-    #     try:
-    #         base_path = getattr(sys, '_MEIPASS2',
-    #                             os.path.dirname(os.path.abspath(__file__)))
-
-    #         # if not "MEI" in base_path:
-    #         #     base_path = os.path.join(base_path, constants.PARENT_PATH)
-    #         # else:
-    #         #     base_path = os.path.join(base_path, "AD Menu\\")
-
-    #     except Exception:
-    #         base_path = os.path.abspath(".")
-
-    #     return os.path.join(base_path, relative_path)

@@ -29,5 +29,6 @@ class GetStatus:
             status = constants.RSAT_INSTALLATION
         else:
             status = constants.RSAT_UNKNOWN
-
+        if not status == constants.RSAT_INSTALLATION:
+            os.remove(ResourcePath.get_resource_path(self, constants.RSATSTATUSFILENAME))
         return status

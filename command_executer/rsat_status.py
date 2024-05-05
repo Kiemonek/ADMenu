@@ -4,7 +4,6 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from command_executer.get_status import GetStatus
-from command_executer.install_rsat import InstallRsat
 from command_executer.write_status import WriteStatus
 from utilities import constants
 from utilities.buffer import Buffer
@@ -43,7 +42,7 @@ class RsatStatus:
                      rely=0.0)
 
         if status == constants.RSAT_NOT_INSTALLED:
-            button.config(command=lambda: InstallRsat.install_rsat(self))
+            button.config(command=lambda: RsatStatus.install_rsat(self, frame))
         elif status == constants.RSAT_INSTALLED:
             button.config(state="disabled")
         else:
@@ -100,4 +99,23 @@ class RsatStatus:
         else:
             WriteStatus.write_status(self, constants.RSAT_INSTALLED)
 
+        RsatStatus.display_status(self, frame)
+
+    def install_rsat(self, frame):
+        """This method installs the RSAT modules."""
+
+        full_command = f'{constants.CMD_COMMAND} "{constants.PS_COMMAND}{constants.INSTALL_COMMAND}"'
+
+        def question(self):
+            confirm = messagebox.askyesno(title=constants.RSAT_ASK_TITLE,
+                                          message=constants.RSAT_ASK_MESSAGE)
+
+            if confirm:
+                ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
+                                                    f'/C {full_command}', None,
+                                                    0)
+
+                WriteStatus.write_status(self, constants.RSAT_INSTALLATION)
+
+        question(self)
         RsatStatus.display_status(self, frame)
