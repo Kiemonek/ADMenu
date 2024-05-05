@@ -1,6 +1,7 @@
 """This module is used to show the buttons in the main frame."""
-from utilities.create_label import LabelCreator
-from utilities.dsa_connect import DSAConnect
+from command_executer.rsat_status import RsatStatus
+from command_executer.dsa_connect import DSAConnect
+from label.create_label import LabelCreator
 from utilities.clear_frame import ClearFrame
 from utilities.json_helpers import JsonHelpers
 from buttons.save_button import SaveButton
@@ -30,6 +31,7 @@ class TopBar:
             text = constants.TOP_CMD
 
         LabelCreator.create_label(self, frame, text, option)
+        RsatStatus.display_status(self, frame)
 
         button_list = GetButtons.get_button_list(self)
 
@@ -80,6 +82,7 @@ class TopBar:
             text = constants.TOP_MOD_BTN
 
         LabelCreator.create_label(self, top_frame, text, option)
+        RsatStatus.display_status(self, top_frame)
 
         label_dict = {}
         entry_dict = {}
@@ -135,9 +138,11 @@ class TopBar:
         ClearFrame.clear_frame(self, top_frame)
 
         label = constants.TOP_SUCCESS
+        director = constants.OPTION_CMD
 
         if option == constants.OPTION_RM:
             text = constants.STATUS_RM
+            director = constants.OPTION_RM
         elif option is None:
             text = constants.STATUS_ADD
         elif option == constants.OPTION_LIMIT:
@@ -145,14 +150,19 @@ class TopBar:
             label = constants.TOP_LIMIT
         else:
             text = constants.STATUS_MOD
+            director = constants.OPTION_MOD
 
         LabelCreator.create_label(self, top_frame, label, constants.OPTION_TOP)
+        RsatStatus.display_status(self, top_frame)
         ButtonCreator.create_button(
             self,
             top_frame,
             constants.BTN_OK,
-            lambda:
-            [TopBar.show_button_list(self, top_frame, constants.OPTION_CMD)],
+            lambda: [
+                TopBar.button_details(self, top_frame)
+                if option is None else TopBar.show_button_list(
+                    self, top_frame, director)
+            ],
             rel_x=0.5,
             rel_y=0.6)
         LabelCreator.create_label(self, top_frame, text, rel_x=0.5, rel_y=0.4)

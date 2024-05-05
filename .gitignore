@@ -1,8 +1,7 @@
 __pycache__/
 *.py[cod]
-
-venv/
-build/
-dist/
-ADMenu.spec
 .vscode/
+/venv/
+/dist/
+/build/
+ADMenu.spec

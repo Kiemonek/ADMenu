@@ -10,7 +10,9 @@ WINDOW_BG_CLR = "#1E1E1E"
 BAR_BG_CLR = "#838383"
 
 #Database constants
-FILENAME = "AD Menu\\data\\btn_database.json"
+DBFILENAME = "AD Menu\\data\\btn_database.json"
+RSATFILENAME = "AD Menu\\data\\rsat_status.txt"
+RSATSTATUSFILENAME = "AD Menu\\data\\status.txt"
 FILEPATH = "AD Menu\\data"
 
 #Buttons constants
@@ -67,6 +69,36 @@ OPTION_MOD = "mod"
 OPTION_CMD = "cmd"
 OPTION_LIMIT = "limit"
 OPTION_TOP = "top"
+
+#RSAT Status
+RSAT_STATUS = "RSAT Status: "
+RSAT_INSTALLED = "Installed"
+RSAT_NOT_INSTALLED = "Not Installed"
+RSAT_UNKNOWN = "Unknown"
+RSAT_INSTALLATION = "Installing, click to update"
+#RSAT Messagesboxes
+RSAT_INFO_TITLE = "RSAT Modules"
+RSAT_INFO_MESSAGE = "RSAT modules installed: "
+RSAT_ASK_TITLE = "Install RSAT"
+RSAT_ASK_MESSAGE = "Do you want to install RSAT modules?"
+#Buffer
+BUFFER_START = 0
+BUFFER_FINISH = 30
+BUFFER_SLEEP = 0.5
+BUFFER_MESSAGE = "An error occurred while updating the status."
+BUFFER_TITLE = "Error"
+#PowerShell commands
+CMD_COMMAND = 'powershell -Command'
+PS_COMMAND = 'Get-WindowsCapability -Name RSAT* -Online | '
+FORMAT_COMMAND = 'Format-List -Property State | '
+INSTALL_COMMAND = 'Add-WindowsCapability -Online'
+OUTPUT_COMMAND = 'Out-File -FilePath'
+ENCODING_COMMAND = '-Encoding utf8'
+
+#Assets
+MAIN_PATH = "ADMenu"
+PARENT_PATH = "..\\"
+ASSET_ICON = "assets\\icon.ico"
 
 #Details exmaples
 EXMPL_TITLE = "Company A"
