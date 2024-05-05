@@ -3,6 +3,9 @@ import ctypes
 import os
 import tkinter as tk
 from tkinter import messagebox
+from command_executer.get_status import GetStatus
+from command_executer.install_rsat import InstallRsat
+from command_executer.write_status import WriteStatus
 from utilities import constants
 from utilities.buffer import Buffer
 from utilities.resource_path import ResourcePath
@@ -16,7 +19,7 @@ class RsatStatus:
 
     def display_status(self, frame, status=None):
         """This method displays the status of the RSAT modules."""
-        status = RsatStatus.get_status(self)
+        status = GetStatus.get_status(self)
         if status == constants.RSAT_INSTALLATION:
             text = constants.RSAT_INSTALLATION
         else:
@@ -40,37 +43,12 @@ class RsatStatus:
                      rely=0.0)
 
         if status == constants.RSAT_NOT_INSTALLED:
-            button.config(command=lambda: RsatStatus.install_rsat(self))
+            button.config(command=lambda: InstallRsat.install_rsat(self))
         elif status == constants.RSAT_INSTALLED:
             button.config(state="disabled")
         else:
             button.config(
                 command=lambda: RsatStatus.update_status(self, frame))
-
-    def get_status(self):
-        """This method gets the status of the RSAT modules."""
-        filename = ResourcePath.get_resource_path(self,
-                                                  constants.RSATSTATUSFILENAME)
-
-        if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            status_data = open(filename, "a", encoding="utf-8")
-            status_data.write(constants.RSAT_UNKNOWN)
-            status_data.close()
-
-        status_data = open(filename, "r", encoding="utf-8")
-        data = status_data.readlines()
-        status_data.close()
-
-        if constants.RSAT_NOT_INSTALLED in data:
-            status = constants.RSAT_NOT_INSTALLED
-        elif constants.RSAT_INSTALLED in data:
-            status = constants.RSAT_INSTALLED
-        elif constants.RSAT_INSTALLATION in data:
-            status = constants.RSAT_INSTALLATION
-        else:
-            status = constants.RSAT_UNKNOWN
-
-        return status
 
     def update_status(self, frame):
         """This method updates the status of the RSAT modules."""
@@ -107,9 +85,9 @@ class RsatStatus:
             else:
                 status_list.append(constants.RSAT_NOT_INSTALLED)
 
-        if constants.RSAT_NOT_INSTALLED in status_list and RsatStatus.get_status(
+        if constants.RSAT_NOT_INSTALLED in status_list and GetStatus.get_status(
                 self) == constants.RSAT_INSTALLATION:
-            RsatStatus.write_status(self, constants.RSAT_INSTALLATION)
+            WriteStatus.write_status(self, constants.RSAT_INSTALLATION)
 
             counter = status_list.count(constants.RSAT_INSTALLED)
             modules = len(status_list)
@@ -120,36 +98,9 @@ class RsatStatus:
         elif constants.RSAT_NOT_INSTALLED in status_list:
             RsatStatus.write_status(self, constants.RSAT_NOT_INSTALLED)
         else:
-            RsatStatus.write_status(self, constants.RSAT_INSTALLED)
+            WriteStatus.write_status(self, constants.RSAT_INSTALLED)
 
         RsatStatus.display_status(self, frame)
-
-    def install_rsat(self):
-        """This method installs the RSAT modules."""
-
-        full_command = f'{constants.CMD_COMMAND} "{constants.PS_COMMAND}{constants.INSTALL_COMMAND}"'
-
-        def question(self):
-            confirm = messagebox.askyesno(title=constants.RSAT_ASK_TITLE,
-                                          message=constants.RSAT_ASK_MESSAGE)
-
-            if confirm:
-                ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe",
-                                                    f'/C {full_command}', None,
-                                                    0)
-
-                RsatStatus.write_status(self, constants.RSAT_INSTALLATION)
-
-        question(self)
-
-    def write_status(self, text):
-        """This method writes the status of the RSAT modules."""
-        filename = ResourcePath.get_resource_path(self,
-                                                  constants.RSATSTATUSFILENAME)
-
-        status = open(filename, "w", encoding="utf-8")
-        status.write(text)
-        status.close()
 
 
 #TODO: make readme, make installer with icon

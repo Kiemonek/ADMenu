@@ -97,8 +97,7 @@ ENCODING_COMMAND = '-Encoding utf8'
 
 #Assets
 ASSET_PATH = "assets"
-ASSET_ICON = "assets\\samoyedlogoo.ico"
-ASSET_LOGO = "assets\\samoyedlogo.png"
+ASSET_ICON = "..\\assets\\icon.ico"
 
 #Details exmaples
 EXMPL_TITLE = "Company A"

@@ -138,9 +138,11 @@ class TopBar:
         ClearFrame.clear_frame(self, top_frame)
 
         label = constants.TOP_SUCCESS
+        director = constants.OPTION_CMD
 
         if option == constants.OPTION_RM:
             text = constants.STATUS_RM
+            director = constants.OPTION_RM
         elif option is None:
             text = constants.STATUS_ADD
         elif option == constants.OPTION_LIMIT:
@@ -148,6 +150,7 @@ class TopBar:
             label = constants.TOP_LIMIT
         else:
             text = constants.STATUS_MOD
+            director = constants.OPTION_MOD
 
         LabelCreator.create_label(self, top_frame, label, constants.OPTION_TOP)
         RsatStatus.display_status(self, top_frame)
@@ -155,8 +158,11 @@ class TopBar:
             self,
             top_frame,
             constants.BTN_OK,
-            lambda:
-            [TopBar.show_button_list(self, top_frame, constants.OPTION_CMD)],
+            lambda: [
+                TopBar.button_details(self, top_frame)
+                if option is None else TopBar.show_button_list(
+                    self, top_frame, director)
+            ],
             rel_x=0.5,
             rel_y=0.6)
         LabelCreator.create_label(self, top_frame, text, rel_x=0.5, rel_y=0.4)
